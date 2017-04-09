@@ -1,0 +1,186 @@
+<html><head>
+<style type="text/css">
+html,body{margin:5;padding:0;font-size: 1em !important;font-family: Verdana, "Bitstream Vera Sans", sans-serif !important;}
+h1,h2,h3,h4,h5{text-align:center;}
+textarea{width: 97%;}
+input[type="button"] { width: 120px; display: block; }
+select{ min-width:120px;}
+.hicontainer { height: 40%; display: flex;}
+.locontainer {height: 60%;display: flex;}
+.footer {display:flex;}
+.col1, .col2, .col3, .col4, .col5 {flex: 1 100%;}
+@media all {
+  .col1 { order: 1; }
+  .col2 { order: 2; }
+  .col3 { order: 3; }
+  .col4 { order: 4; width: 60%;}
+  .col5 { order: 5; width: 40%;}
+  .col5wrap { display:flex;}
+  .col5col1 { order: 6; width: 65%; flex:2; text-align:center;}
+  .col5col2 { order: 7; width: 35%; flex:1;}
+#hidden{ display:none; }
+}
+</style>
+</head><body>
+<h3>history</h3>
+<p>This app started as a hack of <a href="http://www.path-o-logic.com/misc/RandListGen_adventurehooks_working.html">path-o-logic's RandListGen</a>, with ideas from Jeremy Hamilton's GMEmulator.swf open source flash app. What does that mean?  It means you can ask it a question, and it will provide an answer as best it can, it's a tool used for GM-less play.  It also means you can put in some lists of items, and have it spit an answer back by picking an item randomly.  I ended up re-writing all of the RandListGen code from scratch, but credit is due where credit is due.  But, as luck would have it, the help section for table parsing on that site works for both. I'd say the tables are vaguely compatible with Bruce Gulke's <a href="http://www.mythosa.net/p/tablesmith.html">TableSmith</a> or <a href="http://www.nbos.com/products/ipad/ipad.htm">Inspiration Pad Pro</a>, or the tables at <a href="http://random-generator.com">Abulafia</a>. Again, credit is due where credit is due, those are all excellent programs.</p>
+<p>Support: ranDM Solo will always work best on the latest browser. Safari is my development platform; I test major releases on the latest versions of Google Chrome, Mozilla Firefox, iOS Safari on iPhone and iPad, and a Motorola Droid X2 Android Device.  If you find a bug, let me know, I can be found on Google Plus.</p>
+<ul><li>v0.2: unreleased, core functions work, fudge parsing broken, ui bad, screenshots prove it existed.</li>
+  <li>v0.3: question parser updated, bugs squashed, fudge fixed, ui not as bad but still bad</li>
+  <li>v0.4: kraken released, shared with to g+ lone wolf community, ask parser fixed, ui fixed, appcache, dropboxenated, webapp mode validated on iOS</li>
+  <li>v0.5: save and load to html5 localstorage, help button actually toggles div, nasty modal alertses, we hates them, 1024x1024 icon, updated help</li>
+  <li>v0.6: replaced dice parser when called from ask menu, it now supports standard math and fudge within parser. toggle for showing individual rolls, settings div.</li>
+  <li>v0.7: replaced css multicolumn layout hell with flex layout bliss, standardized buttons, selects</li>
+  <li>v0.8: replaced data backend: reductive table queries that attempt to guarantee unique results, multi-format import, removed path-o-logic functions, results bug squashing, fairly full unicode / emoji support.
+  <li>number of table formats supported on import:<ul>
+    <li>original flavor: tables defined with <b>|table</b></li>
+    <li>original flavor: tables called with <b>[table]</b></li>
+    <li>original flavor: table item qty defined by <b>n@</b> at line start</li>
+    <li>new recipe: table definition <b>|table</b> or <b>;table</b> or <b>:table</b></li>
+    <li>new recipe: table call <b>[table]</b> or <b>{table}</b></li>
+    <li>new recipe: table item qty defined by <b>n@</b> or <b>n,</b> at line start -- this should make importing tables designed for your use from other table generator products easier to import.</li>
+    <li>new recipe: table item indices (e.g. <b>1)</b>, <b>2)</b> or <b>1.</b> <b>2.</b> etc.) automatically removed, option coming to toggle...?</li>
+  </ul>
+  <li>v0.8.1, bugfixes only, replaced question text, firefox enter bug squashed, offline functionality restored</li>
+  <li>v0.8.2, help text update</li>
+  <li>v0.9, more parser udpates: variables, evals, runs, programming; undefined result bug for empty row squashed, NoTableNamed bug squashed for mixed case table names, even newer help text, dice rolls can be used for distribution in tables: |tablename^2d6, or at call: [tablename^2d6] for better probability distribution, migration to promise-backed asynchronous IndexedDB for list backend.  It's log, it's log, it can append or prepend to the oracle log area depending on your preference, it's better than bad it's good. auto save on window close, auto load on window open.</li>
+  <li>v0.9.1, bug fixes</li>
+  <li>v0.9.2, more bug fixes and the addition of the Scarlet Heroes engine, updated help text</li>
+  <li>v0.9.3, new engines added: so1um and Tiny Universal!  <s>no bugs were fixed this time, only introduced.</s> Scratch that, Steven Lincoln found a bug where year-old versions of this tool wouldn't update!  </li>
+  <li>v0.9.3 part deux: updated localforage in manifest from 1.2.6 to v1.5, giving us a default storage of indexedDB, which hopefully solves weird storage bugs. as always the latest macos and ios recommended (ditto android though google's standards support tends to be better than apple's).</li>
+  <li>v0.9.4, new engines added: Tiny Solitary Solders Solo and what I'm calling "randm questions". clarified help text on 'add to home screen'</li>
+</ul>
+<h3>Features, ideas, plots, plans</h3>
+<ul>
+  <li>engines I could add
+    <ul>
+      <li><s><a href="http://tinysolitarysoldiers.blogspot.de/2012/04/solo-rpg.html">Tiny Solitary Soldiers Solo RPG</a>, needs scene alterations in scene code but not a big deal.</s> done! except for scene alterations.</li>
+      <li><a href="http://perilplanet.com/fu-rpg/">Freeform Universal</a>, unknown licensure. CC? purchase <a href="http://www.rpgnow.com/product_info.php?products_id=89534?affiliate_id=239932">
+        here</a> for about $3.</li>
+      <li><a href="https://www.scribd.com/doc/123250067/the-9Qs-solo-RPG-engine">John Fiore's 9qs</a>.  Not trivial but not impossible either.  it's definitely a new set of structures to
+        implement. I would need generic and free licensed vector art to simulate the results, and the scene button would need to be altered to indicate different scene structures. that's not
+        impossible, but a lot of stuff needs to be modified to implement.  someone already did this? (edit: <a href="http://tangent-zero.com/zero_dice/zero_dice.htm">yup</a>, game icons
+        are available under CC AT license <a href="http://game-icons.net/">at game-icons.net</a></li>
+      <li><a href="http://www.drivethrucards.com/product/125685/The-GameMasters-Apprentice-Base-Deck">GM's Apprentice by Larcenous Designs</a>.  Another one that's tough to implement as it
+        is, since it would require folks to own the cards, and to have named them just so, and for them to own the cards, and named them locally just so... but I could see this going into a
+        different webapp, reductive tables are already there, and the results are just img src = blah in a reductive table, most of the functions are already done. this could be interesting.
+        120 cards in fantasy, 120 cards in scifi.  someone already did something like this... Todd Zircher?  (edit: <a href="http://tangent-zero.com/zero_tarot/zero_tarot.htm">Yup, as usual
+        Todd is ahead of the game</a>)</li>
+      <li><a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo by Cabbage Games</a> from <a href="http://soloroleplayer.com">Kenny Norris at soloroleplayer.com (closed down?)</a>.
+    </ul></li>
+  <li>UI Cleanup
+    <ul>
+      <li>a settings div that shows and hides to clean up and minimalize the UI</li>
+      <li>dynamic textarea sizing for NPC, PC, Thread lists</li>
+      <li>pastebin editing mode</li>
+      <li>import/export pastebin from JSON / save to text</li>
+      <li>maybe do something clever with SVG. Story cubes, except I don't want to make that art.</li>
+    </ul>
+  </li>
+  <li>multi-saves: save npc, pc, threadlist, and log to separate hashes which can be loaded and stored on demand. localstorage might be a good candidate for this, or a separate localforage db.</li>
+  <li><s>JIT/local storage retrieval/partial hash evaluation to keep memory footprint light and fast?</s> moved to localforage, likely to continue.</li>
+  <li>implement the caret (^) as a parameter to table calls to return an array item index. solves table bloat for tables best called with 2d6, etc. -- [encounterlist^1d8+1d12] or {encounterlist^1d8+1d12}. done in getrandomarrayitem function, but not explained in help. works for ^2d10, not for ^1d8+1d12. might be nice to include this in the table storage function, e.g. |encounterlist^1d8+1d12 and store it as 'roll' under the array hash.</li>
+  <li>solve duplicate table name problem, probably with '.' as the divider, but consider other options (: or ^).  e.g. [utility.color], [modern.newnpc], [modern.newnpc^2d6]. <code>var tablerolldef = {}; tablerolldef[tablename] = roll; if (tablerolldef[tablename]){ roll = tablerolldef[tablename].roll}</code></li>
+  <li><s>it would be nice to be able to save certain table results as variables. could implement call or lookup with [[tablename]] or {{tablename}}, or [tablename[varname]], or [tablename$varname], or [tablename%varname%], or tablename^roll^varname, or denote a table lookup to be stored with ||tablename. easier if this is done on a per-call basis. tablesmith uses %varname%, IPP uses [@tablename]</s> done!</li>
+  <li><s>additional tablesmith-compatible dice rolls, e.g. {Dice~1d10}</s> skipping this.</li>
+  <li>indefinite articles parsing at return., replace "a elf" with "an elf". probably use special menu tags? e.g. [a][tablename], [a^tablename], ipp: \a [tablename]</li>
+  <li>shortcut multi-calls to tables: ora 6*[modern.newnpc] or ora 6@[modern.newnpc] or something I haven't thought of yet.</li>
+  <li>method to detect html results and either strip tags and append to log text, or redirect output to results area... or convert the log area to text.</li>
+  <li>mythic events (and cards) are currently separate call and data structures, integrate them and the new scene / end scene bits into the results of the ask engine. remove their buttons? buttons optional in settings?</li>
+  <li>current method of weighting priority duplicates array entries, which is needless bloat. I could stuff a hash table in front, but I always say that.</li>
+  <li>make future choices based on performance, jsperf or some such</li>
+  <li>cloud saves or some such to support multiple devices. Probably CORS instead of JSONP.  Cloudkit JS, REST Core API v2 to Dropbox, Google Drive,
+    <a href="http://wiki.nsbasic.com/Using_Dropbox_to_save_files">this looks promising</a>, as does <a href="https://www.google.com/script/start/">this</a>,
+    or <a href="http://ramblings.mcpher.com/Home/excelquirks/jsonp">this</a>, and
+    <a href="https://www.dropboxforum.com/hc/en-us/community/posts/202339309-Can-I-save-a-JSON-stream-object-to-Dropbox-file-with-Dropbox-Post-Rest-API-">this</a>.
+    <ol>
+      <li>dropbox core api v2</li>
+      <li>cloudbase</li>
+      <li>Facebook parse, shutting down but many open source implementations exist</li>
+      <li>appcelerator</li>
+      <li>nimbusbase</li>
+      <li>the unhosted / nosql movement</li>
+      <li>Azure/AWS</li>
+      <li>Google Cloud, claims to be half price of similar AWS/Azure</li>
+      <li>Google Firebase, which claims to be free and the main benefactor to parse</li>
+      <li>IBM Cloudant, appears to be free under $50/mo</li>
+    </ol></li>
+</ul>
+<p>bug list and bug squashing</p>
+<ul>
+  <li><s>an array of hash tables would be nice, perfect even, but I read that JS hash tables are slow, or double-down on a hash table of hash tables.</s> hashes, and it's quick!</li>
+  <li><s>localstorage backend for list storage; current array of arrays bogs down somewhere between 1mb and 2mb of text.</s> done!</li>
+  <li><s>table parser update. also known as a data backend update.</s> done!</li>
+  <li><s>means the table list storage mechanism needs to be rejiggered.</s> hashes!</li>
+  <li><s>JSON might have an answer, and there's always xml. </s> JSON it is!</li>
+  <li><s>and if I'm going that far deep into the data structure, it's more sense to re-write the parser around the data structure.</s> done!</li>
+  <li><s>night moves, checkbox or toggle button that inverts screen color</s> done!</li>
+  <li><s>replace [tablecall] with {tablecall} to clone table and make reductive table calls like we do for cards: These tables aren't reductive or unique. In other words, if you query a table multiple times, you can end up with the same result. This happens often with short tables.  Reductive tables are something that I want to implement in the parser, since unique results are always nice. Odds are good that reductive tables will be called by {tablename} instead of [tablename]</s> done!</li>
+  <li><s>finding what you want in a two-dimensional array is a pain. probably faster to keep arrays of arrays, but instead of the special array list of table names, put them in a hash table, key being table name and value being 1st dim. array index.</s> done!</li>
+  <li><s>figure out why this app hates unicode so much</s> done!</li>
+  <li><s>find the common unicode characters and string replace them with the old dumb quotes, ellipses, and apostrophes that no one likes anymore.</s> not needed with unicode support!</li>
+  <li>the first time you launch the program, it shows you everything that it should.
+  if you don't save your tables, then close the window and don't clear your browser cache, the next time you open the app, a few of the windows will read "undefined" instead of that help text.
+  This bug has been around for quite a while; I'm pretty sure I just missed its birthday.  One of these days I will get annoyed with it and fix it, I promise.</li>
+  <li>the check boxes for 'night mode', 'reverse log', and 'show dice rolls' can be meaningless on app reload until you check them once.  I expect this bug to be squashed when I fix the above bug; if I'm diving into the app state on startup, I may as well fix them both.</li>
+
+</ul>
+<h3>the hard way -- black magic variables</h3>
+
+<p>long story short, an eval code block. for the parser to interpret it, it must be the only thing on the line. the global variable hash table / object 'variable' is yours to use for convenience. Global vars can't be deleted, but hash table / object entries can. If you understand javascript, this code block explains what's going on:</p>
+
+<blockquote><pre><code>
+var yourjavascriptcode = somestring;
+evalstring = "{eval {" + somestring + "}}";
+var strip = evalstring.match(/^\{eval\s(\{.*\})\}$/,1)
+eval(strip[1])
+</code></pre></blockquote>
+
+<p>If you don't understand javascript, on the other hand, it was probably gibberish.</p>
+
+<p>and this code block is just here to give you ideas...</p>
+
+<blockquote><pre><code>
+definition
+|variable varname
+[tablename] or {tablename} or #diceexpr#
+or... if you're going to set it later with an expr
+null or "" or 1@
+or... an indexed array of strings
+{eval {variable["varname"]=["arrayitem0","arrayitem1","arrayitem2"];}}
+or... a hash table / object
+{eval {variable["varname"]={ key: "value";};}}
+or... a number
+{eval {variable["varname"]= 0;}}
+or... a string
+{eval {variable["varname"]= "value";}}
+or... a table call
+{eval {variable["varname"]=getrandomarrayitem('tablename');}}
+or... a reductive table call
+{eval {variable["varname"]=getrandomarrayitem('tablename,true');}}
+or... empty a reductive table so the next call to it is full
+{eval {reductive["tablename"]=[];}}
+or... a dice parser function call
+{eval {variable["varname"]=diceparser("1d6*1000/10f+15+30d4");}}
+or... a string to send to the parser
+{eval {variable["varname"]=parseresult("#3d6# [nested] tables that are [nested] are neat");}}
+or... stringified JSON...
+{eval {variable["varname"]=json.parse('{"result":true,"count":1}');}}
+or... a modal prompt for it
+{eval {variable["varname"]=prompt("type a value for variable varname:");}}
+or... cut and paste your stringified JSON into a prompt...
+{eval {variable["varname"]=prompt("paste your JSON here:"); variable['varname']=json.parse(variable['varname']);}}
+</code></pre></blockquote>
+
+<p>or a run block</p>
+
+the result of an eval code block is stored for later reference. If you want an eval block to run every time and display new results, don't use {eval {expr}}, use {run {expr}}. Run results are evaluated every time they come up.
+
+<p>if you're still reading... why not?</p>
+<blockquote><pre><code>
+or... a function definition (functions can't be deleted)
+{eval {function MakeThisStuffUppercase(str){ return str.toUpperCase()}}
+or... after we define -- and init, otherwise it didn't happen -- the function, save the results of a function call
+{eval {variable["varname"]=MakeThisStuffUppercase(variable["varname"]);}}
+</code></pre></blockquote>
+</body></html>

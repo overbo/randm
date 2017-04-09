@@ -1,0 +1,1409 @@
+<!doctype html>
+<html manifest="randm-solo.manifest">
+<head>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="apple-touch-icon-precomposed" href="randm-solo-icon.png"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta http-equiv="content-type" content="text/html"; charset="UTF-8" >
+<style type="text/css">
+html,body{margin:5;padding:0;font-size: 1em !important;font-family: Verdana, "Bitstream Vera Sans", sans-serif !important;}
+h1,h2,h3,h4,h5{text-align:center;}
+textarea{width: 97%;}
+input[type="button"] { width: 120px; display: block; }
+select{ min-width:120px;}
+.hicontainer { height: 40%; display: flex;}
+.locontainer {height: 60%;display: flex;}
+.footer {display:flex;}
+.col1, .col2, .col3, .col4, .col5 {flex: 1 100%;}
+@media all {
+  .col1 { order: 1; }
+  .col2 { order: 2; }
+  .col3 { order: 3; }
+  .col4 { order: 4; width: 60%;}
+  .col5 { order: 5; width: 40%;}
+  .col5wrap { display:flex;}
+  .col5col1 { order: 6; width: 65%; flex:2; text-align:center;}
+  .col5col2 { order: 7; width: 35%; flex:1;}
+#hidden{ display:none; }
+}
+</style>
+<script src="localforage.min.js"></script>
+<script language='JavaScript'>
+
+var cr1 = [-20,0,5,5,10,20,25,45,50,55,80];
+var cr2 = [0,5,5,10,15,25,35,50,55,65,85];
+var cr3 = [0,5,10,15,25,45,50,65,75,80,90];
+var cr4 = [5,10,15,20,35,50,55,75,80,85,95];
+var cr5 = [5,15,25,35,50,65,75,85,90,90,95];
+var cr6 = [10,25,45,50,65,80,85,90,95,95,100];
+var cr7 = [15,35,50,55,75,85,90,95,95,95,100];
+var cr8 = [25,50,65,75,85,90,95,95,100,110,130];
+var cr9 = [50,75,85,90,95,95,100,105,115,125,145];
+
+var shlike1 = [17,18,19,20]; // Almost Impossible
+var shlike2 = [14,16,18,19]; // Very Unlikely
+var shlike3 = [10,14,17,18]; // Unlikely
+var shlike4 = [5,10,15,16]; // Unknown
+var shlike5 = [3,6,10,11]; // Likely
+var shlike6 = [2,4,6,7]; // Very Likely
+var shlike7 = [1,2,3,4]; // Almost Certain
+
+// mythic arrays
+var mythicaction = ["Abandon","Abuse","Activity","Adjourn","Adversity","Agree","Ambush","Antagonise","Arrive","Assist","Attach","Attainment","Attract","Befriend","Bestow","Betray","Block","Break","Care","Carelessness","Carry","Celebrate","Change","Communicate","Control","Create","Cruelty","Debase","Deceive","Decrease","Delay","Desert","Develop","Dispute","Disrupt","Divide","Dominate","Excitement","Expose","Extravagance","Failure","Fight","Gratify","Guide","Haggle","Harm","Heal","Immitate","Imprison","Increase","Inform","Inquire","Inspect","Intolerance","Judge","Kill","Lie","Malice","Mistrust","Move","Neglect","Negligence","Open","Oppose","Oppress","Oppress","Overindulge","Overthrow","Passion","Persecute","Postpone","Praise","Proceedings","Procrastinate","Propose","Punish","Pursue","Recruit","Refuse","Release","Release","Return","Ruin","Separate","Spy","Starting","Stop","Struggle","Take","Transform","Travel","Trick","Triumph","Truce","Trust","Usurp","Vengeance","Violate","Waste","Work hard"];
+var mythicsubject = ["A burden","A path","A plot","A project","A representative","Adversities","Advice","Allies","Ambush","Anger","Animals","Art","Attention","Balance","Benefits","Bureaucracy","Business","Competition","Danger","Death","Dispute","Dispute","Disruption","Dreams","Elements","Emotions","Enemies","Energy","Environment","Evil","Expectations","Exterior factors","Extravagance","Failure","Fame","Fears","Food","Friendship","Goals","Good","Home","Hope","Illness","Illusions","Information","Inside","Intrigues","Investment","Jealousy","Joy","Leadership","Legal matters","Liberty","Lies","Love","Magic","Masses","Messages","Military","Misfortune","Nature","New ideas","News","Opposition","Opulence","Outside","Pain","Peace","Plans","Pleasures","Portals","Possessions","Power","Prison","Randomness","Reality","Riches","Rumor","Stalemate","Status quo","Success","Suffering","Tactics","Technology","Tension","The innocent","The intellectual","The mundane","The physical","The public","The spiritual","Travel","Trials","Vehicle","Victory","War","Weapons","Weather","Wishes","Wounds"];
+var mythicadverb = ["Abnormally","Adventurously","Aggressively","Angrily","Anxiously","Awkwardly","Beautifully","Bleakly","Boldly","Bravely","Busily","Calmly","Carefully","Carelessly","Cautiously","Ceaselessly","Cheerfully","Combatively","Coolly","Crazily","Curiously","Daintily","Dangerously","Defiantly","Deliberately","Delightfully","Dimly","Efficiently","Energetically","Enormously","Enthusiastically","Excitedly","Fearfully","Ferociously","Fiercely","Foolishly","Fortunately","Frantically","Freely","Frighteningly","Fully","Generously","Gently","Gladly","Gracefully","Gratefully","Happily","Hastily","Healthily","Helpfully","Helplessly","Hopelessly","Innocently","Intensely","Interestingly","Irritatingly","Jovially","Joyfully","Judgementally","Kindly","Kookily","Lazily","Lightly","Loosely","Loudly","Lovingly","Loyally","Majestically","Meaningfully","Mechanically","Miserably","Mockingly","Mysteriously","Naturally","Neatly","Nicely","Oddly","Offensively","Officially","Partially","Peacefully","Perfectly","Playfully","Politely","Positively","Powerfully","Quaintly","Quarrelsomely","Quietly","Roughly","Rudely","Ruthlessly","Slowly","Softly","Swiftly","Threateningly","Very","Violently","Wildly","Yieldingly"];
+var mythicadjective = ["Abandoned","Abnormal","Amusing","Ancient","Aromatic","Average","Beautiful","Bizarre","Classy","Clean","Cold","Colorful","Creepy","Cute","Damaged","Dark","Defeated","Delicate","Delightful","Dirty","Disagreeable","Disgusting","Drab","Dry","Dull","Empty","Enormous","Exotic","Extravagent","Faded","Familiar","Fancy","Fat","Feeble","Feminine","Festive","Flawless","Fresh","Full","Glorious","Good","Graceful","Hard","Harsh","Healthy","Heavy","Historical","Horrible","Important","Interesting","Juvenile","Lacking","Lame","Large","Lavish","Lean","Less","Lethal","Lonely","Lovely","Macabre","Magnificent","Masculine","Mature","Messy","Mighty","Military","Modern","Mundane","Mysterious","Natural","Nondescript","Odd","Pale","Petite","Poor","Powerful","Quaint","Rare","Reassuring","Remarkable","Rotten","Rough","Ruined","Rustic","Scary","Simple","Small","Smelly","Smooth","Soft","Strong","Tranquil","Ugly","Valuable","Warlike","Warm","Watery","Weak","Young"];
+
+var fateloom = ["zero","No, and unexpectedly","No, but","No, and","No","Yes","Yes, and","Yes, but","Yes, and unexpectedly"];
+var conjured = ["Cross-Stitch","Entering the Red","Enter Stage Left","Costume Change","Foreshadowing","Framing","Key Grip","Limelit","Montage","Pattern Change","Set Change","Six Degrees","To Endings...","To Conflict...","To Knowledge...","Tying Off","Upstaged"];
+
+var fltoknow = [-150,6,16,21,51,81,86,96,250];
+var fltoconf = [-150,3,7,17,51,85,95,99,250];
+var fltoends = [-150,3,7,17,51,85,95,99,250];
+var chaosfactor = 5;
+var divider = "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+var surgecount = 0;
+var CRGETYPE = {
+  KNOW: {value: 1, name: "To Knowledge", code: "K"},
+  CONF: {value: 2, name: "To Conflict", code: "C"},
+  ENDS: {value: 3, name: "To Endings", code: "E"}
+};
+// global: rqescalation, rqescalationtally
+var rqescalation = 0;
+var rqescalationtally = 0;
+
+//var regextable=/(\[[A-Za-z0-9\-\_]+\])/ ; // match table names, no periods.
+var regexheadpip=/(^\|[A-Za-z0-9\-\_]+)/ ; // match table names like |tablename
+var regexheadcol=/(^\:[A-Za-z0-9\-\_]+)/ ; // match table names like :tablename
+var regexdice=/(#[0-9dhlf\+\-\/\*]+#)/i ; // match dice parser notation, ignore case
+var regextable=/(\[[A-Za-z0-9\-\_\.]+\])/ ; // match table enclosed in square brackets
+var regexcurly=/(\{[A-Za-z0-9\-\_\.]+\})/ ; // match table enclosed in curly brackets
+var qtycommatch = /(^[0-9]+,)/ ; // beginning of line, numbers, comma
+var qtyatmatch = /(^[0-9]+\@)/ ; // beginning of line, numbers, at
+var qtyparmatch = /(^[0-9]+\))/; // beginning of line, numbers, rtparen
+var qtycolmatch = /(^[0-9]+:)/; // beginning of line, numbers, colon
+var qtydotmatch = /(^[0-9]+\.)/; // beginning of line, numbers, dot / period
+
+var regexeval=/^\{eval\s(\{.*\})\}$/ ; // match {eval {blah}}
+var reginit = /^(init|set|variable)\s+/;
+var regunset= /^(deinit|unset|delete)\s+/;
+var regexrun = /^\{run\s(\{.*\})\}$/
+
+// new list structure
+var hasharr={ menu: ["PC^[pc]","NPC^[npc]","Thread^[thread]"], npc:[], pc: [], thread:[] }
+var reductive={};
+var tableroll={};
+var variable={};
+var vardef={};
+
+var pclist = [];
+var npclist = [];
+var threadlist = [];
+
+var crgephase = CRGETYPE.KNOW;
+var showdice=false;
+var reverselog=true;
+var listdb = localforage.createInstance({ name: "ranDMSolo", version: 1.0, storeName: "oracles" });
+var savedb = localforage.createInstance({ name: "ranDMSolo", version: 1.0, storeName: "saves"});
+
+var cardsuits=["Hearts","Diamonds","Spades","Clubs"];
+var cardfaces=["Jack","Queen","King","Ace"];
+var deckofcards=[];
+var deckjokers=true;
+var lastquery="";
+var parsedebug = false;
+
+// dice parser
+  function diceparser(dicestring,showwork){
+  dicestring = dicestring.toLowerCase();
+  var nhdicestring = dicestring.replace(/#/g,"");
+  var testsplit = nhdicestring.split(/(\+|\-|\/|\*)/g);
+  var evalstring = "";
+  var i=0;
+  var result = 0;
+  for (i=0;i<testsplit.length;i++){
+    var rollarr=[];
+    var rollstr = "";
+    var j;
+    var rollsplit;
+    var numD;
+    if (testsplit[i].match(/f/)){
+      rollsplit = testsplit[i].split(/f/);
+      numD=rollsplit[0];
+      var fudgearr = [0,0,0];
+      for (j=0;j<numD;j++){
+        var roll = Math.floor(Math.random() * 3);
+        fudgearr[roll] += 1;
+      }
+      evalstring = "((" + fudgearr[0] + "*-1)+0*" + fudgearr[1] + "+" + fudgearr[2] + ")";
+    }
+    else if (testsplit[i].match(/([0-9]+d[0-9]+|d[0-9]+|[0-9]+d[0-9]+(h|l)[0-9]+)/)){
+      rollsplit = testsplit[i].split(/(d|h|l)/);
+      numD=rollsplit[0];
+      var sizD=rollsplit[2];
+      var keep = 0;
+      if (rollsplit[4]){ keep = rollsplit[4]; }
+      if (numD == ""){ numD=1;}
+      for (j=0;j<numD;j++){
+        var roll = Math.floor(Math.random()*sizD)+1;
+        rollarr[j]=roll;
+      }
+      if (keep > 0){
+        var sorted = [];
+        if (testsplit[i].match(/h/)){ sorted = rollarr.sort(function(a,b){return b-a});}
+        else { sorted = rollarr.sort(function(a,b){return a-b});}
+        rollarr = sorted.slice(0,keep);
+      }
+      rollstr = rollarr.join("+");
+      evalstring = evalstring + "("+ rollstr + ")";
+    } else if (testsplit[i].match(/(\-|\+|\/|\*)/)){
+      evalstring = evalstring + testsplit[i];
+    } else if (testsplit[i].match(/[0-9]+/)){
+      evalstring = evalstring + testsplit[i];
+    }
+  }
+  var output = "";
+  if (showwork){ output = "" + evalstring + " = " + eval(evalstring); }
+  else { output = eval(evalstring);}
+  return output;
+}
+// replacement functions
+function addarrayitem(tablename,qty,item){
+  //if (parsedebug){console.log("aai: ",tablename,qty,item);}
+  for (var i=0;i<parseInt(qty);i++){
+    hasharr[tablename].push(item);
+  }
+}
+function parsevar(varcurly){
+  //var myvar = varcurly.replace(/^\{?(.*)\}$?/g,"")
+  var op = "";
+  var lookup = "";
+  var myvar = varcurly.substring(1, varcurly.length-1);
+  if (myvar.match(reginit)){
+    var split = myvar.split(/\s+/,2);
+    myvar=split[1];
+    op = "init";
+  } else if (myvar.match(regunset)){
+    var split = myvar.split(/\s+/,2);
+    myvar=split[1];
+    op = "deinit";
+  }
+  if (op == "init"){
+    if (parsedebug){console.log("parsevarinit: ".concat(myvar));}
+    lookup = getrandomarrayitem(myvar);
+    if (lookup.match(regexeval)){
+      variable[myvar]=parseeval(lookup,"eval");
+    } else if (lookup.match(regexrun)){
+      return parseeval(lookup,"run");
+    } else {
+      variable[myvar] = parseresult(lookup);
+    }
+    return "";
+  } else if (op == "deinit"){
+    delete variable[myvar];
+    return "";
+  } else if (variable[myvar]){
+    return variable[myvar];
+  }
+  lookup=getrandomarrayitem(myvar);
+  if (lookup.match(regexeval)){
+    if (parsedebug){console.log("doweeval: ".concat(myvar));}
+    return parseeval(varcurly,"eval");
+  } else if (lookup.match(regexrun)){
+    if (parsedebug){console.log("dowerun: ".concat(myvar));}
+    var runoutput = parseeval(lookup,"run");
+    return runoutput;
+  } else {
+    op = "{init ".concat(myvar,"}");
+    parsevar(op);
+    return variable[myvar];
+  }
+}
+function parseeval(stringin,op){
+  var strip;
+  if (op == "eval"){
+    strip = stringin.match(regexeval,1)
+    strip[0]=eval(strip[1]);
+    if (parsedebug){console.log("parseeval arg: ".concat(stringin), strip[0]);}
+  } else if (op == "run"){
+    strip = stringin.match(regexrun,1)
+    strip[0]=eval(strip[1]);
+    if (parsedebug){console.log("parserun arg: ".concat(stringin), strip[0]);}
+  }
+  return strip[0];
+}
+function parseresult(stringin){
+  var stringinput = stringin;
+  if (parsedebug){console.log("parseresult arg: ".concat(stringinput));}
+  if (stringinput.match(regexdice)){
+    regexmatch = stringinput.match(regexdice);
+    parsestring = diceparser(regexmatch[0]);
+    if (showdice == true){
+      parsereturn = "(roll: " + parsestring + ") = " + eval(parsestring);
+    } else {
+      parsereturn = eval(parsestring);
+    }
+    stringinput = stringinput.replace(regexdice,parsereturn);
+    //console.log("dice",parsereturn);
+  }
+  if (stringinput.match(regextable)){
+    stringinput = stringinput.replace(/\[([^\[\]]+)\]/g, function(v) { var mytable = v.replace(/[\[\]]/g,""); return getrandomarrayitem(mytable); });
+    if (parsedebug){console.log("table: ".concat(stringinput));}
+  }
+  if (stringinput.match(regexcurly)){
+    stringinput = stringinput.replace(/\{([^\{\}]+)\}/g, function(v) {
+              if (parsedebug){ console.log("v arg: ".concat(v));}
+              var table;
+              table = v.replace(/[\{\}]/g,"");
+              if (parsedebug){ console.log("curly reductive: ".concat(v), table);}
+              if (hasharr[table] && (vardef[table] != true)){
+                // a table lookup
+                return getrandomarrayitem(table,true);
+              } else {
+                return parsevar(v);
+              }
+    });
+    if (parsedebug){console.log("mid curly: ", stringinput);}
+  }
+  if (stringinput.match(regextable) || stringinput.match(regexdice) || stringinput.match(regexcurly)){
+    stringinput = parseresult(stringinput);
+  }
+  if (parsedebug){console.log("end: ".concat(stringinput));}
+  return stringinput;
+}
+function getrandomarrayitem(mytable, isreductive){
+  if (parsedebug){console.log("grai: ".concat(mytable));}
+  mytable = mytable.toLowerCase();
+  var tablelength, roll = null, item, index = -1;
+  if (mytable.match(/\^/)){
+    var tableparse = mytable.split("^");
+    roll = tableparse[1];
+    mytable = tableparse[0];
+    if (parsedebug){console.log("found dynamic tableroll:".concat(roll));}
+  } else if (tableroll[mytable]){
+    roll = tableroll[mytable];
+    if (parsedebug){console.log("found static tableroll:".concat(roll));}
+  }
+  if (roll != null){
+    if (typeof roll === 'string'){
+      // FIXME -- table calls would be correct for ^2d6 but wrong for ^1d4+1d8
+      var rollparse = roll.split("d");
+      index = eval(diceparser(roll));
+      index = index - rollparse[0]; // takes range of 3d6 from 3-18 to 0-15 for indexing.
+      if (isNaN(index)){
+        roll = null; index = -1;
+      }
+    }
+  }
+  if (!hasharr[mytable]){
+    item = "Error:NoTableNamed".concat(mytable);
+    console.log(item);
+  } else if (isreductive){
+    if (!reductive[mytable] || reductive[mytable].length < 1){
+      reductive[mytable] = hasharr[mytable].slice();
+    }
+    tablelength = reductive[mytable].length
+    if (!(typeof roll === 'string' && index < tablelength && index >= 0)){ index = Math.floor(Math.random()*tablelength);}
+    item=reductive[mytable][index];
+    reductive[mytable].splice(index, 1);
+  } else {
+    // standard table
+    tablelength = hasharr[mytable].length
+    if (!(typeof roll === 'string' && index < tablelength && index >= 0)){ index = Math.floor(Math.random()*tablelength);}
+    item=hasharr[mytable][index];
+  }
+  return item;
+}
+function parsepastebin(){
+  hasharr['pc'] = PCListTxt.value.split("\n");
+  hasharr['npc'] = NPCListTxt.value.split("\n");
+  hasharr['thread'] = ThreadListTxt.value.split("\n");
+  var pastebin = document.getElementById("OraclePastebin");
+  var arrpastebin = pastebin.value.split("\n");
+  var currenttable="";
+  var currentvar = "";
+  var i;
+  for (i=0;i<arrpastebin.length;i++){
+    var line=arrpastebin[i];
+    var qty=1;
+    if (line.match(/^\s*$/)){ currenttable = ""; continue; } // match any empty line and forgive spaces... lines denote the end of a table.
+    //if (parsedebug){console.log("newline:", line)}
+    if (line.match(regexheadcol) || line.match(regexheadpip)){
+      var tablediceroll = 0;
+      if (line.match(/variable/i)){
+        line = line.replace(/\|variable\ /i,"");
+        currenttable = "";
+        currentvar = line;
+        hasharr[currentvar] = [];
+        vardef[currentvar] = true;
+      } else {
+        if (line.match("^")){
+          var split = line.split("^");
+          tablediceroll=split[1];
+          line = split[0]
+        }
+        var tablename = line.replace(/[^A-Za-z0-9\-\_]/,""); // remove anything not in this charset
+        tablename = tablename.toLowerCase();
+        currenttable = tablename;
+        currentvar = "";
+        if (tablename != "menu" ){
+          hasharr[tablename] = []; // create a new empty array with our tablename
+          if (tablediceroll != 0){ tableroll[tablename] = tablediceroll; }
+        }
+        continue;
+      }
+    } else {
+      if (currenttable != "" || currentvar != ""){
+        if (line.match(qtycommatch) || line.match(qtyparmatch) || line.match(qtyatmatch) || line.match(qtydotmatch)){
+          var split = ""; // symbol, optional whitespace match, then greedy capture group (don't match twice)
+          if (line.match(qtyatmatch)) { split = line.split(/\@\s?(.+)?/); }
+          if (line.match(qtycommatch)) { split = line.split(/\,\s?(.+)?/); }
+          if (line.match(qtyparmatch)) { split = line.split(/\)\s?(.+)?/); }
+          if (line.match(qtydotmatch)) { split = line.split(/\.\s?(.+)?/); }
+          if (!isNaN(split[0])){
+            if (line.match(qtyparmatch) || line.match(qtydotmatch)){
+              qty = 1;
+            } else {
+              qty = split[0];
+            }
+            line = split[1];
+            if (line === undefined){ line = "";}
+            //str="1@fake.email@example.com@a@a@a@a@a"
+            //pre=str.substring(0,str.indexOf('@'))
+            //post=str.substring(str.indexOf('@')+1)
+          }
+        }
+      }
+      //if (parsedebug){console.log("AddArr:", currenttable,qty,currentvar,line)}
+      if (currenttable != ""){ addarrayitem(currenttable,qty,line); }
+      else if (currentvar != ""){ addarrayitem(currentvar,qty,line); }
+    }
+  }
+  // update menu
+  document.getElementById("oramenudiv").style.display="block";
+  var selectbox = document.getElementById("OracleMenu");
+  for(i=selectbox.options.length-1;i>=0;i--){
+    selectbox.remove(i);
+  }
+  hasharr['menu']=removearraydupes(hasharr['menu']);
+  for (i=0;i<hasharr['menu'].length;i++){
+    var currentitem = [];
+    currentitem = oraclemenusplit(hasharr['menu'][i]);
+    if (currentitem != undefined){
+      selectbox.options[i] = new Option ( currentitem[0],currentitem[1] );
+    }
+  }
+}
+function updatetextareas(evt){
+  var key = evt.keyCode;
+  if (key == 13) {
+    hasharr['pc'] = PCListTxt.value.split("\n");
+    hasharr['npc'] = NPCListTxt.value.split("\n");
+    hasharr['thread'] = ThreadListTxt.value.split("\n");
+  }
+}
+function oraclemenusplit(menuitem){
+  if (menuitem.indexOf("^") != -1) {
+    var splititem = menuitem.split('^');
+    splititemtext = splititem[0];
+    splititemtable = splititem[1];
+  } else {
+    splititemtext = menuitem;
+    splititemtable = menuitem;
+  }
+  var retarr = [];
+  retarr[0]=splititemtext;
+  retarr[1]=splititemtable;
+  return retarr;
+}
+function removearraydupes(arr){
+  var uniqarr = [];
+  for (var i=0; i < arr.length; i++){
+    if (uniqarr.indexOf(arr[i]) == -1){
+      uniqarr[i]=arr[i];
+    }
+  }
+  return uniqarr;
+}
+function oracleclearmenu(selectbox){
+  // this function has been abandoned.
+  var i;
+  for(i=selectbox.options.length-1;i>=0;i--){
+    selectbox.remove(i);
+  }
+}
+// function printArray(e){var t=e.split("\n");for(var n=0;n<t.length;n++){alert(t[n])}}
+function getloomresponse(rd100){
+	var arr = [];
+	if (crgephase == CRGETYPE.KNOW) { arr = fltoknow.slice(0); }
+	if (crgephase == CRGETYPE.CONF) { arr = fltoconf.slice(0); }
+	if (crgephase == CRGETYPE.ENDS) { arr = fltoends.slice(0); }
+	for (i = 0; i <= 8; i++){
+    if ( rd100 >= arr[i] ){
+      //arr[i];
+      continue;
+    }
+		else {
+      var retval = fateloom[i];
+      break;
+    }
+	}
+	return retval;
+}
+function newscene (){
+  var currentscene = document.getElementById("scenebutton").value
+  var engine = document.getElementById("enginesel").value
+  if (currentscene == "New Scene"){
+    var scenedesc = prompt("Type a new Scene Description","")
+    var innerLog = document.getElementById("LogListTxt").value;
+    if (engine != "CRGE"){
+      chaos = testchaosfactor();
+      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + chaos + divider + '\n' + innerLog;
+    } else {
+      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + divider + '\n' + innerLog;
+    }
+    document.getElementById("scenebutton").value = "End Scene";
+  } else {
+    if (engine != "CRGE"){
+      var r = confirm("Scene Ended: 'OK' will raise the Chaos Factor, 'Cancel' will lower it");
+      if (r == true) {
+        chaosfactor += 1;
+      } else {
+        chaosfactor -= 1;
+      }
+      if (chaosfactor < 1) { chaosfactor = 1; }
+      if (chaosfactor > 9) { chaosfactor = 9; }
+      updatecfselect();
+    }
+    document.getElementById("scenebutton").value = "New Scene";
+  }
+}
+function testchaosfactor(){
+  chaostest = Math.floor(Math.random() * 10) + 1;
+  var retval = ""
+  if (chaostest <= chaosfactor){
+    retval = "\nSCENE ALTERED!!!\n";
+    if (chaostest % 2 == 0) { retval = "\nSCENE INTERRUPTED!!!\n" }
+  }
+  return retval;
+}
+function updatechaosfactor(){
+  var myselect = document.getElementById("cfselect");
+  chaosfactor=parseInt(myselect.options[myselect.selectedIndex].value);
+}
+function updatecfselect(){
+  var myselect = document.getElementById("cfselect");
+  var cfsel = chaosfactor - 1;
+  myselect.selectedIndex = cfsel
+}
+function getmythiceventmeaning(MythicQuestion){
+  if (MythicQuestion != ""){
+    MythicQuestion = checkquestion(MythicQuestion) + " ";
+  }
+  j = Math.floor(Math.random() * mythicadverb.length);
+	k = Math.floor(Math.random() * mythicaction.length);
+  l = Math.floor(Math.random() * mythicadjective.length);
+  m = Math.floor(Math.random() * mythicsubject.length);
+  var retval = "";
+  switch(Math.floor(Math.random() * 6)+1){
+    case 1: retval = mythicadverb[j] + " " + mythicaction[k] + " " + mythicadjective[l] + " " + mythicsubject[m]; break;
+    case 2: retval = mythicaction[k] + " " + mythicadjective[l] + " " + mythicsubject[m]; break;
+    case 3: retval = mythicadverb[j] + " " + mythicaction[k] + " " + mythicsubject[m]; break;
+    default: retval = mythicaction[k] + " " + mythicsubject[m];
+  }
+  return MythicQuestion + retval;
+}
+function getmythiceventfocus(){
+	mef = Math.floor(Math.random() * 100)+1;
+	if (mef > 0 && mef <= 7) { return "Remote Event"; }
+	if (mef > 7 && mef <= 28) { return "NPC Action"; }
+	if (mef > 28 && mef <= 35) { return "Introduce a New NPC"; }
+	if (mef > 35 && mef <= 45) { return "Move toward a Thread"; }
+	if (mef > 45 && mef <= 52) { return "Move away from a thread"; }
+	if (mef > 52 && mef <= 55) { return "Close a Thread"; }
+	if (mef > 55 && mef <= 67) { return "PC Negative"; }
+	if (mef > 67 && mef <= 75) { return "PC Positive"; }
+	if (mef > 75 && mef <= 83) { return "Ambiguous Event"; }
+	if (mef > 83 && mef <= 92) { return "NPC Negative"; }
+	if (mef > 92 && mef <= 100) { return "NPC Positive"; }
+}
+
+function askengine(questiontext){
+  qtext = checkquestion(questiontext);
+  var retval = "";
+  var arr = [];
+  var answer = "";
+  var engine = document.getElementById("enginesel").value
+  if (engine == "Mythic"){
+    var d100 = Math.floor(Math.random() * 100)+1;
+    var likeliness = document.getElementById("likelyselect").value
+    switch (chaosfactor){
+      case 1: arr = cr1.slice(0); break;
+      case 2: arr = cr2.slice(0); break;
+      case 3: arr = cr3.slice(0); break;
+      case 4: arr = cr4.slice(0); break;
+      case 5: arr = cr5.slice(0); break;
+      case 6: arr = cr6.slice(0); break;
+      case 7: arr = cr7.slice(0); break;
+      case 8: arr = cr8.slice(0); break;
+      case 9: arr = cr9.slice(0); break;
+    }
+    var pivot = arr[likeliness];
+    if ( d100 <= pivot ){
+      answer = "Yes";
+      var range = Math.floor(pivot / 5);
+      if (d100 <= range){
+        answer = "Exceptional Yes (<" + range + "% / " + pivot + "%)";
+      } else { answer = "Yes (" + pivot + "%)"; }
+    } else {
+      answer = "No";
+      var range = 100-Math.floor((100-pivot)/5);
+      if (d100 >= range){
+        answer = "Exceptional No (>" + range + "% / " + pivot + "%)";
+      } else { answer = "No (" + pivot + "%)"; }
+    }
+    retval = qtext + " (" + d100 + "): " + answer;
+  } else if (engine == "Scarlet Heroes"){
+    var d20 = Math.floor(Math.random() * 20)+1;
+    var likelinesssh = parseInt(document.getElementById("likelyselectsh").value);
+    //console.log("likeliness",likelinesssh);
+    switch (likelinesssh){
+      case 0: arr = shlike1.slice(0); break; // Almost Impossible
+      case 1: arr = shlike2.slice(0); break; // Very Unlikely
+      case 2: arr = shlike3.slice(0); break; // Unlikely
+      case 3: arr = shlike4.slice(0); break; // Unknown
+      case 4: arr = shlike5.slice(0); break; // Likely
+      case 5: arr = shlike6.slice(0); break; // Very Likely
+      case 6: arr = shlike7.slice(0); break; // Almost Certain
+    }
+    if ( d20 <= arr[0] ) { answer = "No"; }
+    if ( d20 > arr[0] && d20 < arr[2] ) { answer = "No, But"; }
+    if ( d20 >= arr[2] && d20 < arr[3] ) { answer = "Yes, But"; }
+    else if ( d20 >= arr[3] ) { answer = "Yes"; }
+    //console.log(arr, answer);
+    retval = qtext + " (" + d20 + "): " + answer;
+  } else if (engine == "Tiny Universal"){
+    // FIXME TINY UNIVERSAL, 2d6
+    var likelinesstu = document.getElementById("advantagesel").value;
+    //console.log("likeliness",likelinesstu);
+    var turoll;
+    switch (likelinesstu){
+      case "Normally": turoll = diceparser("2d6",false); break;
+      case "With Advantage": turoll = diceparser("3d6h2",false); break;
+      case "With Disadvantage": turoll = diceparser("3d6l2",false); break;
+    }
+    turoll = parseInt(turoll);
+    if ( turoll <= 3 ) { answer = "No, and..."; }
+    if ( turoll > 3 && turoll < 6 ) { answer = "No, but..."; }
+    if ( turoll == 6 ) { answer = "Not yet, until..."; }
+    if ( turoll > 6 && turoll < 10 ) { answer = "Yes, but..."; }
+    if ( turoll == 10 ) { answer = "Yes..."; }
+    else if ( turoll > 10 ) { answer = "Yes, and..."; }
+    //console.log(turoll, answer);
+    retval = qtext + " (" + turoll + "): " + answer;
+  } else if (engine == "so1um"){
+    // FIXME so1um 1d6
+    var likelinesss1m = document.getElementById("advantagesel").value;
+    //console.log("likeliness",likelinesss1m);
+    var so1umroll;
+    function so1umcomplicate(){
+      var so1umcomplicationroll = Math.floor(Math.random() * 6)+1;
+      var so1umcomplication = ""
+      switch (so1umcomplicationroll){
+        case 1: so1umcomplication = "nothing significant happens"; break;
+        case 2: so1umcomplication = "an obstacle or something that aids the hero"; break;
+        case 3: so1umcomplication = "a unique feature or situation"; break;
+        case 4: so1umcomplication = "a unique feature or situation"; break;
+        case 5: {
+          var npcfriend = Math.floor(Math.random() * 6)+1;
+    	    if (npcfriend < 4){ so1umcomplication = "Friendly NPC"; }
+    	    if (npcfriend >= 4 && npcfriend < 6){ so1umcomplication = "Neutral NPC"; }
+          else if (npcfriend == 6){ so1umcomplication = "Unfriendly NPC"; }
+          break;
+        }
+        case 6: {
+    	    var monsterfriend = Math.floor(Math.random() * 6)+1;
+    	    if (monsterfriend < 4){ so1umcomplication = "Unfriendly Monster"; }
+    	    if (monsterfriend >= 4 && monsterfriend < 6){ so1umcomplication = "Neutral Monster"; }
+    	    else if (monsterfriend == 6){ so1umcomplication = "Friendly Monster"; }
+          break;
+        }
+      }
+      return so1umcomplication;
+    }
+    switch (likelinesss1m){
+      case "Normally": so1umroll = parseInt(diceparser("1d6",false)); break;
+      case "With Advantage": so1umroll = parseInt(diceparser("2d6h1",false)); break;
+      case "With Disadvantage": so1umroll = parseInt(diceparser("2d6l1",false)); break;
+    }
+    switch (so1umroll){
+      case 1: answer = "No, and " + so1umcomplicate(); break;
+      case 2: answer = "No"; break;
+      case 3: answer = "No, but " + so1umcomplicate(); break;
+      case 4: answer = "Yes, but " + so1umcomplicate(); break;
+      case 5: answer = "Yes"; break;
+      case 6: answer = "Yes, and " + so1umcomplicate(); break;
+    }
+    //console.log(arr, answer);
+    retval = qtext + " (" + so1umroll + "): " + answer;
+  } else if (engine == "randm questions"){
+    var likelinessrq = document.getElementById("randmqoddsel").value;
+    var rqescalationroll  = document.getElementById("rqescalationsel").value;
+    var randmqroll;
+    var escalationtext = "";
+    var llnstr;
+    switch (likelinessrq){
+      case "Very Unlikely": randmqroll = parseInt(diceparser("4d6l2",false)); llnstr = "VU"; break;
+      case "Unlikely": randmqroll = parseInt(diceparser("3d6l2",false)); llnstr = "U"; break;
+      case "Normal": randmqroll = parseInt(diceparser("2d6",false)); llnstr = "N"; break;
+      case "Likely": randmqroll = parseInt(diceparser("3d6h2",false)); llnstr = "L"; break;
+      case "Very Likely": randmqroll = parseInt(diceparser("4d6h2",false)); llnstr = "VL"; break;
+    }
+    // global: rqescalation, rqescalationtally
+    if (rqescalationtally >= rqescalation){
+      rqescalation = parseInt(diceparser(rqescalationroll,false));
+      var logstr = "just escalated, next escalation in " + rqescalation;
+      escalationtext = "(escalation)"
+      console.log(logstr);
+      //console.log("escalation detected");
+      // add our escalations here.
+      rqescalationtally = 0;
+    }
+    rqescalationtally += 1;
+    randmqroll = parseInt(randmqroll);
+    switch (randmqroll){
+      case 2: answer = "No, and..."; break;
+      case 3: answer = "No!"; break;
+      case 4: answer = "No?"; break;
+      case 5: answer = "No"; break;
+      case 6: answer = "No"; break;
+      case 7: answer = "Maybe if"; break;
+      case 8: answer = "Yes"; break;
+      case 9: answer = "Yes"; break;
+      case 10: answer = "Yes?"; break;
+      case 11: answer = "Yes!"; break;
+      case 12: answer = "Yes, and..."; break;
+    }
+    retval = qtext + " (" + llnstr + "," + randmqroll + "): " + answer + " " + escalationtext;
+  } else if (engine == "TSS Solo"){
+    var likelinesstss = document.getElementById("advantagesel").value;
+    var tssqroll;
+    switch (likelinesstss){
+      case "Normally": tssqroll = parseInt(diceparser("1d6",false)); break;
+      case "With Advantage": tssqroll = parseInt(diceparser("2d6h1",false)); break;
+      case "With Disadvantage": tssqroll = parseInt(diceparser("2d6l1",false)); break;
+    }
+    switch (tssqroll){
+      case 1: answer = "No, and"; break;
+      case 2: answer = "No"; break;
+      case 3: answer = "No, but"; break;
+      case 4: answer = "Yes, but"; break;
+      case 5: answer = "Yes"; break;
+      case 6: answer = "Yes, and"; break;
+    }
+    var tqstwist = parseInt(diceparser("1d6",false));
+    if (tqstwist == 1){
+      var tqstwist1 = parseInt(diceparser("1d6",false));
+      var tqstwist2 = parseInt(diceparser("1d6",false));
+      switch (tqstwist1){
+        case 1: answer = answer + " ( NPC"; break;
+        case 2: answer = answer + " ( PC"; break;
+        case 3: answer = answer + " ( Organization"; break;
+        case 4: answer = answer + " ( Physical Event"; break;
+        case 5: answer = answer + " ( Emotional Event"; break;
+        case 6: answer = answer + " ( Item"; break;
+      }
+      switch (tqstwist2){
+        case 1: answer = answer + " Appears )"; break;
+        case 2: answer = answer + " Alters the Location )"; break;
+        case 3: answer = answer + " Helps the Hero )"; break;
+        case 4: answer = answer + " Hinders the Hero )"; break;
+        case 5: answer = answer + " Changes the Goal )"; break;
+        case 6: answer = answer + " Ends the Scene )"; break;
+      }
+    }
+    retval = qtext + " (" + tssqroll + "): " + answer;
+  } else {
+    // CRGE and CRGE kai end up being our defaults.
+    var alter = false;
+    var rtens = Math.floor(Math.random() * 10);
+  	var rones = Math.floor(Math.random() * 10);
+  	if (rtens == rones){ alter = true; }
+    var d100 = (rtens * 10) + rones;
+    if (rtens == 0 && rones == 0){ d100 = 100; }
+  	if (d100 > 50) { d100 += surgecount; }
+  	else { d100 -= surgecount; }
+  	answer = getloomresponse(d100);
+  	if (answer == 'Yes' || answer == 'No') { surgecount += 2; }
+  	else { surgecount = 0; }
+    if (answer.indexOf("unexpectedly") > -1){
+    	k = Math.floor(Math.random() * conjured.length);
+    	answer = answer + ": " + conjured[k];
+    }
+    altertxt = " ";
+    if (alter == true && engine == "CRGE-Kai"){
+      var thisfocus = getmythiceventfocus();
+      altertxt = " with Alteration: " + thisfocus;
+    }
+    retval = qtext + " (" + d100 + "/SC" + surgecount + "): " + answer + altertxt;
+  }
+  return retval;
+}
+function listmenu(){
+  // fixme: this function has been abandoned.
+  var output = "";
+  for (var i; i < hasharr['menu'].length; i++){
+    var myarr = [];
+    myarr = oraclemenusplit(hasharr['menu'][i]);
+    output = output + "\n" + myarr[0] + ": " + myarr[1];
+  }
+  return output;
+}
+function askmythic(morf){
+  var retval;
+  if (morf == "meaning"){
+    retval = "Mythic Event Meaning: " + getmythiceventmeaning("");
+  } else {
+    retval = "Mythic Event Focus: " + getmythiceventfocus();
+  }
+  logoutput(retval);
+}
+function logoutput(logstring){
+  if (reverselog == true){
+    var innerLog = document.getElementById("LogListTxt").value;
+    document.getElementById("LogListTxt").value = logstring + '\n' + innerLog;
+  } else {
+    logstring = '\n' + logstring;
+    document.getElementById("LogListTxt").value += logstring;
+    document.getElementById("LogListTxt").scrollTop = document.getElementById("LogListTxt").scrollHeight;
+  }
+  // strip html tags out text
+  //var body = '<div id="anid">some <a href="link">text</a></div> and some more text';
+  //var temp = document.createElement("div");
+  //temp.innerHTML = body;
+  //var sanitized = temp.textContent || temp.innerText;
+}
+function oraclemenuquery(){
+  var menusel = document.getElementById("OracleMenu").value;
+  var output = parseresult(menusel);
+  document.getElementById("resultarea").innerHTML = "<table border=\"0\">" + output.replace(/\'\'/g, "\"") + "</table>";
+}
+function checkquestion(qstring){
+  var last = qstring[qstring.length-1];
+  if (last != '?'){
+    modqstring = qstring + '?';
+  } else { modqstring = qstring; }
+  return modqstring;
+}
+function updatecrgephase(){
+  var phase = document.getElementById("crgephasesel").value
+  switch (phase){
+    case "To Knowledge": crgephase = CRGETYPE.KNOW; break;
+    case "To Conflict": crgephase = CRGETYPE.CONF; break;
+    case "To Endings": crgephase = CRGETYPE.ENDS; break;
+  }
+}
+function switchengine(){
+  var engine = document.getElementById("enginesel").value
+  switch(engine){
+    case "CRGE-Kai": switchenginecrgekai(); break;
+    case "Mythic": switchenginemythic(); break;
+    case "CRGE": switchenginecrge(); break;
+    case "Scarlet Heroes": switchenginesh(); break;
+    case "Tiny Universal": switchenginetu(); break;
+    case "so1um": switchengines1m(); break;
+    case "TSS Solo": switchenginetss(); break;
+    case "randm questions": switchenginers(); break;
+    default: switchenginecrgekai(); break;
+  }
+}
+function switchenginers(){
+  // show randm question div
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'block';
+}
+function switchenginecrgekai(){
+  // show crge phases and chaosfactor
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'block';
+  document.getElementById("crgephasediv").style.display = 'block';
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginecrge(){
+  // show crge phases
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'block';
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginemythic(){
+  // show mythic likelinessdiv and chaosfactor
+  document.getElementById("likelinessdiv").style.display = 'block';
+  document.getElementById("chaosfactordiv").style.display = 'block';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginesh(){
+  // show likelinessdiv for scarlet heroes
+  document.getElementById("likelinessdivsh").style.display = 'block';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginetu(){
+  // show advantagediv
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'block';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchengines1m(){
+  // show advantagediv
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'block';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginetss(){
+  // show advantagediv
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'block';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function switchenginenada(){
+  // show nothing
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+}
+function togglehelp(){
+  var state = document.getElementById("help").style.display
+  if (state == "none"){
+    document.getElementById("help").style.display = 'block';
+  } else {
+    document.getElementById("help").style.display = 'none';
+  }
+}
+function shuffle(arr) {
+  // fisher yates shuffle.
+  var m = arr.length, t, i;
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
+  }
+  return arr;
+}
+function newdeck(){
+	for (var i=0;i<cardsuits.length;i++){
+		var mysuit = cardsuits[i];
+		for(var c=2;c<=10;c++){
+			var thiscard="the " + c + " of " + mysuit;
+			deckofcards.push(thiscard);
+    }
+    for (var f=0; f<cardfaces.length;f++){
+			var thiscard="the " + cardfaces[f] + " of " + mysuit;
+      deckofcards.push(thiscard);
+		}
+	}
+	if (deckjokers == true){
+		deckofcards.push("the Black Joker");
+    deckofcards.push("the Red Joker");
+	}
+  deckofcards = shuffle(deckofcards);
+}
+function drawcard(){
+  var cardindex = Math.floor(Math.random() * deckofcards.length);
+  var yourcard = deckofcards.splice(cardindex, 1);
+  return yourcard;
+}
+function askparse(ask){
+  if (ask == ""){ ask = lastquery; }
+  var dest="";
+  var output="";
+  if (ask.match(/^#(.*)#/)){ dest = "roll"; }
+  else if (ask.match(/(^oracle)|(^table)|(^ora)|(^list)/)){ dest = "drop-table"; }
+  else if (ask.match(/^(\|(.*)|\](.*)|\^(.*)|\[(.*))/)){ dest = "drop-table"; }
+  else if (ask.match(/(^die)|(^dice)|(^roll)|(^fudge)|(^d\ )|(^r\ )/)){ dest="drop-roll";}
+  else if (ask.match(/^#/) && !ask.match(/#$/)){ dest="drop-roll";}
+  else if (ask.match(/(^#[0-9]+f#)/)) { dest = "roll"; }
+  else if (ask.match(/^#\wf$/)) { dest = "drop-roll"; }
+  else if (ask.match(/(^#\wd\w#)/)) { dest = "roll"; }
+  else if (ask.match(/^(card)/)){ dest="card"; }
+  else if (ask.match(/^(shuffle)/)){ dest="shuffle"; }
+  else if (ask.match(/^(reask)/)){ dest = "reask"; }
+  else if (ask.match(/^(mythic focus)/)){ dest = "mythicfocus"; }
+  else if (ask.match(/^(mythic mean)/)){ dest = "mythicmeaning"; }
+  else dest = "query";
+  if (dest == "drop-table"){
+    if (ask.match(/^oracle\ /)) { ask = ask.replace(/^oracle\ /,"");}
+    if (ask.match(/^table\ /)) { ask = ask.replace(/^table\ /,"");}
+    if (ask.match(/^list\ /)) { ask = ask.replace(/^list\ /,"");}
+    if (ask.match(/^ora\ /)) { ask = ask.replace(/^ora\ /,"");}
+    if (ask.match(/^\|/)) { ask = ask.replace(/^\|/,"");}
+    if (ask.match(/^\^/)) { ask = ask.replace(/^\^/,"");}
+    if (ask.match(/^\]/)) { ask = ask.replace(/^\]/,"");}
+    if (ask.match(/^\[/)){
+      if (!ask.match(/\]/)){
+          ask = ask + "]"
+      }
+    } else { ask = "["+ask+"]"}
+    dest = "ora";
+  }
+  if (dest == "drop-roll"){
+    if (ask.match(/^die\ /)){ ask = ask.replace(/die\ /,"");}
+    if (ask.match(/^dice\ /)){ ask = ask.replace(/dice\ /,"");}
+    if (ask.match(/^roll\ /)){ ask = ask.replace(/roll\ /,"");}
+    if (ask.match(/^fudge\ /)){ ask = ask.replace(/fudge\ /,"");}
+    if (ask.match(/^d\ /)){ ask = ask.replace(/d\ /,"");}
+    if (ask.match(/^r\ /)){ ask = ask.replace(/r\ /,"");}
+    if (ask.match(/^#/) && !ask.match(/#$/)){ ask = ask + "#";}
+    if (!ask.match(/^#(.*)#/)){ ask = "#"+ask+"#"; }
+    dest = "roll";
+  }
+  var preservequery = false;
+  switch(dest){
+    case "query": output = askengine(ask); break;
+    case "card": output = drawcard(); break;
+    case "shuffle": newdeck(); output = "Opened a new deck and shuffled it..."; break;
+    case "roll": output = "roll " + ask + ": " + diceparser(ask,showdice); break;
+    case "ora": var askresult = parseresult(ask); output = "" + ask + ": "+ askresult; break;
+    case "reask": var askresult = parseresult(lastquery); output = askresult; break;
+    case "mythicfocus": output = "Mythic Event Focus: " + getmythiceventfocus(); break;
+    case "mythicmeaning": output = "Mythic Event Meaning: " + getmythiceventmeaning(""); break;
+    default: output = "Error parsing" + ask; preservequery = true; break;
+  }
+  if (preservequery == false){
+    lastquery = ask;
+  }
+  logoutput(output);
+}
+function askTxt(evt) {
+  var key = evt.keyCode;
+  //var key = window.event.keyCode;
+  if (key == 13) {
+    evt.preventDefault();
+    var querytxt = document.getElementById("QuestionTxt").value;
+    document.getElementById("QuestionTxt").value="";
+    askparse(querytxt);
+  }
+}
+function saverandm(){
+  localStorage.clear();
+  parsepastebin();
+  var results = {};
+  results['results'] = document.getElementById("resultarea").innerHTML;
+  results['loglist'] = document.getElementById("LogListTxt").value;
+  results['pastebin']= document.getElementById("OraclePastebin").value;
+  results['showdice']= document.getElementById("ShowDiceCheckbox").checked;
+  results['darkmode']= document.getElementById("NightMode").checked;
+  results['reverselog']= document.getElementById("ReverseLog").checked;
+  results['enginesl']= document.getElementById("enginesel").selectedIndex;
+  var keys = [];
+  keys = Object.keys(hasharr);
+  for (var i=0;i<keys.length;i++){ listdb.setItem(keys[i], hasharr[keys[i]]);}
+  keys = Object.keys(results);
+  for (var i=0;i<keys.length;i++){ savedb.setItem(keys[i], results[keys[i]]);}
+  console.log('save complete');
+}
+function loadrandm(){
+  var keys = Object.keys(localStorage);
+  if (keys.indexOf("listsfromstorage") != -1){
+    // our oldest save format
+    var tmphash = localStorage.getItem("LocalStorageLists");
+    var tmprslt = localStorage.getItem("LocalStorageResults")
+    hasharr = JSON.parse(tmphash);
+    var results = JSON.parse(tmprslt);
+    document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
+    document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
+    document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
+    document.getElementById("resultarea").innerHTML = results['results'];
+    document.getElementById("LogListTxt").value = results['loglist'];
+    document.getElementById("OraclePastebin").value = results['pastebin'];
+    if (results['showroll'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
+    parsepastebin();
+  } else if (keys.indexOf("LocalStorageLists") != -1 && keys.indexOf("LocalStorageResults") != -1){
+    //less older 2 list format
+    var tmphash = localStorage.getItem("LocalStorageLists");
+    var tmprslt = localStorage.getItem("LocalStorageResults")
+    hasharr = JSON.parse(tmphash);
+    var results = JSON.parse(tmprslt);
+    document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
+    document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
+    document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
+    document.getElementById("resultarea").innerHTML = results['results'];
+    document.getElementById("LogListTxt").value = results['loglist'];
+    document.getElementById("OraclePastebin").value = results['pastebin'];
+    if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}
+    if (results['showroll'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
+    parsepastebin();
+    localStorage.clear();
+  } else {
+    // localforage db load
+    loadrandmdb();
+  }
+}
+function loadrandmdb(){
+  var results = {};
+  listdb.iterate(function(value, key, iterationNumber) {
+    hasharr[key]=value;
+  }).then(function() {
+    console.log('lists and oracle load complete');
+    document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
+    document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
+    document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
+  }).catch(function(err) {
+    console.log(err);
+  });
+  savedb.iterate(function(value, key, iterationNumber) {
+    results[key]=value;
+  }).then(function() {
+    document.getElementById("resultarea").innerHTML = results['results'];
+    document.getElementById("LogListTxt").value = results['loglist'];
+    document.getElementById("OraclePastebin").value = results['pastebin'];
+    document.getElementById("enginesel").selectedIndex = results['enginesl']
+    if (results['showdice'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
+    if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}    //localStorage.clear();
+    if (results['reverselog'] == false){ document.getElementById("ReverseLog").checked = false; } else { document.getElementById("ReverseLog").checked = true;}
+    console.log('log and settings load complete');
+  }).catch(function(err) {
+    console.log(err);
+  });
+  togglenightmode();
+  toggledicework();
+  togglereverselog();
+  switchengine();
+  parsepastebin();
+  localStorage.clear();
+}
+function togglereverselog(){
+  reverselog = document.getElementById("ReverseLog").checked;
+}
+function toggledicework(){
+  var checked = document.getElementById("ShowDiceCheckbox").checked;
+  if (checked == true){ showdice = true; }
+  else { showdice = false; }
+}
+function togglenightmode(){
+  var checked = document.getElementById("NightMode").checked;
+  var bgc, fgc, textarearule;
+  if (checked == true){
+    bgc = '#333333'; // dark slate thing
+    fgc = '#F5F5F5'; // near white
+  } else {
+    bgc = '#FFFFFF'; // white
+    fgc = '#000000'; // black
+  }
+  document.fgColor = fgc;
+  document.bgColor = bgc;
+  textarearule = document.styleSheets[0].rules
+  for (var i=0; i<textarearule.length;i++){
+    if (textarearule[i].selectorText == "textarea") {
+      textarearule[i].style.color = fgc;
+      textarearule[i].style.backgroundColor = bgc;
+    }
+  }
+}
+window.onload = function(){
+  loadrandmdb();
+  parsepastebin();
+}
+window.onclose = function(){
+  saverandmdb();
+}
+</script>
+
+<title>ranDM Solo</title>
+</head>
+<body>
+<form name='formMain'>
+<div class="hicontainer">
+  <div class="col1">
+    <h3>PCs</h3>
+    <textarea class="pntta" id='PCListTxt' rows='15' cols='*' name='PCListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+  <div class="col2">
+    <h3>NPCs</h3>
+    <textarea class="pntta" id='NPCListTxt' rows='15' cols='*' name='NPCListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+  <div class="col3">
+    <h3>Threads</h3>
+    <textarea class="pntta" id='ThreadListTxt' rows='15' cols='*' name='ThreadListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+</div>
+<div class="locontainer">
+  <div class="col4">
+    <h3>Answer</h3>
+    <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
+    <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
+  </div>
+  <div class="col5">
+    <h3>Ask</h3>
+    <textarea id='QuestionTxt' rows='3' cols='30' name='QuestionTxt' onkeypress="askTxt(event)">type your question and hit enter...</textarea>
+    <div id="oramenudiv" style="text-align:center;display:none;">Oracle Menu <select id="OracleMenu" onchange='oraclemenuquery()'></select></div>
+    <div class="col5wrap"><div class="col5col1">
+      <div id="likelinessdiv" style="display:none;">Never tell me the odds: <select id="likelyselect">
+        <option value="0">Impossible</option>
+        <option value="1">No Way</option>
+        <option value="2">Very Unlikely</option>
+        <option value="3">Unlikely</option>
+        <option value="4" selected>Fifty Fifty</option>
+        <option value="5">Somewhat Likely</option>
+        <option value="6">Likely</option>
+        <option value="7">Very Likely</option>
+        <option value="8">Near Sure Thing</option>
+        <option value="9">A Sure Thing</option>
+        <option value="10">Has To Be</option>
+      </select><br></div>
+      <div id="likelinessdivsh" style="display:none;">Never tell me the odds: <select id="likelyselectsh">
+        <option value="0">Almost Impossible</option>
+        <option value="1">Very Unlikely</option>
+        <option value="2">Unlikely</option>
+        <option value="3" selected>Unknown</option>
+        <option value="4">Likely</option>
+        <option value="5">Very Likely</option>
+        <option value="6">Almost Certain</option>
+      </select><br></div>
+      <div id="crgephasediv">CRGE Phase: <select id="crgephasesel" onchange="updatecrgephase()">
+        <option value="To Knowledge">To Knowledge</option>
+        <option value="To Conflict">To Conflict</option>
+        <option value="To Endings">To Endings</option>
+      </select><br></div>
+      <div id="chaosfactordiv">Chaos Factor: <select onchange=updatechaosfactor() id="cfselect">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select><br></div>
+      <div id="advantagediv" style="display:none;">PC Rolls
+        <select id ="advantagesel">
+          <option value="With Advantage">With Advantage</option>
+          <option value="Normally" selected>Normally</option>
+          <option value="With Disadvantage">With Disadvantage</option>
+        </select><br>
+      </div>
+      <div id="randmquestiondiv" style="display:none;">Odds are
+        <select id ="randmqoddsel">
+          <option value="Very Unlikely">Very Unlikely</option>
+          <option value="Unlikely">Unlikely</option>
+          <option value="Normal" selected>Normal</option>
+          <option value="Likely">Likely</option>
+          <option value="Very Likely">Very Likely</option>
+        </select><br>
+        Escalation Roll of
+        <select id ="rqescalationsel">
+          <option value="1d6">1d6</option>
+          <option value="2d6">2d6</option>
+          <option value="1d30">1d30</option>
+          <option value="2d30">2d30</option>
+        </select><br>
+      </div>
+      Engine: <select id="enginesel" onchange="switchengine()">
+        <option value="CRGE-Kai" selected>CRGE-Kai</option>
+        <option value="Mythic">Mythic</option>
+        <option value="Scarlet Heroes">Scarlet Heroes</option>
+        <option value="CRGE">CRGE</option>
+        <option value="so1um">so1um</option>
+        <option value="Tiny Universal">Tiny Universal</option>
+        <option value="TSS Solo">TSS Solo</option>
+        <option value="randm questions">randm questions</option>
+      </select>
+      <div class="SettingsDiv"><br>
+        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
+        <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
+        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
+      </div>
+    </div>
+    <div class="col5col2">
+      <input type='button' id='scenebutton' value='New Scene' onclick='newscene()'>
+      <input type='button' value='Event Focus' onclick='askmythic("focus")'>
+      <input type='button' value='Event Meaning' onclick='askmythic("meaning")'>
+      <input type='button' value='Help' onclick='togglehelp()'>
+      <input type='button' value='Update Oracles' onclick='parsepastebin()'>
+      <input type='button' value='Save' onclick='saverandm()'>
+      <input type='button' value='Load' onclick='loadrandm()'>
+    </div></div>
+    <h5>Oracle Pastebin</h5>
+    <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
+  </div>
+</div>
+<div id="help" style="display:none;">
+  <h3>ranDM Solo v0.9.4</h3>
+  <p><a href="randm-solo-changelog.html">development and changelog stuff can be found here</a></p>
+  <h3>the ask area</h3>
+  <p>there's not much that you need to know to get started.
+  <ul>
+  <li>If you want, you can type your list of PCs in the "<b>PCs</b>" area, your NPCs in the "<b>NPCs</b>" area, and any active threads to your story in the "<b>Threads</b>" area, one per line.</li>
+  <li>You can ask a question from your chosen GM emulator system by typing a yes or no question in the "<b>Ask</b>" area, just hit &lt;enter&gt; or &lt;return&gt; when you're done.  The answer to your question shows up in the "<b>Answer</b>" section.  If you just type enter in the Ask area, it will re-ask your question for you and reroll an answer.  For example, I could ask
+    <blockquote>do many people use this program?</blockquote>
+    Personally I'd expect some sort of "No" answer, like "No, And" or "Exceptional No", but I'm happy to be surprised.
+  </li>
+    <li>you can ask the program to roll dice by typing standard dice notation formulas in the Ask area and hitting &lt;enter&gt; or &lt;return&gt;.  If you want to do some math in your dice notation formula, put a '#' sign on both sides of it.  You can roll Fudge or Fate dice too, or keep highest or lowest of multiple dice.<blockquote>
+      roll 5d4<br>
+      roll 1d6<br>
+      roll #4d6h3#<br>
+      roll #4d6h3+2#<br>
+      roll #5F#<br>
+      roll #2d20l1#<br>
+      roll #2d20h1#
+    </blockquote></li>
+  <li>There are some menus you can move around in the lower right of the screen if you want to change the odds of a yes answer for your question, raise or lower the chaos factor, and the like.</li>
+  <li>if you click the 'new scene' button, the program will open a box asking you to describe the new scene. If you're using Mythic's Chaos Factor, it will also ask if you want to raise or lower the Chaos Factor.</li>
+  <li>you can always get a Mythic Event Focus or Mythic Event Meaning by clicking on those buttons.</li>
+  <li>you can toggle "night mode" on or off, which is easier on the eyes at night.</li>
+  <li>you can log answers normally, or in reverse.  Normal means every next answer goes to the bottom of the Answer area.  Reverse means every new answer goes to the top of the answer area.</li>
+  <li>if you have a lot of lists or tables, you can use this program to automatically pick something from those lists.</li>
+  <li>if you want to save your current solo game, click the 'save' button, and the program will try to save your lists and answers to your browser's local storage.</li>
+  <li>if you want to load your previous save, click the 'load' button.</li>
+  </ul>
+  <h3>the Oracle menu</h3>
+  <p>The oracle menu will take your lists of random tables and generate a result on the fly. Instead of dumping to the log, it goes to its own section of the page. When consulting oracles, I tend to generate multiple results, that's the reason for this behavior.  If you put in PCs, NPCs, or Threads in those areas, you could click the "<b>Update Oracles</b>" button, and it will store them, and you'll be able to roll one randomly by selecting which one you want from the "<b>Oracle Menu</b>".  The oracle menu results area will also output and render html if you have tables with fancy text formatting.</p>
+  <p>If you wanted to have the program pick a random thread for you, you could type something like this:<blockquote>oracle npc<br>oracle thread<br>oracle pc<br>
+  </blockquote></p>
+  <h3>some tips</h3>
+  <ul>
+  <li>Oracle Shorthand: If you want to consult an oracle from the ask window, you can also start your question with ora, list, table, oracle, or | ^ or [ or ]</li>
+  <li>Dice Shorthand: If you want to roll dice, you can also start your question with d, r, #, die, or dice</li>
+  <li>Fudge Dice: you can see how many dice were positive, negative, or neutral if you have 'show dice rolls' toggled on.</li>
+  <li>you can consult multiple oracles at once if you enclose the oracle names in square brackets, for example:<blockquote>oracle [pc] remembers [npc] because [thread]</blockquote>
+  </li>
+  <li>you can draw cards from a deck and shuffle the deck, the program will keep track of it.  It will automatically shuffle the deck if you run out of cards.<blockquote>card<br>shuffle<br></blockquote></li>
+  <li>you can roll multiple dice notation formulas by using '#' and the oracle parser:<blockquote>ora #2d20h1# #2d20l1#</blockquote></li>
+  <li>the dice notation system understands basic math -- addition, subtraction, division, and multiplication.</li>
+  </ul>
+  <h3>the Oracle Pastebin</h3>
+  <p>If you like random tables, this is your section. We'll start with an example that many folks might be familiar with, D20-style character generation.</p>
+  <blockquote><pre><code>
+  |menu
+  [rollcharacter-new]
+  [rollcharacter-osr]
+
+  |rollcharacter-new
+  [class] Str #4d6h3# Dex #4d6h3# Con #4d6h3# Int #4d6h3# Wis #4d6h3# Cha #4d6h3#
+
+  |rollcharacter-osr
+  [class] Str #3d6# Dex #3d6# Con #3d6# Int #3d6# Wis #3d6# Cha #3d6#
+
+  |class
+  Fighter
+  Mage
+  Thief
+  Cleric
+  Halfling
+  Elf
+  Dwarf
+  </code></pre></blockquote>
+  <p>To test these tables, just highlight from "|menu" to Dwarf, copy it, and paste it into the oracle pastebin, then click 'Update Oracles'.
+  The Oracle menu should change to include two new menu options, "rollcharacter-new" and "rollcharacter-osr".  If you select those menus, a new character should appear below the "Answer" area.</p>
+  <p>you should now be able to call those random tables from the ask menu too:<blockquote>ora rollcharacter-new<br>ora rollcharacter-osr<br>ora class<br></blockquote></p>
+  <ul>
+    <li>the pipe character '|' defines a new oracle table's name.  everything below it is a possible random entry from that oracle, until it hits a blank line.</li>
+    <li>you call a table by putting its name in square brackets, just like above.</li>
+    <li>there are a few special tables: npc, pc, thread, and menu.</li>
+    <li>Sometimes it might be useful to put more readable text in the menu:<blockquote><pre>
+      |menu
+      Roll a Newfangled Character^[rollcharacter-new]
+      Roll an Old-Fashioned Character^[rollcharacter-osr]</pre></blockquote>
+      and
+      <blockquote><pre>
+        |menu
+        [rollcharacter-new]
+        [rollcharacter-osr]
+      </pre></blockquote>
+      are the same thing, the only difference is that the Oracle menu will show you a more readable name instead of a table name, if you put a caret '^' in front of an item in the menu table, it will show you the readable name instead of the actual table name.</li>
+    <li>you can temporarily erase things from an oracle once they show up as a result.  If you want to do that, call the table with curly brackets instead of square brackets.  Replacing [class] with {class} would ensure that if you rolled multiple characters, each one would be unique, until you ran out of options.  At that point, the table will refresh itself automatically.</li>
+  </ul>
+  <p>it might help to look at a nested table to get started on table creation.  There is one at my dropbox <a href="https://dl.dropboxusercontent.com/u/891512/randm/randm-solo.defaultlist.txt">here</a>.  It includes the lists that I use for testing.</p>
+  <h3>What is Mythic / CRGE / CRGE-Kai / Scarlet Heroes / so1um / Tiny Universal / TSS Solo / randm questions</h3>
+  <p>An explanation of CRGE, CRGE-Kai, Mythic, or Scarlet Heroes as GM emulators is beyond the scope of this help. Entire books have been written on the subject! I suggest buying them. For CRGE-kai, it's a mishmash of Mythic and CRGE, a clever ploy designed to get you to buy both books as well as read a good blog.</p>
+  <ul>
+  <li><a href="http://conjecturegames.com/crge/">Conjectural Roleplaying GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/145426/CRGE-Conjectural-Roleplaying-GM-Emulator">here</a> among other places.</a>
+  <li><a href="http://wordmillgames.com/mythic-game-master-emulator.html">Mythic GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/20798/Mythic-Game-Master-Emulator">here</a> among other places</li>
+  <li><a href="http://www.sinenomine-pub.com/?cat=8">Scarlet Heroes</a>.  This system includes a great way for playing solo D&amp;D-style adventures. Buy it <a href="http://www.drivethrurpg.com/product/127180/Scarlet-Heroes">here</a> among other places</li>
+  <li><a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">CRGE-Kai</a>.  An idea this powerful cannot be bought.</li>
+  <li><a href="http://dieheart.net/tiny-universal/">Tiny Universal</a>. A fantastic DW-style distribution of results in this one.  If you're doing this but not paying attention to Sophia, you may be doing it wrong.</li>
+  <li><a href="http://www.msjx.org/search/label/so1um">so1um 0.5</a>. One of the quickest and simplest engines I've seen. Honestly, using a computer might slow it down.</li>
+  <li><a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">Tiny Solitary Soldiers Solo RPG</a>, a great solo engine from one of the solo blog titans, by request.  That's right, I do requests.  You gotta ask. :D</li>
+  <li><a href="https://bobloblawssolologblog.blogspot.com/2017/04/solo-engine-mechanics.html">randm questions</a>, something I'm messing around with.</li>
+  </ul>
+  <h3>your privacy</h3>
+  <p>everything here just runs in your browser.  this program doesn't save anything to the internet and it doesn't use cookies or track you, though it can save some stuff to your browser's local storage, like your list of npcs, pcs, threads, and your answers, and your lists from the oracle pastebin.</p>
+  <h3>add to home screen / play offline</h3>
+  <p>If you're running this program in a browser on a tablet or smartphone, you can add it to your home screen, and it will run on your device.
+    If you do that, you don't need to connect to the internet to run this webapp, or you could play this in "airplane mode".  You just need to be connected to the internet when you 'add to home screen'.  It's a good idea to run it every once in a while so you get any updates.
+    <a href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/">Some instructions are available here</a>.
+    </p>
+  <h3>variables</h3>
+  <p>if you are familiar with programming, especially in Javascript or ECMAScript, you can use variables to do some pretty powerful random table stuff. There's more than one way to do it: the easy way, and the hard way.  Both have merit.</p>
+  <h3>variables the simple way</h3>
+  <p>there are two (or three (or four)) steps to using variables.</p>
+  <ol><li>Defining that one exists and the method of setting it,</li><li>setting a value to it,</li><li>using that value, and </li><li>destroying it.</li></ol>
+  <p>you can skip step 2 if you want, the only downside to skipping the 'set' step is that it will display the value where it was called.</p>
+  <p>you can skip step 4 if you want, the only downside is that it won't give you a new variable on new calls until you close the browser window or reload the page.</p>
+
+  <blockquote><pre><code>
+  definition:
+    |variable varname
+    [table] or {table} or #diceexpr#
+
+  variable assignment call, set it to something, perform the random table call or dice expression.
+    {init varname} or {variable varname} or {set varname}
+
+  refer to the value we set earlier.  if it doesn't exist, init it and display immediately.
+    {varname}
+
+  variable destruction
+    {deinit varname} or {unset varname} or {delete varname}
+  </code></pre></blockquote>
+  <h3>variables the hard way</h3>
+  <p>If you're a programmer, you can define and evaluate javascript code natively in your oracle tables.  That means you can do function calls and definitions, define data structures, and more. If that's something that you're interested in, some ideas are in <a href="randm-solo-changelog.html">the dev/changelog page</a>.  If you're not a programmer, it might be black magic.</p>
+  <h3>credits and inspirations</h3>
+  <ul>
+  <li>my wife and kid</li>
+  <li>the titans of <a href="https://plus.google.com/communities/116965157741523529510">Lone Wolf Roleplaying Community on G+</a></li>
+  <li>Jeremy Hamilton for writing GMEmulator.swf and the inspiration</li>
+  <li>the unsung hero of <a href="http://path-o-logic.com">path-o-logic</a> for inspiration on functions, parsing, and data structures</li>
+  <li>credits due to Word Mill Games for the Mythic GameMaster Emulator</li>
+  <li>credits due to Zach Best for the Conjectural Roleplaying Gamemaster Emulator</li>
+  <li>credits due to Kevin Crawford for the Scarlet Heroes engine</li>
+  <li>credits due to <a href="https://solorpgvoyages.wordpress.com">James Smith</a> for the CRGE Kai mashup, described at <a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">Solo RPG Voyages</a> and at <a href="https://plus.google.com/107904047923934605015/posts/1DDFtuai5pT">Lone Wolf G+</a></li>
+  <li>credits due to <a href="http://dieheart.net">Sophia Brandt</a> for Tiny Universal, described <a href="http://dieheart.net/tiny-universal/">here</a></li>
+  <li>credits due to <a href="http://www.msjx.org/">Matt Jackson</a> for so1um 0.5, described <a href="http://www.msjx.org/search/label/so1um">here</a></li>
+  <li>credits due to <a href="http://tinysolitarysoldiers.blogspot.com">Spacejacker</a> for TSS Solo RPG, described <a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">here</a></li>
+  </ul>
+  <h3>copyright</h3>
+  <p>ranDM Solo is published by me, <a href="https://www.google.com/+MikeOverbo">Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
+</div>
+</form>
+</body>
+</html>

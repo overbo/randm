@@ -1,0 +1,117 @@
+|menu
+Maybe a dude, Maybe an Alien^[dudeoraliennpc]
+Nested Tables^[nested]
+Encounter Roll^[encounterroll]
+D20^[d20]
+
+|d2
+one
+two
+
+|d3
+2@[d2]
+three
+
+|d4
+3@[d3]
+four
+
+|d6
+4@[d4]
+five
+six
+
+|d8
+6@[d6]
+seven
+eight
+
+|d10
+8@[d8]
+nine
+ten
+
+|d12
+10@[d10]
+eleven
+twelve
+
+|d20
+12@[d12]
+thirteen
+fourteen
+fifteen
+sixteen
+seventeen
+eighteen
+nineteen
+twenty
+
+|location
+at home
+at work
+2@at the movies
+4@fishing
+
+|color
+red
+orange
+yellow
+green
+blue
+indigo
+violet
+
+|dudeoralien
+dude
+alien
+
+|dudeoraliennpc
+the [dudeoralien] likes [color] cargo pants with at least [d20] pockets, a [color] hat, and wants to be [location]. [dudeoralienmoney]
+
+|dudeoralienmoney
+There's #2d12+10# credits on their chit, but owe #5d4+15#0 credits to a {moneyowed} and #1d100# credits to a {moneyowed}.
+
+|moneyowed
+loanshark
+moneylender
+barber
+tailor
+maitre'd
+robot
+monster
+actor
+model
+{moneyowed}/{moneyowed}
+
+|encounterroll^2d6
+dragons
+liches
+orcs
+bandits
+thieves
+pilgrims
+wolves
+goblins
+kobolds
+vampires
+neothelids
+
+|nested
+words with dice #1d4+2#
+words with [emoji]
+words with reductive {emoji}
+nested tables that are [nested]
+
+|emoji
+💪
+😵
+💩
+😭
+😰
+😨
+😹
+😱
+💃
+👏
+👍
