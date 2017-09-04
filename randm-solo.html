@@ -32,6 +32,7 @@ select{ min-width:120px;}
 <script src="localforage.min.js"></script>
 <script language='JavaScript'>
 
+// mythic arrays
 var cr1 = [-20,0,5,5,10,20,25,45,50,55,80];
 var cr2 = [0,5,5,10,15,25,35,50,55,65,85];
 var cr3 = [0,5,10,15,25,45,50,65,75,80,90];
@@ -42,15 +43,18 @@ var cr7 = [15,35,50,55,75,85,90,95,95,95,100];
 var cr8 = [25,50,65,75,85,90,95,95,100,110,130];
 var cr9 = [50,75,85,90,95,95,100,105,115,125,145];
 
-var shlike1 = [17,18,19,20]; // Almost Impossible
-var shlike2 = [14,16,18,19]; // Very Unlikely
-var shlike3 = [10,14,17,18]; // Unlikely
-var shlike4 = [5,10,15,16]; // Unknown
-var shlike5 = [3,6,10,11]; // Likely
-var shlike6 = [2,4,6,7]; // Very Likely
-var shlike7 = [1,2,3,4]; // Almost Certain
+// fate solo arrays
+// terrible, poor, even, good, great
+var fs4n = ["No--","No--","No-","No-","No"];
+var fs3n = ["No--","No-","No-","No","No+"];
+var fs2n = ["No-","No-","No","No+","Mid"];
+var fs1n = ["No","No","No+","Mid","Yes-"];
+var fs4b = ["No","No+","Mid","Yes-","Yes"];
+var fs1p = ["No+","Mid","Yes-","Yes","Yes"];
+var fs2p = ["Mid","Yes-","Yes","Yes+","Yes+"];
+var fs3p = ["Yes-","Yes","Yes+","Yes+","Yes++"];
+var fs4p = ["Yes","Yes+","Yes+","Yes++","Yes++"];
 
-// mythic arrays
 var mythicaction = ["Abandon","Abuse","Activity","Adjourn","Adversity","Agree","Ambush","Antagonise","Arrive","Assist","Attach","Attainment","Attract","Befriend","Bestow","Betray","Block","Break","Care","Carelessness","Carry","Celebrate","Change","Communicate","Control","Create","Cruelty","Debase","Deceive","Decrease","Delay","Desert","Develop","Dispute","Disrupt","Divide","Dominate","Excitement","Expose","Extravagance","Failure","Fight","Gratify","Guide","Haggle","Harm","Heal","Immitate","Imprison","Increase","Inform","Inquire","Inspect","Intolerance","Judge","Kill","Lie","Malice","Mistrust","Move","Neglect","Negligence","Open","Oppose","Oppress","Oppress","Overindulge","Overthrow","Passion","Persecute","Postpone","Praise","Proceedings","Procrastinate","Propose","Punish","Pursue","Recruit","Refuse","Release","Release","Return","Ruin","Separate","Spy","Starting","Stop","Struggle","Take","Transform","Travel","Trick","Triumph","Truce","Trust","Usurp","Vengeance","Violate","Waste","Work hard"];
 var mythicsubject = ["A burden","A path","A plot","A project","A representative","Adversities","Advice","Allies","Ambush","Anger","Animals","Art","Attention","Balance","Benefits","Bureaucracy","Business","Competition","Danger","Death","Dispute","Dispute","Disruption","Dreams","Elements","Emotions","Enemies","Energy","Environment","Evil","Expectations","Exterior factors","Extravagance","Failure","Fame","Fears","Food","Friendship","Goals","Good","Home","Hope","Illness","Illusions","Information","Inside","Intrigues","Investment","Jealousy","Joy","Leadership","Legal matters","Liberty","Lies","Love","Magic","Masses","Messages","Military","Misfortune","Nature","New ideas","News","Opposition","Opulence","Outside","Pain","Peace","Plans","Pleasures","Portals","Possessions","Power","Prison","Randomness","Reality","Riches","Rumor","Stalemate","Status quo","Success","Suffering","Tactics","Technology","Tension","The innocent","The intellectual","The mundane","The physical","The public","The spiritual","Travel","Trials","Vehicle","Victory","War","Weapons","Weather","Wishes","Wounds"];
 var mythicadverb = ["Abnormally","Adventurously","Aggressively","Angrily","Anxiously","Awkwardly","Beautifully","Bleakly","Boldly","Bravely","Busily","Calmly","Carefully","Carelessly","Cautiously","Ceaselessly","Cheerfully","Combatively","Coolly","Crazily","Curiously","Daintily","Dangerously","Defiantly","Deliberately","Delightfully","Dimly","Efficiently","Energetically","Enormously","Enthusiastically","Excitedly","Fearfully","Ferociously","Fiercely","Foolishly","Fortunately","Frantically","Freely","Frighteningly","Fully","Generously","Gently","Gladly","Gracefully","Gratefully","Happily","Hastily","Healthily","Helpfully","Helplessly","Hopelessly","Innocently","Intensely","Interestingly","Irritatingly","Jovially","Joyfully","Judgementally","Kindly","Kookily","Lazily","Lightly","Loosely","Loudly","Lovingly","Loyally","Majestically","Meaningfully","Mechanically","Miserably","Mockingly","Mysteriously","Naturally","Neatly","Nicely","Oddly","Offensively","Officially","Partially","Peacefully","Perfectly","Playfully","Politely","Positively","Powerfully","Quaintly","Quarrelsomely","Quietly","Roughly","Rudely","Ruthlessly","Slowly","Softly","Swiftly","Threateningly","Very","Violently","Wildly","Yieldingly"];
@@ -58,7 +62,7 @@ var mythicadjective = ["Abandoned","Abnormal","Amusing","Ancient","Aromatic","Av
 
 var fateloom = ["zero","No, and unexpectedly","No, but","No, and","No","Yes","Yes, and","Yes, but","Yes, and unexpectedly"];
 var conjured = ["Cross-Stitch","Entering the Red","Enter Stage Left","Costume Change","Foreshadowing","Framing","Key Grip","Limelit","Montage","Pattern Change","Set Change","Six Degrees","To Endings...","To Conflict...","To Knowledge...","Tying Off","Upstaged"];
-
+// crge data
 var fltoknow = [-150,6,16,21,51,81,86,96,250];
 var fltoconf = [-150,3,7,17,51,85,95,99,250];
 var fltoends = [-150,3,7,17,51,85,95,99,250];
@@ -70,9 +74,23 @@ var CRGETYPE = {
   CONF: {value: 2, name: "To Conflict", code: "C"},
   ENDS: {value: 3, name: "To Endings", code: "E"}
 };
-// global: rqescalation, rqescalationtally
+// randm 20 questions: global: rqescalation, rqescalationtally
 var rqescalation = 0;
 var rqescalationtally = 0;
+
+// scarlet heroes
+var shlike1 = [17,18,19,20]; // Almost Impossible
+var shlike2 = [14,16,18,19]; // Very Unlikely
+var shlike3 = [10,14,17,18]; // Unlikely
+var shlike4 = [5,10,15,16]; // Unknown
+var shlike5 = [3,6,10,11]; // Likely
+var shlike6 = [2,4,6,7]; // Very Likely
+var shlike7 = [1,2,3,4]; // Almost Certain
+
+// freeform universal
+var furoll = 0;
+var fulastroll = []; //  fuarr is the last roll, 1 die (int) per slot
+var fucheckdbl = [0,0,0,0,0,0,0]; // stupid array tricks
 
 //var regextable=/(\[[A-Za-z0-9\-\_]+\])/ ; // match table names, no periods.
 var regexheadpip=/(^\|[A-Za-z0-9\-\_]+)/ ; // match table names like |tablename
@@ -80,6 +98,7 @@ var regexheadcol=/(^\:[A-Za-z0-9\-\_]+)/ ; // match table names like :tablename
 var regexdice=/(#[0-9dhlf\+\-\/\*]+#)/i ; // match dice parser notation, ignore case
 var regextable=/(\[[A-Za-z0-9\-\_\.]+\])/ ; // match table enclosed in square brackets
 var regexcurly=/(\{[A-Za-z0-9\-\_\.]+\})/ ; // match table enclosed in curly brackets
+//var regexquestion = /^(.*?)\?\s\((.*)/gm ; // match text separated by "? (" w/ 2 capture groups, no reason for global here.
 var qtycommatch = /(^[0-9]+,)/ ; // beginning of line, numbers, comma
 var qtyatmatch = /(^[0-9]+\@)/ ; // beginning of line, numbers, at
 var qtyparmatch = /(^[0-9]+\))/; // beginning of line, numbers, rtparen
@@ -458,7 +477,7 @@ function newscene (){
   if (currentscene == "New Scene"){
     var scenedesc = prompt("Type a new Scene Description","")
     var innerLog = document.getElementById("LogListTxt").value;
-    if (engine != "CRGE"){
+    if (engine == "CRGE-Kai" || engine == "Mythic"){
       chaos = testchaosfactor();
       document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + chaos + divider + '\n' + innerLog;
     } else {
@@ -466,7 +485,7 @@ function newscene (){
     }
     document.getElementById("scenebutton").value = "End Scene";
   } else {
-    if (engine != "CRGE"){
+    if (engine == "CRGE-Kai" || engine == "Mythic"){
       var r = confirm("Scene Ended: 'OK' will raise the Chaos Factor, 'Cancel' will lower it");
       if (r == true) {
         chaosfactor += 1;
@@ -536,7 +555,8 @@ function askengine(questiontext){
   var arr = [];
   var answer = "";
   var engine = document.getElementById("enginesel").value
-  if (engine == "Mythic"){
+  if (engine == "Mythic")
+  {
     var d100 = Math.floor(Math.random() * 100)+1;
     var likeliness = document.getElementById("likelyselect").value
     switch (chaosfactor){
@@ -565,7 +585,9 @@ function askengine(questiontext){
       } else { answer = "No (" + pivot + "%)"; }
     }
     retval = qtext + " (" + d100 + "): " + answer;
-  } else if (engine == "Scarlet Heroes"){
+  }
+  else if (engine == "Scarlet Heroes")
+  {
     var d20 = Math.floor(Math.random() * 20)+1;
     var likelinesssh = parseInt(document.getElementById("likelyselectsh").value);
     //console.log("likeliness",likelinesssh);
@@ -584,7 +606,9 @@ function askengine(questiontext){
     else if ( d20 >= arr[3] ) { answer = "Yes"; }
     //console.log(arr, answer);
     retval = qtext + " (" + d20 + "): " + answer;
-  } else if (engine == "Tiny Universal"){
+  }
+  else if (engine == "Tiny Universal")
+  {
     // FIXME TINY UNIVERSAL, 2d6
     var likelinesstu = document.getElementById("advantagesel").value;
     //console.log("likeliness",likelinesstu);
@@ -603,7 +627,9 @@ function askengine(questiontext){
     else if ( turoll > 10 ) { answer = "Yes, and..."; }
     //console.log(turoll, answer);
     retval = qtext + " (" + turoll + "): " + answer;
-  } else if (engine == "so1um"){
+  }
+  else if (engine == "so1um")
+  {
     // FIXME so1um 1d6
     var likelinesss1m = document.getElementById("advantagesel").value;
     //console.log("likeliness",likelinesss1m);
@@ -648,7 +674,9 @@ function askengine(questiontext){
     }
     //console.log(arr, answer);
     retval = qtext + " (" + so1umroll + "): " + answer;
-  } else if (engine == "randm questions"){
+  }
+  else if (engine == "randm questions")
+  {
     var likelinessrq = document.getElementById("randmqoddsel").value;
     var rqescalationroll  = document.getElementById("rqescalationsel").value;
     var randmqroll;
@@ -687,7 +715,9 @@ function askengine(questiontext){
       case 12: answer = "Yes, and..."; break;
     }
     retval = qtext + " (" + llnstr + "," + randmqroll + "): " + answer + " " + escalationtext;
-  } else if (engine == "TSS Solo"){
+  }
+  else if (engine == "TSS Solo")
+  {
     var likelinesstss = document.getElementById("advantagesel").value;
     var tssqroll;
     switch (likelinesstss){
@@ -725,7 +755,130 @@ function askengine(questiontext){
       }
     }
     retval = qtext + " (" + tssqroll + "): " + answer;
-  } else {
+  }
+  else if (engine == "Fate Solo")
+  {
+    var likelinessfs = document.getElementById("fatesolosel").value;
+    var fsarrindex;
+    var fsresult;
+    var fsroll = [];
+    var fsrollsum = 0;
+    var fsfirstnonblank = 0;
+    for (var i=0;i<4;i++){
+      fsroll[i] = parseInt(diceparser("1F",false));
+      fsrollsum += fsroll[i];
+      if (fsfirstnonblank == 0){
+        if (fsroll[i] == -1 || fsroll[i] == 1){
+          fsfirstnonblank = fsroll[i];
+        }
+      }
+    }
+    switch (likelinessfs){
+      case "Terrible": fsarrindex = 0 ; break;
+      case "Poor": fsarrindex = 1; break;
+      case "Even": fsarrindex = 2; break;
+      case "Good": fsarrindex = 3; break;
+      case "Great": fsarrindex = 4; break;
+    }
+    switch (fsrollsum){
+      case -4: fsresult = fs4n[fsarrindex]; break;
+      case -3: fsresult = fs3n[fsarrindex]; break;
+      case -2: fsresult = fs2n[fsarrindex]; break;
+      case -1: fsresult = fs1n[fsarrindex]; break;
+      case 0: fsresult = fs4b[fsarrindex]; break;
+      case 1: fsresult = fs1p[fsarrindex]; break;
+      case 2: fsresult = fs2p[fsarrindex]; break;
+      case 3: fsresult = fs3p[fsarrindex]; break;
+      case 4: fsresult = fs4p[fsarrindex]; break;
+    }
+    if (fsresult == "Mid"){
+      switch (fsfirstnonblank){
+        case -1: fsresult = "No++"; break;
+        case 0: fsresult = "Pick No++/Yes--"; break;
+        case 1: fsresult = "Yes--"; break;
+      }
+    }
+    answer = fsresult;
+    if (fsresult.indexOf("-") != -1 || fsresult.indexOf("+") != -1 ){
+      var fssurprise;
+      if (fsresult.indexOf("--") != -1 || fsresult.indexOf("++") != -1 ){
+        fssurprise = parseInt(diceparser("4F",false));
+      } else {
+        fssurprise = parseInt(diceparser("8F",false));
+      }
+      var fssuranswer = "";
+      if (fssurprise >= 3){
+        fssuranswer = ", and minor surprise";
+      }
+      if (fssurprise >= 5){
+        fssuranswer = ", and moderate surprise";
+      }
+      if (fssurprise >= 6){
+        fssuranswer = ", and major surprise";
+      }
+      answer += fssuranswer;
+    }
+    retval = qtext + " (" + fsrollsum + "): " + answer;
+  }
+  else if (engine == "Freeform Universal")
+  {
+    // freeform universal, super simple.
+    // furoll, fulastroll, fucheckdbl
+    var fuanswer = "", fudoubleanswer = "", fusort = "", funumdie = 0;
+    var fudoublesrule = document.getElementById("FUDoubleCheck").checked;
+    switch (document.getElementById("fusel").value){
+      case "Four Penalty Dice": funumdie = 5; fusort = "low"; break;
+      case "Three Penalty Dice": funumdie = 4; fusort = "low"; break;
+      case "Two Penalty Dice": funumdie = 3; fusort = "low"; break;
+      case "One Penalty Die": funumdie = 2; fusort = "low"; break;
+      case "One Die": funumdie = 1; break;
+      case "One Bonus Die": funumdie = 2; fusort = "high"; break;
+      case "Two Bonus Dice": funumdie = 3; fusort = "high"; break;
+      case "Three Bonus Dice": funumdie = 4; fusort = "high"; break;
+      case "Four Bonus Dice": funumdie = 5; fusort = "high"; break;
+      default: funumdie = 1; break;
+    }
+    fucheckdbl = [0,0,0,0,0,0,0];
+    for (var i=0; i<funumdie; i++){
+      var roll = Math.floor(Math.random() * 6)+1;
+      fulastroll[i] = roll;
+      fucheckdbl[roll] += 1;
+    }
+    if (fusort == "high"){ fulastroll.sort(function(a, b) { return b - a; }); }
+    else if (fusort == "low"){ fulastroll.sort(function(a, b) { return a - b; }); }
+    furoll = fulastroll[0];
+    switch(furoll){
+      case 1: fuanswer = "No, and..."; break;
+      case 2: fuanswer = "Yes, but..."; break;
+      case 3: fuanswer = "No"; break;
+      case 4: fuanswer = "Yes"; break;
+      case 5: fuanswer = "No, but..."; break;
+      case 6: fuanswer = "Yes, and..."; break;
+    }
+    if (fudoublesrule == true && funumdie > 1){
+      var fuand = "", fudouble = "";
+      var furesult = fucheckdbl[furoll];
+      switch (furesult){
+        case 1: fudouble = ""; break; // no doubles
+        case 2: fudouble = "Double"; fuand = ", and...";break;
+        case 3: fudouble = "Triple"; fuand = ", and..., and...";; break;
+        case 4: fudouble = "Quadruple"; fuand = ", and..., and..., and..."; break;
+        case 5: fudouble = "Quintuple"; fuand = ", and..., and..., and..., and..."; break;
+        case 6: fudouble = "Sextuple"; fuand = ", and..., and..., and..., and..., and..."; break;
+        case 7: fudouble = "Septuple"; fuand = ", and..., and..., and..., and..., and..., and..."; break;
+        default: fudouble = "fuerror2"; fuand = ", or something"; break;
+      }
+      if (fudouble != ""){
+        retval = qtext + " (" + fudouble + " " + furoll + "): " + fuanswer + fuand;
+      } else {
+        retval = qtext + " (" + furoll + "): " + fuanswer;
+      }
+    } else {
+      retval = qtext + " (" + furoll + "): " + fuanswer;
+    }
+  }
+  else
+  {
     // CRGE and CRGE kai end up being our defaults.
     var alter = false;
     var rtens = Math.floor(Math.random() * 10);
@@ -750,6 +903,65 @@ function askengine(questiontext){
     retval = qtext + " (" + d100 + "/SC" + surgecount + "): " + answer + altertxt;
   }
   return retval;
+}
+function fuspendfu(){
+  // int furoll, arr fulastroll, arr fucheckdbl
+  fuprompt = "You rolled " + fulastroll + " with a result of (" + furoll + ").  Reroll which result?";
+  var fuspendfudie = parseInt(prompt(fuprompt));
+  var fuanswer = "", fuand = "", fudouble = "";
+  var fudoublesrule = document.getElementById("FUDoubleCheck").checked;
+  if (fudoublesrule == true){
+    var funumdie=0,fusort,furesult=0;
+    switch (document.getElementById("fusel").value){
+      case "Four Penalty Dice": funumdie = 5; fusort = "low"; break;
+      case "Three Penalty Dice": funumdie = 4; fusort = "low"; break;
+      case "Two Penalty Dice": funumdie = 3; fusort = "low"; break;
+      case "One Penalty Die": funumdie = 2; fusort = "low"; break;
+      case "One Die": funumdie = 1; break;
+      case "One Bonus Die": funumdie = 2; fusort = "high"; break;
+      case "Two Bonus Dice": funumdie = 3; fusort = "high"; break;
+      case "Three Bonus Dice": funumdie = 4; fusort = "high"; break;
+      case "Four Bonus Dice": funumdie = 5; fusort = "high"; break;
+      default: funumdie = 1; break;
+    }
+    var indexreplace = fulastroll.indexOf(fuspendfudie);
+    var funewroll = Math.floor(Math.random() * 6)+1;
+    fulastroll[indexreplace] = funewroll;
+    var store = fucheckdbl[fuspendfudie];
+    store = store - 1; // someone explain this bug to me.
+    fucheckdbl[fuspendfudie] = store;
+    fucheckdbl[funewroll] += 1;
+    if (fusort == "high"){ fulastroll.sort(function(a, b) { return b - a; }); }
+    else if (fusort == "low"){ fulastroll.sort(function(a, b) { return a - b; }); }
+    furoll = fulastroll[0];
+    var furesult = fucheckdbl[furoll];
+    switch (furesult){
+      case 1: fudouble = ""; break; // no doubles
+      case 2: fudouble = "Double"; fuand = ", and...";break;
+      case 3: fudouble = "Triple"; fuand = ", and..., and...";; break;
+      case 4: fudouble = "Quadruple"; fuand = ", and..., and..., and..."; break;
+      case 5: fudouble = "Quintuple"; fuand = ", and..., and..., and..., and..."; break;
+      case 6: fudouble = "Sextuple"; fuand = ", and..., and..., and..., and..., and..."; break;
+      case 7: fudouble = "Septuple"; fuand = ", and..., and..., and..., and..., and..., and..."; break;
+      default: fudouble = "fuerror2"; fuand = ", or something"; break;
+    }
+  } else {
+    furoll = Math.floor(Math.random() * 6)+1;
+  }
+  switch(furoll){
+    case 1: fuanswer = "No, and..."; break;
+    case 2: fuanswer = "Yes, but..."; break;
+    case 3: fuanswer = "No"; break;
+    case 4: fuanswer = "Yes"; break;
+    case 5: fuanswer = "No, but..."; break;
+    case 6: fuanswer = "Yes, and..."; break;
+  }
+  if (fuand != ""){
+    fuanswer = fuanswer + fuand;
+    furoll = fudouble + " " + furoll;
+  }
+  fuanswer = "Same Question? (Spent FU, New Answer: (" + furoll + "), " + fuanswer;
+  logoutput(fuanswer);
 }
 function listmenu(){
   // fixme: this function has been abandoned.
@@ -815,6 +1027,8 @@ function switchengine(){
     case "Tiny Universal": switchenginetu(); break;
     case "so1um": switchengines1m(); break;
     case "TSS Solo": switchenginetss(); break;
+    case "Fate Solo": switchenginefs(); break;
+    case "Freeform Universal": switchenginefu(); break;
     case "randm questions": switchenginers(); break;
     default: switchenginecrgekai(); break;
   }
@@ -827,6 +1041,8 @@ function switchenginers(){
   document.getElementById("likelinessdivsh").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'block';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginecrgekai(){
   // show crge phases and chaosfactor
@@ -836,6 +1052,8 @@ function switchenginecrgekai(){
   document.getElementById("likelinessdivsh").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginecrge(){
   // show crge phases
@@ -845,6 +1063,8 @@ function switchenginecrge(){
   document.getElementById("likelinessdivsh").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginemythic(){
   // show mythic likelinessdiv and chaosfactor
@@ -854,6 +1074,8 @@ function switchenginemythic(){
   document.getElementById("likelinessdivsh").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginesh(){
   // show likelinessdiv for scarlet heroes
@@ -863,6 +1085,8 @@ function switchenginesh(){
   document.getElementById("crgephasediv").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginetu(){
   // show advantagediv
@@ -872,6 +1096,8 @@ function switchenginetu(){
   document.getElementById("crgephasediv").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'block';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchengines1m(){
   // show advantagediv
@@ -881,6 +1107,30 @@ function switchengines1m(){
   document.getElementById("crgephasediv").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'block';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
+}
+function switchenginefs(){
+  // show fatesolodiv
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'block';
+  document.getElementById("fudiv").style.display = 'none';
+}
+function switchenginefu(){
+  // show fudiv
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'block';
 }
 function switchenginetss(){
   // show advantagediv
@@ -890,6 +1140,8 @@ function switchenginetss(){
   document.getElementById("crgephasediv").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'block';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function switchenginenada(){
   // show nothing
@@ -899,6 +1151,8 @@ function switchenginenada(){
   document.getElementById("crgephasediv").style.display = 'none';
   document.getElementById("advantagediv").style.display = 'none';
   document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
 }
 function togglehelp(){
   var state = document.getElementById("help").style.display
@@ -1129,6 +1383,39 @@ function togglenightmode(){
     }
   }
 }
+function bloghtml(){
+  var text = document.getElementById("LogListTxt").value;
+  var regexquest = /^(.*?)\?\s\((.*)/gm ;
+  var worktext = text.split(regexquest);
+  var resulttext = "";
+  var stepcounter = 0; // this is a horrible way to do this.  bad programmer!
+  for (i=0;i<worktext.length;i++){ // starting i=1 instead of i=0 might solve the blank space problem... allowing us to get rid of stepcounter. fix later!
+    if (worktext[i] == "\n"){
+      resulttext += '\n<p><div style="text-align:left;">'
+      stepcounter = 1;
+      continue;
+    }
+    if (stepcounter == 2){
+      resulttext += '<div style="text-align:right;color:blue;">(';
+      resulttext += worktext[i];
+      resulttext += "</div></p>\n";
+    }
+    if (stepcounter == 1){
+      resulttext += worktext[i];
+      resulttext += "?</div>";
+      stepcounter = 2;
+    }
+    if (worktext[i] == ""){
+      resulttext += '<p><div style="text-align:left;">'
+      stepcounter = 1;
+    }
+    //console.log(worktext[i] + " / sc" + stepcounter + " " + i);
+  }
+  // move text to blogcopytextarea as if by magic
+  document.getElementById("blogcopytextarea").value = resulttext;
+}
+
+
 window.onload = function(){
   loadrandmdb();
   parsepastebin();
@@ -1161,6 +1448,10 @@ window.onclose = function(){
     <h3>Answer</h3>
     <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
     <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
+    <div id="blogcopytextdiv" style="display:block;">
+      <h3>blog copy</h3>
+      <textarea id='blogcopytextarea' rows='3' cols='30' name='blogcopytextarea'></textarea>
+    </div>
   </div>
   <div class="col5">
     <h3>Ask</h3>
@@ -1222,13 +1513,41 @@ window.onclose = function(){
         </select><br>
         Escalation Roll of
         <select id ="rqescalationsel">
+          <option value="1d3">1d3</option>
+          <option value="1d4">1d4</option>
           <option value="1d6">1d6</option>
-          <option value="2d6">2d6</option>
+          <option value="2d6" selected>2d6</option>
+          <option value="2d10">2d10</option>
+          <option value="1d20">1d20</option>
           <option value="1d30">1d30</option>
           <option value="2d30">2d30</option>
         </select><br>
       </div>
-      Engine: <select id="enginesel" onchange="switchengine()">
+      <div id="fatesolodiv" style="display:none;">Odds are
+        <select id="fatesolosel">
+          <option value="Terrible">Terrible</option>
+          <option value="Poor">Poor</option>
+          <option value="Even" selected>Even</option>
+          <option value="Good">Good</option>
+          <option value="Great">Great</option>
+        </select><br>
+      </div>
+      <div id="fudiv" style="display:none;">Roll with
+        <select id="fusel">
+          <option value="Four Penalty Dice">Four Penalty Dice</option>
+          <option value="Three Penalty Dice">Three Penalty Dice</option>
+          <option value="Two Penalty Dice">Two Penalty Dice</option>
+          <option value="One Penalty Die">One Penalty Die</option>
+          <option value="One Die" selected>One Die</option>
+          <option value="One Bonus Die">One Bonus Die</option>
+          <option value="Two Bonus Dice">Two Bonus Dice</option>
+          <option value="Three Bonus Dice">Three Bonus Dice</option>
+          <option value="Four Bonus Dice">Four Bonus Dice</option>
+        </select><br>
+        <input style="display:flex;justify-content:center !important;" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'>
+        <input type='checkbox' id='FUDoubleCheck' unchecked>FU Doubles Option<br>
+      </div>
+Engine: <select id="enginesel" onchange="switchengine()">
         <option value="CRGE-Kai" selected>CRGE-Kai</option>
         <option value="Mythic">Mythic</option>
         <option value="Scarlet Heroes">Scarlet Heroes</option>
@@ -1236,6 +1555,8 @@ window.onclose = function(){
         <option value="so1um">so1um</option>
         <option value="Tiny Universal">Tiny Universal</option>
         <option value="TSS Solo">TSS Solo</option>
+        <option value="Fate Solo">Fate Solo</option>
+        <option value="Freeform Universal">Freeform Universal</option>
         <option value="randm questions">randm questions</option>
       </select>
       <div class="SettingsDiv"><br>
@@ -1252,13 +1573,14 @@ window.onclose = function(){
       <input type='button' value='Update Oracles' onclick='parsepastebin()'>
       <input type='button' value='Save' onclick='saverandm()'>
       <input type='button' value='Load' onclick='loadrandm()'>
+      <input type='button' value='Prep Blog Post' onclick='bloghtml()'>
     </div></div>
     <h5>Oracle Pastebin</h5>
     <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
   </div>
 </div>
 <div id="help" style="display:none;">
-  <h3>ranDM Solo v0.9.4</h3>
+  <h3>ranDM Solo v0.9.5</h3>
   <p><a href="randm-solo-changelog.html">development and changelog stuff can be found here</a></p>
   <h3>the ask area</h3>
   <p>there's not much that you need to know to get started.
@@ -1300,6 +1622,7 @@ window.onclose = function(){
   <li>you can draw cards from a deck and shuffle the deck, the program will keep track of it.  It will automatically shuffle the deck if you run out of cards.<blockquote>card<br>shuffle<br></blockquote></li>
   <li>you can roll multiple dice notation formulas by using '#' and the oracle parser:<blockquote>ora #2d20h1# #2d20l1#</blockquote></li>
   <li>the dice notation system understands basic math -- addition, subtraction, division, and multiplication.</li>
+  <li>the 'prep blog post' button takes the answers in your 'answer' section and tries to format them in a way that they'll look nice on a blog -- after clicking int, highlight the text in the 'blog copy' section and do a 'select-all' and 'cut' or 'copy'.  you should be able to 'paste' them into an html editor on popular sites like blogger or blogspot.  At least, that's the idea.</li>
   </ul>
   <h3>the Oracle Pastebin</h3>
   <p>If you like random tables, this is your section. We'll start with an example that many folks might be familiar with, D20-style character generation.</p>
@@ -1355,6 +1678,8 @@ window.onclose = function(){
   <li><a href="http://www.msjx.org/search/label/so1um">so1um 0.5</a>. One of the quickest and simplest engines I've seen. Honestly, using a computer might slow it down.</li>
   <li><a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">Tiny Solitary Soldiers Solo RPG</a>, a great solo engine from one of the solo blog titans, by request.  That's right, I do requests.  You gotta ask. :D</li>
   <li><a href="https://bobloblawssolologblog.blogspot.com/2017/04/solo-engine-mechanics.html">randm questions</a>, something I'm messing around with.</li>
+  <li><a href="http://freeformuniversal.com">Freeform Universal</a>.  I hadn't really heard of this one, but it was requested, and it's got some great mechanics, and the author completed it as part of the <a href="http://www.nagademon">National Game Design Month</a>.  Who am I to say no?</li>
+  <li><a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a>. It's a shame that Kenny closed down shop, but it was great of him to release his engine and posts for free.  This engine is based entirely on Fate, which I haven't played but I believe it was perhaps once known as Fudge. "roll #4F#"</li>
   </ul>
   <h3>your privacy</h3>
   <p>everything here just runs in your browser.  this program doesn't save anything to the internet and it doesn't use cookies or track you, though it can save some stuff to your browser's local storage, like your list of npcs, pcs, threads, and your answers, and your lists from the oracle pastebin.</p>
@@ -1400,6 +1725,10 @@ window.onclose = function(){
   <li>credits due to <a href="http://dieheart.net">Sophia Brandt</a> for Tiny Universal, described <a href="http://dieheart.net/tiny-universal/">here</a></li>
   <li>credits due to <a href="http://www.msjx.org/">Matt Jackson</a> for so1um 0.5, described <a href="http://www.msjx.org/search/label/so1um">here</a></li>
   <li>credits due to <a href="http://tinysolitarysoldiers.blogspot.com">Spacejacker</a> for TSS Solo RPG, described <a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">here</a></li>
+  <li>credits due to <a href="https://plus.google.com/+NathanRussell">Nathan Russell</a> for <a href="http://freeformuniversal.com">Freeform Universal</a></li>
+  <li>credits due to <a href="http://www.drivethrurpg.com/browse.php?x=0&y=0&author=Kenny%20Norris">Kenny Norris</a> for <a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a></li>
+  <li>with special thanks to <a href="https://regex101.com">regex101</a> and <a href="http://stackexchange.com">stack exchange</a></li>
+
   </ul>
   <h3>copyright</h3>
   <p>ranDM Solo is published by me, <a href="https://www.google.com/+MikeOverbo">Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
