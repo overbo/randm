@@ -476,13 +476,14 @@ function newscene (){
   var engine = document.getElementById("enginesel").value
   if (currentscene == "New Scene"){
     var scenedesc = prompt("Type a new Scene Description","")
-    var innerLog = document.getElementById("LogListTxt").value;
+    var sceneTxt = "";
     if (engine == "CRGE-Kai" || engine == "Mythic"){
       chaos = testchaosfactor();
-      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + chaos + divider + '\n' + innerLog;
+      sceneTxt = divider + "New Scene: " + scenedesc + chaos + divider;
     } else {
-      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + divider + '\n' + innerLog;
+      sceneTxt = divider + "New Scene: " + scenedesc + divider;
     }
+    logoutput(sceneTxt);
     document.getElementById("scenebutton").value = "End Scene";
   } else {
     if (engine == "CRGE-Kai" || engine == "Mythic"){
