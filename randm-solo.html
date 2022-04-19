@@ -29,6 +29,316 @@ select{ min-width:120px;}
 #hidden{ display:none; }
 }
 </style>
+<title>ranDM Solo</title>
+</head>
+<body>
+<form name='formMain'>
+<div class="hicontainer">
+  <div class="col1">
+    <h3>PCs</h3>
+    <textarea class="pntta" id='PCListTxt' rows='15' cols='*' name='PCListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+  <div class="col2">
+    <h3>NPCs</h3>
+    <textarea class="pntta" id='NPCListTxt' rows='15' cols='*' name='NPCListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+  <div class="col3">
+    <h3>Threads</h3>
+    <textarea class="pntta" id='ThreadListTxt' rows='15' cols='*' name='ThreadListTxt' onkeypress="updatetextareas(event)"></textarea>
+  </div>
+</div>
+<div class="locontainer">
+  <div class="col4">
+    <h3>Answer</h3>
+    <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
+    <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
+    <div id="blogcopytextdiv" style="display:none;">
+      <h3>blog copy</h3>
+      <textarea id='blogcopytextarea' rows='3' cols='30' name='blogcopytextarea'></textarea>
+    </div>
+  </div>
+  <div class="col5">
+    <h3>Ask</h3>
+    <textarea id='QuestionTxt' rows='3' cols='30' name='QuestionTxt' onkeypress="askTxt(event)">type your question and hit enter...</textarea>
+    <div id="oramenudiv" style="text-align:center;display:none;">Oracle Menu <select id="OracleMenu" onchange='oraclemenuquery()'></select></div>
+    <div class="col5wrap"><div class="col5col1">
+      <div id="likelinessdiv" style="display:none;">Never tell me the odds: <select id="likelyselect">
+        <option value="0">Impossible</option>
+        <option value="1">No Way</option>
+        <option value="2">Very Unlikely</option>
+        <option value="3">Unlikely</option>
+        <option value="4" selected>Fifty Fifty</option>
+        <option value="5">Somewhat Likely</option>
+        <option value="6">Likely</option>
+        <option value="7">Very Likely</option>
+        <option value="8">Near Sure Thing</option>
+        <option value="9">A Sure Thing</option>
+        <option value="10">Has To Be</option>
+      </select><br></div>
+      <div id="likelinessdivsh" style="display:none;">Never tell me the odds: <select id="likelyselectsh">
+        <option value="0">Almost Impossible</option>
+        <option value="1">Very Unlikely</option>
+        <option value="2">Unlikely</option>
+        <option value="3" selected>Unknown</option>
+        <option value="4">Likely</option>
+        <option value="5">Very Likely</option>
+        <option value="6">Almost Certain</option>
+      </select><br></div>
+      <div id="crgephasediv">CRGE Phase: <select id="crgephasesel" onchange="updatecrgephase()">
+        <option value="To Knowledge">To Knowledge</option>
+        <option value="To Conflict">To Conflict</option>
+        <option value="To Endings">To Endings</option>
+      </select><br></div>
+      <div id="chaosfactordiv">Chaos Factor: <select onchange=updatechaosfactor() id="cfselect">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select><br></div>
+      <div id="advantagediv" style="display:none;">PC Rolls
+        <select id ="advantagesel">
+          <option value="With Advantage">With Advantage</option>
+          <option value="Normally" selected>Normally</option>
+          <option value="With Disadvantage">With Disadvantage</option>
+        </select><br>
+      </div>
+      <div id="randmquestiondiv" style="display:none;">Odds are
+        <select id ="randmqoddsel">
+          <option value="Very Unlikely">Very Unlikely</option>
+          <option value="Unlikely">Unlikely</option>
+          <option value="Normal" selected>Normal</option>
+          <option value="Likely">Likely</option>
+          <option value="Very Likely">Very Likely</option>
+        </select><br>
+        Escalation Roll of
+        <select id ="rqescalationsel">
+          <option value="1d3">1d3</option>
+          <option value="1d4">1d4</option>
+          <option value="1d6">1d6</option>
+          <option value="2d6" selected>2d6</option>
+          <option value="2d10">2d10</option>
+          <option value="1d20">1d20</option>
+          <option value="1d30">1d30</option>
+          <option value="2d30">2d30</option>
+        </select><br>
+      </div>
+      <div id="fatesolodiv" style="display:none;">Odds are
+        <select id="fatesolosel">
+          <option value="Terrible">Terrible</option>
+          <option value="Poor">Poor</option>
+          <option value="Even" selected>Even</option>
+          <option value="Good">Good</option>
+          <option value="Great">Great</option>
+        </select><br>
+      </div>
+      <div id="fudiv" style="display:none;">Roll with
+        <select id="fusel">
+          <option value="Four Penalty Dice">Four Penalty Dice</option>
+          <option value="Three Penalty Dice">Three Penalty Dice</option>
+          <option value="Two Penalty Dice">Two Penalty Dice</option>
+          <option value="One Penalty Die">One Penalty Die</option>
+          <option value="One Die" selected>One Die</option>
+          <option value="One Bonus Die">One Bonus Die</option>
+          <option value="Two Bonus Dice">Two Bonus Dice</option>
+          <option value="Three Bonus Dice">Three Bonus Dice</option>
+          <option value="Four Bonus Dice">Four Bonus Dice</option>
+        </select><br>
+        <input style="display:flex;justify-content:center !important;" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'>
+        <input type='checkbox' id='FUDoubleCheck' unchecked>FU Doubles Option<br>
+      </div>
+Engine: <select id="enginesel" onchange="switchengine()">
+        <option value="CRGE-Kai" selected>CRGE-Kai</option>
+        <option value="Mythic">Mythic</option>
+        <option value="Scarlet Heroes">Scarlet Heroes</option>
+        <option value="CRGE">CRGE</option>
+        <option value="so1um">so1um</option>
+        <option value="Tiny Universal">Tiny Universal</option>
+        <option value="TSS Solo">TSS Solo</option>
+        <option value="Fate Solo">Fate Solo</option>
+        <option value="Freeform Universal">Freeform Universal</option>
+        <option value="randm questions">randm questions</option>
+      </select>
+      <div class="SettingsDiv"><br>
+        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
+        <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
+        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
+      </div>
+    </div>
+    <div class="col5col2">
+      <input type='button' id='scenebutton' value='New Scene' onclick='newscene()'>
+      <input type='button' value='Event Focus' onclick='askmythic("focus")'>
+      <input type='button' value='Event Meaning' onclick='askmythic("meaning")'>
+      <input type='button' value='Help' onclick='togglehelp()'>
+      <input type='button' value='Update Oracles' onclick='parsepastebin()'>
+      <input type='button' value='Save' onclick='saverandm()'>
+      <input type='button' value='Load' onclick='loadrandm()'>
+      <input type='button' value='Prep Blog Post' onclick='bloghtml()' style="display:none;">
+    </div></div>
+    <h5>Oracle Pastebin</h5>
+    <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
+  </div>
+</div>
+<div id="help" style="display:none;">
+  <h3>ranDM Solo v0.9.5</h3>
+  <p><a href="randm-solo-changelog.html">development and changelog stuff can be found here</a></p>
+  <h3>the ask area</h3>
+  <p>there's not much that you need to know to get started.
+  <ul>
+  <li>If you want, you can type your list of PCs in the "<b>PCs</b>" area, your NPCs in the "<b>NPCs</b>" area, and any active threads to your story in the "<b>Threads</b>" area, one per line.</li>
+  <li>You can ask a question from your chosen GM emulator system by typing a yes or no question in the "<b>Ask</b>" area, just hit &lt;enter&gt; or &lt;return&gt; when you're done.  The answer to your question shows up in the "<b>Answer</b>" section.  If you just type enter in the Ask area, it will re-ask your question for you and reroll an answer.  For example, I could ask
+    <blockquote>do many people use this program?</blockquote>
+    Personally I'd expect some sort of "No" answer, like "No, And" or "Exceptional No", but I'm happy to be surprised.
+  </li>
+    <li>you can ask the program to roll dice by typing standard dice notation formulas in the Ask area and hitting &lt;enter&gt; or &lt;return&gt;.  If you want to do some math in your dice notation formula, put a '#' sign on both sides of it.  You can roll Fudge or Fate dice too, or keep highest or lowest of multiple dice.<blockquote>
+      roll 5d4<br>
+      roll 1d6<br>
+      roll #4d6h3#<br>
+      roll #4d6h3+2#<br>
+      roll #5F#<br>
+      roll #2d20l1#<br>
+      roll #2d20h1#
+    </blockquote></li>
+  <li>There are some menus you can move around in the lower right of the screen if you want to change the odds of a yes answer for your question, raise or lower the chaos factor, and the like.</li>
+  <li>if you click the 'new scene' button, the program will open a box asking you to describe the new scene. If you're using Mythic's Chaos Factor, it will also ask if you want to raise or lower the Chaos Factor.</li>
+  <li>you can always get a Mythic Event Focus or Mythic Event Meaning by clicking on those buttons.</li>
+  <li>you can toggle "night mode" on or off, which is easier on the eyes at night.</li>
+  <li>you can log answers normally, or in reverse.  Normal means every next answer goes to the bottom of the Answer area.  Reverse means every new answer goes to the top of the answer area.</li>
+  <li>if you have a lot of lists or tables, you can use this program to automatically pick something from those lists.</li>
+  <li>if you want to save your current solo game, click the 'save' button, and the program will try to save your lists and answers to your browser's local storage.</li>
+  <li>if you want to load your previous save, click the 'load' button.</li>
+  </ul>
+  <h3>the Oracle menu</h3>
+  <p>The oracle menu will take your lists of random tables and generate a result on the fly. Instead of dumping to the log, it goes to its own section of the page. When consulting oracles, I tend to generate multiple results, that's the reason for this behavior.  If you put in PCs, NPCs, or Threads in those areas, you could click the "<b>Update Oracles</b>" button, and it will store them, and you'll be able to roll one randomly by selecting which one you want from the "<b>Oracle Menu</b>".  The oracle menu results area will also output and render html if you have tables with fancy text formatting.</p>
+  <p>If you wanted to have the program pick a random thread for you, you could type something like this:<blockquote>oracle npc<br>oracle thread<br>oracle pc<br>
+  </blockquote></p>
+  <h3>some tips</h3>
+  <ul>
+  <li>Oracle Shorthand: If you want to consult an oracle from the ask window, you can also start your question with ora, list, table, oracle, or | ^ or [ or ]</li>
+  <li>Dice Shorthand: If you want to roll dice, you can also start your question with d, r, #, die, or dice</li>
+  <li>Fudge Dice: you can see how many dice were positive, negative, or neutral if you have 'show dice rolls' toggled on.</li>
+  <li>you can consult multiple oracles at once if you enclose the oracle names in square brackets, for example:<blockquote>oracle [pc] remembers [npc] because [thread]</blockquote>
+  </li>
+  <li>you can draw cards from a deck and shuffle the deck, the program will keep track of it.  It will automatically shuffle the deck if you run out of cards.<blockquote>card<br>shuffle<br></blockquote></li>
+  <li>you can roll multiple dice notation formulas by using '#' and the oracle parser:<blockquote>ora #2d20h1# #2d20l1#</blockquote></li>
+  <li>the dice notation system understands basic math -- addition, subtraction, division, and multiplication.</li>
+  <li>the 'prep blog post' button takes the answers in your 'answer' section and tries to format them in a way that they'll look nice on a blog -- after clicking int, highlight the text in the 'blog copy' section and do a 'select-all' and 'cut' or 'copy'.  you should be able to 'paste' them into an html editor on popular sites like blogger or blogspot.  At least, that's the idea.</li>
+  </ul>
+  <h3>the Oracle Pastebin</h3>
+  <p>If you like random tables, this is your section. We'll start with an example that many folks might be familiar with, D20-style character generation.</p>
+  <blockquote><pre><code>
+  |menu
+  [rollcharacter-new]
+  [rollcharacter-osr]
+
+  |rollcharacter-new
+  [class] Str #4d6h3# Dex #4d6h3# Con #4d6h3# Int #4d6h3# Wis #4d6h3# Cha #4d6h3#
+
+  |rollcharacter-osr
+  [class] Str #3d6# Dex #3d6# Con #3d6# Int #3d6# Wis #3d6# Cha #3d6#
+
+  |class
+  Fighter
+  Mage
+  Thief
+  Cleric
+  Halfling
+  Elf
+  Dwarf
+  </code></pre></blockquote>
+  <p>To test these tables, just highlight from "|menu" to Dwarf, copy it, and paste it into the oracle pastebin, then click 'Update Oracles'.
+  The Oracle menu should change to include two new menu options, "rollcharacter-new" and "rollcharacter-osr".  If you select those menus, a new character should appear below the "Answer" area.</p>
+  <p>you should now be able to call those random tables from the ask menu too:<blockquote>ora rollcharacter-new<br>ora rollcharacter-osr<br>ora class<br></blockquote></p>
+  <ul>
+    <li>the pipe character '|' defines a new oracle table's name.  everything below it is a possible random entry from that oracle, until it hits a blank line.</li>
+    <li>you call a table by putting its name in square brackets, just like above.</li>
+    <li>there are a few special tables: npc, pc, thread, and menu.</li>
+    <li>Sometimes it might be useful to put more readable text in the menu:<blockquote><pre>
+      |menu
+      Roll a Newfangled Character^[rollcharacter-new]
+      Roll an Old-Fashioned Character^[rollcharacter-osr]</pre></blockquote>
+      and
+      <blockquote><pre>
+        |menu
+        [rollcharacter-new]
+        [rollcharacter-osr]
+      </pre></blockquote>
+      are the same thing, the only difference is that the Oracle menu will show you a more readable name instead of a table name, if you put a caret '^' in front of an item in the menu table, it will show you the readable name instead of the actual table name.</li>
+    <li>you can temporarily erase things from an oracle once they show up as a result.  If you want to do that, call the table with curly brackets instead of square brackets.  Replacing [class] with {class} would ensure that if you rolled multiple characters, each one would be unique, until you ran out of options.  At that point, the table will refresh itself automatically.</li>
+  </ul>
+  <p>it might help to look at a nested table to get started on table creation.  There is one at my dropbox <a href="https://dl.dropboxusercontent.com/u/891512/randm/randm-solo.defaultlist.txt">here</a>.  It includes the lists that I use for testing.</p>
+  <h3>What is Mythic / CRGE / CRGE-Kai / Scarlet Heroes / so1um / Tiny Universal / TSS Solo / randm questions</h3>
+  <p>An explanation of CRGE, CRGE-Kai, Mythic, or Scarlet Heroes as GM emulators is beyond the scope of this help. Entire books have been written on the subject! I suggest buying them. For CRGE-kai, it's a mishmash of Mythic and CRGE, a clever ploy designed to get you to buy both books as well as read a good blog.</p>
+  <ul>
+  <li><a href="http://conjecturegames.com/crge/">Conjectural Roleplaying GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/145426/CRGE-Conjectural-Roleplaying-GM-Emulator">here</a> among other places.</a>
+  <li><a href="http://wordmillgames.com/mythic-game-master-emulator.html">Mythic GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/20798/Mythic-Game-Master-Emulator">here</a> among other places</li>
+  <li><a href="http://www.sinenomine-pub.com/?cat=8">Scarlet Heroes</a>.  This system includes a great way for playing solo D&amp;D-style adventures. Buy it <a href="http://www.drivethrurpg.com/product/127180/Scarlet-Heroes">here</a> among other places</li>
+  <li><a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">CRGE-Kai</a>.  An idea this powerful cannot be bought.</li>
+  <li><a href="http://dieheart.net/tiny-universal/">Tiny Universal</a>. A fantastic DW-style distribution of results in this one.  If you're doing this but not paying attention to Sophia, you may be doing it wrong.</li>
+  <li><a href="http://www.msjx.org/search/label/so1um">so1um 0.5</a>. One of the quickest and simplest engines I've seen. Honestly, using a computer might slow it down.</li>
+  <li><a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">Tiny Solitary Soldiers Solo RPG</a>, a great solo engine from one of the solo blog titans, by request.  That's right, I do requests.  You gotta ask. :D</li>
+  <li><a href="https://bobloblawssolologblog.blogspot.com/2017/04/solo-engine-mechanics.html">randm questions</a>, something I'm messing around with.</li>
+  <li><a href="http://freeformuniversal.com">Freeform Universal</a>.  I hadn't really heard of this one, but it was requested, and it's got some great mechanics, and the author completed it as part of the <a href="http://www.nagademon">National Game Design Month</a>.  Who am I to say no?</li>
+  <li><a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a>. It's a shame that Kenny closed down shop, but it was great of him to release his engine and posts for free.  This engine is based entirely on Fate, which I haven't played but I believe it was perhaps once known as Fudge. "roll #4F#"</li>
+  </ul>
+  <h3>your privacy</h3>
+  <p>everything here just runs in your browser.  this program doesn't save anything to the internet and it doesn't use cookies or track you, though it can save some stuff to your browser's local storage, like your list of npcs, pcs, threads, and your answers, and your lists from the oracle pastebin.</p>
+  <h3>add to home screen / play offline</h3>
+  <p>If you're running this program in a browser on a tablet or smartphone, you can add it to your home screen, and it will run on your device.
+    If you do that, you don't need to connect to the internet to run this webapp, or you could play this in "airplane mode".  You just need to be connected to the internet when you 'add to home screen'.  It's a good idea to run it every once in a while so you get any updates.
+    <a href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/">Some instructions are available here</a>.
+    </p>
+  <h3>variables</h3>
+  <p>if you are familiar with programming, especially in Javascript or ECMAScript, you can use variables to do some pretty powerful random table stuff. There's more than one way to do it: the easy way, and the hard way.  Both have merit.</p>
+  <h3>variables the simple way</h3>
+  <p>there are two (or three (or four)) steps to using variables.</p>
+  <ol><li>Defining that one exists and the method of setting it,</li><li>setting a value to it,</li><li>using that value, and </li><li>destroying it.</li></ol>
+  <p>you can skip step 2 if you want, the only downside to skipping the 'set' step is that it will display the value where it was called.</p>
+  <p>you can skip step 4 if you want, the only downside is that it won't give you a new variable on new calls until you close the browser window or reload the page.</p>
+
+  <blockquote><pre><code>
+  definition:
+    |variable varname
+    [table] or {table} or #diceexpr#
+
+  variable assignment call, set it to something, perform the random table call or dice expression.
+    {init varname} or {variable varname} or {set varname}
+
+  refer to the value we set earlier.  if it doesn't exist, init it and display immediately.
+    {varname}
+
+  variable destruction
+    {deinit varname} or {unset varname} or {delete varname}
+  </code></pre></blockquote>
+  <h3>variables the hard way</h3>
+  <p>If you're a programmer, you can define and evaluate javascript code natively in your oracle tables.  That means you can do function calls and definitions, define data structures, and more. If that's something that you're interested in, some ideas are in <a href="randm-solo-changelog.html">the dev/changelog page</a>.  If you're not a programmer, it might be black magic.</p>
+  <h3>credits and inspirations</h3>
+  <ul>
+  <li>my wife and kid</li>
+  <li>the titans of <a href="https://plus.google.com/communities/116965157741523529510">Lone Wolf Roleplaying Community on G+</a></li>
+  <li>Jeremy Hamilton for writing GMEmulator.swf and the inspiration</li>
+  <li>the unsung hero of <a href="http://path-o-logic.com">path-o-logic</a> for inspiration on functions, parsing, and data structures</li>
+  <li>credits due to Word Mill Games for the Mythic GameMaster Emulator</li>
+  <li>credits due to Zach Best for the Conjectural Roleplaying Gamemaster Emulator</li>
+  <li>credits due to Kevin Crawford for the Scarlet Heroes engine</li>
+  <li>credits due to <a href="https://solorpgvoyages.wordpress.com">James Smith</a> for the CRGE Kai mashup, described at <a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">Solo RPG Voyages</a> and at <a href="https://plus.google.com/107904047923934605015/posts/1DDFtuai5pT">Lone Wolf G+</a></li>
+  <li>credits due to <a href="http://dieheart.net">Sophia Brandt</a> for Tiny Universal, described <a href="http://dieheart.net/tiny-universal/">here</a></li>
+  <li>credits due to <a href="http://www.msjx.org/">Matt Jackson</a> for so1um 0.5, described <a href="http://www.msjx.org/search/label/so1um">here</a></li>
+  <li>credits due to <a href="http://tinysolitarysoldiers.blogspot.com">Spacejacker</a> for TSS Solo RPG, described <a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">here</a></li>
+  <li>credits due to <a href="https://plus.google.com/+NathanRussell">Nathan Russell</a> for <a href="http://freeformuniversal.com">Freeform Universal</a></li>
+  <li>credits due to <a href="http://www.drivethrurpg.com/browse.php?x=0&y=0&author=Kenny%20Norris">Kenny Norris</a> for <a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a></li>
+  <li>with special thanks to <a href="https://regex101.com">regex101</a> and <a href="http://stackexchange.com">stack exchange</a></li>
+
+  </ul>
+  <h3>copyright</h3>
+  <p>ranDM Solo is published by me, <a href="https://www.google.com/+MikeOverbo">Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
+</div>
+</form>
+</body>
 <script src="localforage.min.js"></script>
 <script language='JavaScript'>
 
@@ -1417,324 +1727,12 @@ function bloghtml(){
   document.getElementById("blogcopytextarea").value = resulttext;
 }
 
-
-window.onload = function(){
+/*window.onload = function(){
   loadrandmdb();
   parsepastebin();
 }
 window.onclose = function(){
   saverandmdb();
-}
+}*/
 </script>
-
-<title>ranDM Solo</title>
-</head>
-<body>
-<form name='formMain'>
-<div class="hicontainer">
-  <div class="col1">
-    <h3>PCs</h3>
-    <textarea class="pntta" id='PCListTxt' rows='15' cols='*' name='PCListTxt' onkeypress="updatetextareas(event)"></textarea>
-  </div>
-  <div class="col2">
-    <h3>NPCs</h3>
-    <textarea class="pntta" id='NPCListTxt' rows='15' cols='*' name='NPCListTxt' onkeypress="updatetextareas(event)"></textarea>
-  </div>
-  <div class="col3">
-    <h3>Threads</h3>
-    <textarea class="pntta" id='ThreadListTxt' rows='15' cols='*' name='ThreadListTxt' onkeypress="updatetextareas(event)"></textarea>
-  </div>
-</div>
-<div class="locontainer">
-  <div class="col4">
-    <h3>Answer</h3>
-    <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
-    <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
-    <div id="blogcopytextdiv" style="display:block;">
-      <h3>blog copy</h3>
-      <textarea id='blogcopytextarea' rows='3' cols='30' name='blogcopytextarea'></textarea>
-    </div>
-  </div>
-  <div class="col5">
-    <h3>Ask</h3>
-    <textarea id='QuestionTxt' rows='3' cols='30' name='QuestionTxt' onkeypress="askTxt(event)">type your question and hit enter...</textarea>
-    <div id="oramenudiv" style="text-align:center;display:none;">Oracle Menu <select id="OracleMenu" onchange='oraclemenuquery()'></select></div>
-    <div class="col5wrap"><div class="col5col1">
-      <div id="likelinessdiv" style="display:none;">Never tell me the odds: <select id="likelyselect">
-        <option value="0">Impossible</option>
-        <option value="1">No Way</option>
-        <option value="2">Very Unlikely</option>
-        <option value="3">Unlikely</option>
-        <option value="4" selected>Fifty Fifty</option>
-        <option value="5">Somewhat Likely</option>
-        <option value="6">Likely</option>
-        <option value="7">Very Likely</option>
-        <option value="8">Near Sure Thing</option>
-        <option value="9">A Sure Thing</option>
-        <option value="10">Has To Be</option>
-      </select><br></div>
-      <div id="likelinessdivsh" style="display:none;">Never tell me the odds: <select id="likelyselectsh">
-        <option value="0">Almost Impossible</option>
-        <option value="1">Very Unlikely</option>
-        <option value="2">Unlikely</option>
-        <option value="3" selected>Unknown</option>
-        <option value="4">Likely</option>
-        <option value="5">Very Likely</option>
-        <option value="6">Almost Certain</option>
-      </select><br></div>
-      <div id="crgephasediv">CRGE Phase: <select id="crgephasesel" onchange="updatecrgephase()">
-        <option value="To Knowledge">To Knowledge</option>
-        <option value="To Conflict">To Conflict</option>
-        <option value="To Endings">To Endings</option>
-      </select><br></div>
-      <div id="chaosfactordiv">Chaos Factor: <select onchange=updatechaosfactor() id="cfselect">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5" selected>5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-      </select><br></div>
-      <div id="advantagediv" style="display:none;">PC Rolls
-        <select id ="advantagesel">
-          <option value="With Advantage">With Advantage</option>
-          <option value="Normally" selected>Normally</option>
-          <option value="With Disadvantage">With Disadvantage</option>
-        </select><br>
-      </div>
-      <div id="randmquestiondiv" style="display:none;">Odds are
-        <select id ="randmqoddsel">
-          <option value="Very Unlikely">Very Unlikely</option>
-          <option value="Unlikely">Unlikely</option>
-          <option value="Normal" selected>Normal</option>
-          <option value="Likely">Likely</option>
-          <option value="Very Likely">Very Likely</option>
-        </select><br>
-        Escalation Roll of
-        <select id ="rqescalationsel">
-          <option value="1d3">1d3</option>
-          <option value="1d4">1d4</option>
-          <option value="1d6">1d6</option>
-          <option value="2d6" selected>2d6</option>
-          <option value="2d10">2d10</option>
-          <option value="1d20">1d20</option>
-          <option value="1d30">1d30</option>
-          <option value="2d30">2d30</option>
-        </select><br>
-      </div>
-      <div id="fatesolodiv" style="display:none;">Odds are
-        <select id="fatesolosel">
-          <option value="Terrible">Terrible</option>
-          <option value="Poor">Poor</option>
-          <option value="Even" selected>Even</option>
-          <option value="Good">Good</option>
-          <option value="Great">Great</option>
-        </select><br>
-      </div>
-      <div id="fudiv" style="display:none;">Roll with
-        <select id="fusel">
-          <option value="Four Penalty Dice">Four Penalty Dice</option>
-          <option value="Three Penalty Dice">Three Penalty Dice</option>
-          <option value="Two Penalty Dice">Two Penalty Dice</option>
-          <option value="One Penalty Die">One Penalty Die</option>
-          <option value="One Die" selected>One Die</option>
-          <option value="One Bonus Die">One Bonus Die</option>
-          <option value="Two Bonus Dice">Two Bonus Dice</option>
-          <option value="Three Bonus Dice">Three Bonus Dice</option>
-          <option value="Four Bonus Dice">Four Bonus Dice</option>
-        </select><br>
-        <input style="display:flex;justify-content:center !important;" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'>
-        <input type='checkbox' id='FUDoubleCheck' unchecked>FU Doubles Option<br>
-      </div>
-Engine: <select id="enginesel" onchange="switchengine()">
-        <option value="CRGE-Kai" selected>CRGE-Kai</option>
-        <option value="Mythic">Mythic</option>
-        <option value="Scarlet Heroes">Scarlet Heroes</option>
-        <option value="CRGE">CRGE</option>
-        <option value="so1um">so1um</option>
-        <option value="Tiny Universal">Tiny Universal</option>
-        <option value="TSS Solo">TSS Solo</option>
-        <option value="Fate Solo">Fate Solo</option>
-        <option value="Freeform Universal">Freeform Universal</option>
-        <option value="randm questions">randm questions</option>
-      </select>
-      <div class="SettingsDiv"><br>
-        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
-        <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
-        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
-      </div>
-    </div>
-    <div class="col5col2">
-      <input type='button' id='scenebutton' value='New Scene' onclick='newscene()'>
-      <input type='button' value='Event Focus' onclick='askmythic("focus")'>
-      <input type='button' value='Event Meaning' onclick='askmythic("meaning")'>
-      <input type='button' value='Help' onclick='togglehelp()'>
-      <input type='button' value='Update Oracles' onclick='parsepastebin()'>
-      <input type='button' value='Save' onclick='saverandm()'>
-      <input type='button' value='Load' onclick='loadrandm()'>
-      <input type='button' value='Prep Blog Post' onclick='bloghtml()'>
-    </div></div>
-    <h5>Oracle Pastebin</h5>
-    <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
-  </div>
-</div>
-<div id="help" style="display:none;">
-  <h3>ranDM Solo v0.9.5</h3>
-  <p><a href="randm-solo-changelog.html">development and changelog stuff can be found here</a></p>
-  <h3>the ask area</h3>
-  <p>there's not much that you need to know to get started.
-  <ul>
-  <li>If you want, you can type your list of PCs in the "<b>PCs</b>" area, your NPCs in the "<b>NPCs</b>" area, and any active threads to your story in the "<b>Threads</b>" area, one per line.</li>
-  <li>You can ask a question from your chosen GM emulator system by typing a yes or no question in the "<b>Ask</b>" area, just hit &lt;enter&gt; or &lt;return&gt; when you're done.  The answer to your question shows up in the "<b>Answer</b>" section.  If you just type enter in the Ask area, it will re-ask your question for you and reroll an answer.  For example, I could ask
-    <blockquote>do many people use this program?</blockquote>
-    Personally I'd expect some sort of "No" answer, like "No, And" or "Exceptional No", but I'm happy to be surprised.
-  </li>
-    <li>you can ask the program to roll dice by typing standard dice notation formulas in the Ask area and hitting &lt;enter&gt; or &lt;return&gt;.  If you want to do some math in your dice notation formula, put a '#' sign on both sides of it.  You can roll Fudge or Fate dice too, or keep highest or lowest of multiple dice.<blockquote>
-      roll 5d4<br>
-      roll 1d6<br>
-      roll #4d6h3#<br>
-      roll #4d6h3+2#<br>
-      roll #5F#<br>
-      roll #2d20l1#<br>
-      roll #2d20h1#
-    </blockquote></li>
-  <li>There are some menus you can move around in the lower right of the screen if you want to change the odds of a yes answer for your question, raise or lower the chaos factor, and the like.</li>
-  <li>if you click the 'new scene' button, the program will open a box asking you to describe the new scene. If you're using Mythic's Chaos Factor, it will also ask if you want to raise or lower the Chaos Factor.</li>
-  <li>you can always get a Mythic Event Focus or Mythic Event Meaning by clicking on those buttons.</li>
-  <li>you can toggle "night mode" on or off, which is easier on the eyes at night.</li>
-  <li>you can log answers normally, or in reverse.  Normal means every next answer goes to the bottom of the Answer area.  Reverse means every new answer goes to the top of the answer area.</li>
-  <li>if you have a lot of lists or tables, you can use this program to automatically pick something from those lists.</li>
-  <li>if you want to save your current solo game, click the 'save' button, and the program will try to save your lists and answers to your browser's local storage.</li>
-  <li>if you want to load your previous save, click the 'load' button.</li>
-  </ul>
-  <h3>the Oracle menu</h3>
-  <p>The oracle menu will take your lists of random tables and generate a result on the fly. Instead of dumping to the log, it goes to its own section of the page. When consulting oracles, I tend to generate multiple results, that's the reason for this behavior.  If you put in PCs, NPCs, or Threads in those areas, you could click the "<b>Update Oracles</b>" button, and it will store them, and you'll be able to roll one randomly by selecting which one you want from the "<b>Oracle Menu</b>".  The oracle menu results area will also output and render html if you have tables with fancy text formatting.</p>
-  <p>If you wanted to have the program pick a random thread for you, you could type something like this:<blockquote>oracle npc<br>oracle thread<br>oracle pc<br>
-  </blockquote></p>
-  <h3>some tips</h3>
-  <ul>
-  <li>Oracle Shorthand: If you want to consult an oracle from the ask window, you can also start your question with ora, list, table, oracle, or | ^ or [ or ]</li>
-  <li>Dice Shorthand: If you want to roll dice, you can also start your question with d, r, #, die, or dice</li>
-  <li>Fudge Dice: you can see how many dice were positive, negative, or neutral if you have 'show dice rolls' toggled on.</li>
-  <li>you can consult multiple oracles at once if you enclose the oracle names in square brackets, for example:<blockquote>oracle [pc] remembers [npc] because [thread]</blockquote>
-  </li>
-  <li>you can draw cards from a deck and shuffle the deck, the program will keep track of it.  It will automatically shuffle the deck if you run out of cards.<blockquote>card<br>shuffle<br></blockquote></li>
-  <li>you can roll multiple dice notation formulas by using '#' and the oracle parser:<blockquote>ora #2d20h1# #2d20l1#</blockquote></li>
-  <li>the dice notation system understands basic math -- addition, subtraction, division, and multiplication.</li>
-  <li>the 'prep blog post' button takes the answers in your 'answer' section and tries to format them in a way that they'll look nice on a blog -- after clicking int, highlight the text in the 'blog copy' section and do a 'select-all' and 'cut' or 'copy'.  you should be able to 'paste' them into an html editor on popular sites like blogger or blogspot.  At least, that's the idea.</li>
-  </ul>
-  <h3>the Oracle Pastebin</h3>
-  <p>If you like random tables, this is your section. We'll start with an example that many folks might be familiar with, D20-style character generation.</p>
-  <blockquote><pre><code>
-  |menu
-  [rollcharacter-new]
-  [rollcharacter-osr]
-
-  |rollcharacter-new
-  [class] Str #4d6h3# Dex #4d6h3# Con #4d6h3# Int #4d6h3# Wis #4d6h3# Cha #4d6h3#
-
-  |rollcharacter-osr
-  [class] Str #3d6# Dex #3d6# Con #3d6# Int #3d6# Wis #3d6# Cha #3d6#
-
-  |class
-  Fighter
-  Mage
-  Thief
-  Cleric
-  Halfling
-  Elf
-  Dwarf
-  </code></pre></blockquote>
-  <p>To test these tables, just highlight from "|menu" to Dwarf, copy it, and paste it into the oracle pastebin, then click 'Update Oracles'.
-  The Oracle menu should change to include two new menu options, "rollcharacter-new" and "rollcharacter-osr".  If you select those menus, a new character should appear below the "Answer" area.</p>
-  <p>you should now be able to call those random tables from the ask menu too:<blockquote>ora rollcharacter-new<br>ora rollcharacter-osr<br>ora class<br></blockquote></p>
-  <ul>
-    <li>the pipe character '|' defines a new oracle table's name.  everything below it is a possible random entry from that oracle, until it hits a blank line.</li>
-    <li>you call a table by putting its name in square brackets, just like above.</li>
-    <li>there are a few special tables: npc, pc, thread, and menu.</li>
-    <li>Sometimes it might be useful to put more readable text in the menu:<blockquote><pre>
-      |menu
-      Roll a Newfangled Character^[rollcharacter-new]
-      Roll an Old-Fashioned Character^[rollcharacter-osr]</pre></blockquote>
-      and
-      <blockquote><pre>
-        |menu
-        [rollcharacter-new]
-        [rollcharacter-osr]
-      </pre></blockquote>
-      are the same thing, the only difference is that the Oracle menu will show you a more readable name instead of a table name, if you put a caret '^' in front of an item in the menu table, it will show you the readable name instead of the actual table name.</li>
-    <li>you can temporarily erase things from an oracle once they show up as a result.  If you want to do that, call the table with curly brackets instead of square brackets.  Replacing [class] with {class} would ensure that if you rolled multiple characters, each one would be unique, until you ran out of options.  At that point, the table will refresh itself automatically.</li>
-  </ul>
-  <p>it might help to look at a nested table to get started on table creation.  There is one at my dropbox <a href="https://dl.dropboxusercontent.com/u/891512/randm/randm-solo.defaultlist.txt">here</a>.  It includes the lists that I use for testing.</p>
-  <h3>What is Mythic / CRGE / CRGE-Kai / Scarlet Heroes / so1um / Tiny Universal / TSS Solo / randm questions</h3>
-  <p>An explanation of CRGE, CRGE-Kai, Mythic, or Scarlet Heroes as GM emulators is beyond the scope of this help. Entire books have been written on the subject! I suggest buying them. For CRGE-kai, it's a mishmash of Mythic and CRGE, a clever ploy designed to get you to buy both books as well as read a good blog.</p>
-  <ul>
-  <li><a href="http://conjecturegames.com/crge/">Conjectural Roleplaying GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/145426/CRGE-Conjectural-Roleplaying-GM-Emulator">here</a> among other places.</a>
-  <li><a href="http://wordmillgames.com/mythic-game-master-emulator.html">Mythic GM Emulator</a>. Buy it <a href="http://www.drivethrurpg.com/product/20798/Mythic-Game-Master-Emulator">here</a> among other places</li>
-  <li><a href="http://www.sinenomine-pub.com/?cat=8">Scarlet Heroes</a>.  This system includes a great way for playing solo D&amp;D-style adventures. Buy it <a href="http://www.drivethrurpg.com/product/127180/Scarlet-Heroes">here</a> among other places</li>
-  <li><a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">CRGE-Kai</a>.  An idea this powerful cannot be bought.</li>
-  <li><a href="http://dieheart.net/tiny-universal/">Tiny Universal</a>. A fantastic DW-style distribution of results in this one.  If you're doing this but not paying attention to Sophia, you may be doing it wrong.</li>
-  <li><a href="http://www.msjx.org/search/label/so1um">so1um 0.5</a>. One of the quickest and simplest engines I've seen. Honestly, using a computer might slow it down.</li>
-  <li><a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">Tiny Solitary Soldiers Solo RPG</a>, a great solo engine from one of the solo blog titans, by request.  That's right, I do requests.  You gotta ask. :D</li>
-  <li><a href="https://bobloblawssolologblog.blogspot.com/2017/04/solo-engine-mechanics.html">randm questions</a>, something I'm messing around with.</li>
-  <li><a href="http://freeformuniversal.com">Freeform Universal</a>.  I hadn't really heard of this one, but it was requested, and it's got some great mechanics, and the author completed it as part of the <a href="http://www.nagademon">National Game Design Month</a>.  Who am I to say no?</li>
-  <li><a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a>. It's a shame that Kenny closed down shop, but it was great of him to release his engine and posts for free.  This engine is based entirely on Fate, which I haven't played but I believe it was perhaps once known as Fudge. "roll #4F#"</li>
-  </ul>
-  <h3>your privacy</h3>
-  <p>everything here just runs in your browser.  this program doesn't save anything to the internet and it doesn't use cookies or track you, though it can save some stuff to your browser's local storage, like your list of npcs, pcs, threads, and your answers, and your lists from the oracle pastebin.</p>
-  <h3>add to home screen / play offline</h3>
-  <p>If you're running this program in a browser on a tablet or smartphone, you can add it to your home screen, and it will run on your device.
-    If you do that, you don't need to connect to the internet to run this webapp, or you could play this in "airplane mode".  You just need to be connected to the internet when you 'add to home screen'.  It's a good idea to run it every once in a while so you get any updates.
-    <a href="https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/">Some instructions are available here</a>.
-    </p>
-  <h3>variables</h3>
-  <p>if you are familiar with programming, especially in Javascript or ECMAScript, you can use variables to do some pretty powerful random table stuff. There's more than one way to do it: the easy way, and the hard way.  Both have merit.</p>
-  <h3>variables the simple way</h3>
-  <p>there are two (or three (or four)) steps to using variables.</p>
-  <ol><li>Defining that one exists and the method of setting it,</li><li>setting a value to it,</li><li>using that value, and </li><li>destroying it.</li></ol>
-  <p>you can skip step 2 if you want, the only downside to skipping the 'set' step is that it will display the value where it was called.</p>
-  <p>you can skip step 4 if you want, the only downside is that it won't give you a new variable on new calls until you close the browser window or reload the page.</p>
-
-  <blockquote><pre><code>
-  definition:
-    |variable varname
-    [table] or {table} or #diceexpr#
-
-  variable assignment call, set it to something, perform the random table call or dice expression.
-    {init varname} or {variable varname} or {set varname}
-
-  refer to the value we set earlier.  if it doesn't exist, init it and display immediately.
-    {varname}
-
-  variable destruction
-    {deinit varname} or {unset varname} or {delete varname}
-  </code></pre></blockquote>
-  <h3>variables the hard way</h3>
-  <p>If you're a programmer, you can define and evaluate javascript code natively in your oracle tables.  That means you can do function calls and definitions, define data structures, and more. If that's something that you're interested in, some ideas are in <a href="randm-solo-changelog.html">the dev/changelog page</a>.  If you're not a programmer, it might be black magic.</p>
-  <h3>credits and inspirations</h3>
-  <ul>
-  <li>my wife and kid</li>
-  <li>the titans of <a href="https://plus.google.com/communities/116965157741523529510">Lone Wolf Roleplaying Community on G+</a></li>
-  <li>Jeremy Hamilton for writing GMEmulator.swf and the inspiration</li>
-  <li>the unsung hero of <a href="http://path-o-logic.com">path-o-logic</a> for inspiration on functions, parsing, and data structures</li>
-  <li>credits due to Word Mill Games for the Mythic GameMaster Emulator</li>
-  <li>credits due to Zach Best for the Conjectural Roleplaying Gamemaster Emulator</li>
-  <li>credits due to Kevin Crawford for the Scarlet Heroes engine</li>
-  <li>credits due to <a href="https://solorpgvoyages.wordpress.com">James Smith</a> for the CRGE Kai mashup, described at <a href="https://solorpgvoyages.wordpress.com/2016/01/15/my-chosen-engine/">Solo RPG Voyages</a> and at <a href="https://plus.google.com/107904047923934605015/posts/1DDFtuai5pT">Lone Wolf G+</a></li>
-  <li>credits due to <a href="http://dieheart.net">Sophia Brandt</a> for Tiny Universal, described <a href="http://dieheart.net/tiny-universal/">here</a></li>
-  <li>credits due to <a href="http://www.msjx.org/">Matt Jackson</a> for so1um 0.5, described <a href="http://www.msjx.org/search/label/so1um">here</a></li>
-  <li>credits due to <a href="http://tinysolitarysoldiers.blogspot.com">Spacejacker</a> for TSS Solo RPG, described <a href="http://tinysolitarysoldiers.blogspot.com/2012/04/solo-rpg.html">here</a></li>
-  <li>credits due to <a href="https://plus.google.com/+NathanRussell">Nathan Russell</a> for <a href="http://freeformuniversal.com">Freeform Universal</a></li>
-  <li>credits due to <a href="http://www.drivethrurpg.com/browse.php?x=0&y=0&author=Kenny%20Norris">Kenny Norris</a> for <a href="http://www.drivethrurpg.com/product/204162/Fate-Solo">Fate Solo</a></li>
-  <li>with special thanks to <a href="https://regex101.com">regex101</a> and <a href="http://stackexchange.com">stack exchange</a></li>
-
-  </ul>
-  <h3>copyright</h3>
-  <p>ranDM Solo is published by me, <a href="https://www.google.com/+MikeOverbo">Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
-</div>
-</form>
-</body>
 </html>
