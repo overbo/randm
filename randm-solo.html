@@ -432,7 +432,7 @@ var npclist = [];
 var threadlist = [];
 
 var crgephase = CRGETYPE.KNOW;
-var showdice=false;
+var showdice=true;
 var reverselog=true;
 var listdb = localforage.createInstance({ name: "ranDMSolo", version: 1.0, storeName: "oracles" });
 var savedb = localforage.createInstance({ name: "ranDMSolo", version: 1.0, storeName: "saves"});
@@ -1625,7 +1625,7 @@ function loadrandm(){
     document.getElementById("resultarea").innerHTML = results['results'];
     document.getElementById("LogListTxt").value = results['loglist'];
     document.getElementById("OraclePastebin").value = results['pastebin'];
-    if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}
+    if (document.getElementById("NightMode").checked !== results['darkmode']) { document.getElementById("NightMode").click(); }
     if (results['showroll'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
     parsepastebin();
     localStorage.clear();
@@ -1653,9 +1653,9 @@ function loadrandmdb(){
     document.getElementById("LogListTxt").value = results['loglist'];
     document.getElementById("OraclePastebin").value = results['pastebin'];
     document.getElementById("enginesel").selectedIndex = results['enginesl']
-    if (results['showdice'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
-    if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}    //localStorage.clear();
-    if (results['reverselog'] == false){ document.getElementById("ReverseLog").checked = false; } else { document.getElementById("ReverseLog").checked = true;}
+    if (document.getElementById("ShowDiceCheckbox").checked !== results['showdice']) { document.getElementById("ShowDiceCheckbox").click(); }
+    if (document.getElementById("NightMode").checked !== results['darkmode']) { document.getElementById("NightMode").click(); }
+    if (document.getElementById("ReverseLog").checked !== results['reverseLog']) { document.getElementById("ReverseLog").click(); }
     console.log('log and settings load complete');
   }).catch(function(err) {
     console.log(err);
