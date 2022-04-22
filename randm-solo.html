@@ -1652,7 +1652,9 @@ function loadrandmdb(){
     document.getElementById("resultarea").innerHTML = results['results'];
     document.getElementById("LogListTxt").value = results['loglist'];
     document.getElementById("OraclePastebin").value = results['pastebin'];
+    parsepastebin();
     document.getElementById("enginesel").selectedIndex = results['enginesl']
+    switchengine();
     if (document.getElementById("ShowDiceCheckbox").checked !== results['showdice']) { document.getElementById("ShowDiceCheckbox").click(); }
     if (document.getElementById("NightMode").checked !== results['darkmode']) { document.getElementById("NightMode").click(); }
     if (document.getElementById("ReverseLog").checked !== results['reverseLog']) { document.getElementById("ReverseLog").click(); }
@@ -1660,12 +1662,6 @@ function loadrandmdb(){
   }).catch(function(err) {
     console.log(err);
   });
-  togglenightmode();
-  toggledicework();
-  togglereverselog();
-  switchengine();
-  parsepastebin();
-  localStorage.clear();
 }
 function togglereverselog(){
   reverselog = document.getElementById("ReverseLog").checked;
