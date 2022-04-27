@@ -52,16 +52,12 @@ select{ min-width:120px;}
     <h3>Answer</h3>
     <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
     <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
-    <div id="blogcopytextdiv" style="display:none;">
-      <h3>blog copy</h3>
-      <textarea id='blogcopytextarea' rows='3' cols='30' name='blogcopytextarea'></textarea>
-    </div>
   </div>
   <div class="col5">
     <h3>Ask</h3>
     <textarea id='QuestionTxt' rows='3' cols='30' name='QuestionTxt' onkeypress="askTxt(event)">type your question and hit enter...</textarea>
-    <div id="oramenudiv" style="text-align:center;display:none;">Oracle Menu <select id="OracleMenu" onchange='oraclemenuquery()'></select></div>
     <div class="col5wrap"><div class="col5col1">
+      <div id="oramenudiv" style="text-align:center;display:none;">Oracle Menu <select id="OracleMenu" onchange='oraclemenuquery()'></select></div>
       <div id="likelinessdiv" style="display:none;">Never tell me the odds: <select id="likelyselect">
         <option value="0">Impossible</option>
         <option value="1">No Way</option>
@@ -136,7 +132,7 @@ select{ min-width:120px;}
           <option value="Great">Great</option>
         </select><br>
       </div>
-      <div id="fudiv" style="display:none;">Roll with
+      <div id="fudiv" style="display:none;justify-content:center">Roll with
         <select id="fusel">
           <option value="Four Penalty Dice">Four Penalty Dice</option>
           <option value="Three Penalty Dice">Three Penalty Dice</option>
@@ -148,7 +144,7 @@ select{ min-width:120px;}
           <option value="Three Bonus Dice">Three Bonus Dice</option>
           <option value="Four Bonus Dice">Four Bonus Dice</option>
         </select><br>
-        <input style="display:flex;justify-content:center !important;" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'>
+        <input style="display:inline-block; margin: 0.5em auto" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'><br>
         <input type='checkbox' id='FUDoubleCheck' unchecked>FU Doubles Option<br>
       </div>
 Engine: <select id="enginesel" onchange="switchengine()">
@@ -163,10 +159,12 @@ Engine: <select id="enginesel" onchange="switchengine()">
         <option value="Freeform Universal">Freeform Universal</option>
         <option value="randm questions">randm questions</option>
       </select>
-      <div class="SettingsDiv"><br>
-        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
-        <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
-        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
+      <div class="SettingsDiv" style='margin: 0 auto; text-align: center'><br>
+        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked><label for='ShowDiceCheckbox'>Show Dice Rolls?</label><br>
+        <input type='checkbox' id='NightMode' onclick='togglenightmode()'><label for='NightMode'>Night Mode?</label><br>
+        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked><label for='ReverseLog'>Reverse Log?</label><br>
+        <!--<input type='checkbox' id='autoload' onclick='toggleautoload()'><label for='autoload'>Autoload</label><br>
+        <input type='checkbox' id='autosave' onclick='toggleautosave()'><label for='autosave'>Autosave</label>-->
       </div>
     </div>
     <div class="col5col2">
@@ -176,8 +174,7 @@ Engine: <select id="enginesel" onchange="switchengine()">
       <input type='button' value='Help' onclick='togglehelp()'>
       <input type='button' value='Update Oracles' onclick='parsepastebin()'>
       <input type='button' value='Save' onclick='saverandm()'>
-      <input type='button' value='Load' onclick='loadrandm()'>
-      <input type='button' value='Prep Blog Post' onclick='bloghtml()' style="display:none;">
+      <input type='button' value='Load' onclick='loadrandmdb()'>
     </div></div>
     <h5>Oracle Pastebin</h5>
     <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
@@ -756,14 +753,6 @@ function removearraydupes(arr){
   }
   return uniqarr;
 }
-function oracleclearmenu(selectbox){
-  // this function has been abandoned.
-  var i;
-  for(i=selectbox.options.length-1;i>=0;i--){
-    selectbox.remove(i);
-  }
-}
-// function printArray(e){var t=e.split("\n");for(var n=0;n<t.length;n++){alert(t[n])}}
 function getloomresponse(rd100){
 	var arr = [];
 	if (crgephase == CRGETYPE.KNOW) { arr = fltoknow.slice(0); }
@@ -1274,16 +1263,6 @@ function fuspendfu(){
   fuanswer = "Same Question? (Spent FU, New Answer: (" + furoll + "), " + fuanswer;
   logoutput(fuanswer);
 }
-function listmenu(){
-  // fixme: this function has been abandoned.
-  var output = "";
-  for (var i; i < hasharr['menu'].length; i++){
-    var myarr = [];
-    myarr = oraclemenusplit(hasharr['menu'][i]);
-    output = output + "\n" + myarr[0] + ": " + myarr[1];
-  }
-  return output;
-}
 function askmythic(morf){
   var retval;
   if (morf == "meaning"){
@@ -1302,11 +1281,6 @@ function logoutput(logstring){
     document.getElementById("LogListTxt").value += logstring;
     document.getElementById("LogListTxt").scrollTop = document.getElementById("LogListTxt").scrollHeight;
   }
-  // strip html tags out text
-  //var body = '<div id="anid">some <a href="link">text</a></div> and some more text';
-  //var temp = document.createElement("div");
-  //temp.innerHTML = body;
-  //var sanitized = temp.textContent || temp.innerText;
 }
 function oraclemenuquery(){
   var menusel = document.getElementById("OracleMenu").value;
@@ -1597,43 +1571,6 @@ function saverandm(){
   for (var i=0;i<keys.length;i++){ savedb.setItem(keys[i], results[keys[i]]);}
   console.log('save complete');
 }
-function loadrandm(){
-  var keys = Object.keys(localStorage);
-  if (keys.indexOf("listsfromstorage") != -1){
-    // our oldest save format
-    var tmphash = localStorage.getItem("LocalStorageLists");
-    var tmprslt = localStorage.getItem("LocalStorageResults")
-    hasharr = JSON.parse(tmphash);
-    var results = JSON.parse(tmprslt);
-    document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
-    document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
-    document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
-    document.getElementById("resultarea").innerHTML = results['results'];
-    document.getElementById("LogListTxt").value = results['loglist'];
-    document.getElementById("OraclePastebin").value = results['pastebin'];
-    if (results['showroll'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
-    parsepastebin();
-  } else if (keys.indexOf("LocalStorageLists") != -1 && keys.indexOf("LocalStorageResults") != -1){
-    //less older 2 list format
-    var tmphash = localStorage.getItem("LocalStorageLists");
-    var tmprslt = localStorage.getItem("LocalStorageResults")
-    hasharr = JSON.parse(tmphash);
-    var results = JSON.parse(tmprslt);
-    document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
-    document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
-    document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
-    document.getElementById("resultarea").innerHTML = results['results'];
-    document.getElementById("LogListTxt").value = results['loglist'];
-    document.getElementById("OraclePastebin").value = results['pastebin'];
-    if (document.getElementById("NightMode").checked !== results['darkmode']) { document.getElementById("NightMode").click(); }
-    if (results['showroll'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
-    parsepastebin();
-    localStorage.clear();
-  } else {
-    // localforage db load
-    loadrandmdb();
-  }
-}
 function loadrandmdb(){
   var results = {};
   listdb.iterate(function(value, key, iterationNumber) {
@@ -1691,44 +1628,7 @@ function togglenightmode(){
     }
   }
 }
-function bloghtml(){
-  var text = document.getElementById("LogListTxt").value;
-  var regexquest = /^(.*?)\?\s\((.*)/gm ;
-  var worktext = text.split(regexquest);
-  var resulttext = "";
-  var stepcounter = 0; // this is a horrible way to do this.  bad programmer!
-  for (i=0;i<worktext.length;i++){ // starting i=1 instead of i=0 might solve the blank space problem... allowing us to get rid of stepcounter. fix later!
-    if (worktext[i] == "\n"){
-      resulttext += '\n<p><div style="text-align:left;">'
-      stepcounter = 1;
-      continue;
-    }
-    if (stepcounter == 2){
-      resulttext += '<div style="text-align:right;color:blue;">(';
-      resulttext += worktext[i];
-      resulttext += "</div></p>\n";
-    }
-    if (stepcounter == 1){
-      resulttext += worktext[i];
-      resulttext += "?</div>";
-      stepcounter = 2;
-    }
-    if (worktext[i] == ""){
-      resulttext += '<p><div style="text-align:left;">'
-      stepcounter = 1;
-    }
-    //console.log(worktext[i] + " / sc" + stepcounter + " " + i);
-  }
-  // move text to blogcopytextarea as if by magic
-  document.getElementById("blogcopytextarea").value = resulttext;
-}
-
-/*window.onload = function(){
-  loadrandmdb();
-  parsepastebin();
-}
-window.onclose = function(){
-  saverandmdb();
-}*/
+//TODO: Load previously saved settings/data, if 1) they exist, and 2) if user has selected "autoload"
+//TODO: Save everything when leaving the page, if user has selected "autosave"
 </script>
 </html>
