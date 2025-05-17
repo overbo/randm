@@ -1,0 +1,49 @@
+changelog for v0.9.6
+update localforage to latest, v.1.10
+ui is cluttered; add buttons / functions for hiding rare and useless divs and flexboxen
+add settings div
+more left to right workflow, less right to left workflow: keep action of the app in top left
+new scene now honors reverselog, no more extra line
+added randm 2d6, no escalations.
+changed # of default rows for pcs, npcs, and threads to 6
+todo: add settings for preferred number of rows.
+possibly: fix "undefined" bugs on load
+possibly: fix dark mode / reverse log / show dice toggles properly on load.
+probably: clarify that this is mythic v1
+probably: set mythic v1 as the default
+
+
+## this code works
+
+function divtoggler(thisdiv){
+  var thiselement = document.getElementById(thisdiv);
+  if (thiselement.style.display == "none"){
+    thiselement.style.display = "block";
+  } else {
+    thiselement.style.display = "none";
+  }
+}
+
+divtoggler("topbar");
+divtoggler("opb");
+divtoggler("blogcopytextdiv");
+divtoggler("settings");
+
+
+## scratchpad section
+
+const elemTB = document.getElementById("topbar");
+const elemTBStyle = elemTB.style;
+elemTB.style.display="none"; 
+
+const elemOPB = document.getElementById("opb");
+const elemOPBStyle = elemOPB.style;
+elemOPB.style.display="none"; 
+
+const elemBC = document.getElementById("blogcopytextdiv");
+const elemBCStyle = elemBC.style;
+elemBC.style.display="none"; 
+
+const elemsettings = document.getElementById("settings");
+const elemsettingsstyle = elemsettings.style;
+elemsettings.style.display="block"; 

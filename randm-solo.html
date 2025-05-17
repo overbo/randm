@@ -21,8 +21,8 @@ select{ min-width:120px;}
   .col1 { order: 1; }
   .col2 { order: 2; }
   .col3 { order: 3; }
-  .col4 { order: 4; width: 60%;}
-  .col5 { order: 5; width: 40%;}
+  .col4 { order: 5; width: 60%;}
+  .col5 { order: 4; width: 40%;}
   .col5wrap { display:flex;}
   .col5col1 { order: 6; width: 65%; flex:2; text-align:center;}
   .col5col2 { order: 7; width: 35%; flex:1;}
@@ -477,11 +477,16 @@ function newscene (){
   if (currentscene == "New Scene"){
     var scenedesc = prompt("Type a new Scene Description","")
     var innerLog = document.getElementById("LogListTxt").value;
+	var output;
     if (engine == "CRGE-Kai" || engine == "Mythic"){
       chaos = testchaosfactor();
-      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + chaos + divider + '\n' + innerLog;
+      //document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + chaos + divider + '\n' + innerLog;
+	  output = divider + "New Scene: " + scenedesc + chaos + divider + '\n';
+	  logoutput(output);
     } else {
-      document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + divider + '\n' + innerLog;
+      //document.getElementById("LogListTxt").value = divider + "New Scene: " + scenedesc + divider + '\n' + innerLog;
+	  output = divider + "New Scene: " + scenedesc + divider + '\n';
+	  logoutput(output);
     }
     document.getElementById("scenebutton").value = "End Scene";
   } else {
@@ -503,8 +508,8 @@ function testchaosfactor(){
   chaostest = Math.floor(Math.random() * 10) + 1;
   var retval = ""
   if (chaostest <= chaosfactor){
-    retval = "\nSCENE ALTERED!!!\n";
-    if (chaostest % 2 == 0) { retval = "\nSCENE INTERRUPTED!!!\n" }
+    retval = "\nSCENE ALTERED!!!";
+    if (chaostest % 2 == 0) { retval = "\nSCENE INTERRUPTED!!!" }
   }
   return retval;
 }
@@ -877,6 +882,33 @@ function askengine(questiontext){
       retval = qtext + " (" + furoll + "): " + fuanswer;
     }
   }
+  else if (engine == "randm 2d6") {
+    var likelinessrq = document.getElementById("df2d6sel").value;
+    var randmqroll;
+    var llnstr;
+    switch (likelinessrq){
+      case "Very Unlikely": randmqroll = parseInt(diceparser("4d6l2",false)); llnstr = "VU"; break;
+      case "Unlikely": randmqroll = parseInt(diceparser("3d6l2",false)); llnstr = "U"; break;
+      case "Even": randmqroll = parseInt(diceparser("2d6",false)); llnstr = "E"; break;
+      case "Likely": randmqroll = parseInt(diceparser("3d6h2",false)); llnstr = "L"; break;
+      case "Very Likely": randmqroll = parseInt(diceparser("4d6h2",false)); llnstr = "VL"; break;
+    }
+    randmqroll = parseInt(randmqroll);
+    switch (randmqroll){
+      case 2: answer = "No, and..."; break;
+      case 3: answer = "No!"; break;
+      case 4: answer = "No?"; break;
+      case 5: answer = "No"; break;
+      case 6: answer = "No"; break;
+      case 7: answer = "Maybe if"; break;
+      case 8: answer = "Yes"; break;
+      case 9: answer = "Yes"; break;
+      case 10: answer = "Yes?"; break;
+      case 11: answer = "Yes!"; break;
+      case 12: answer = "Yes, and..."; break;
+    }
+    retval = qtext + " (" + llnstr + "," + randmqroll + "): " + answer;
+  }
   else
   {
     // CRGE and CRGE kai end up being our defaults.
@@ -983,10 +1015,10 @@ function askmythic(morf){
   logoutput(retval);
 }
 function logoutput(logstring){
-  if (reverselog == true){
+  if (reverselog == true){ // we prepend at the beginning
     var innerLog = document.getElementById("LogListTxt").value;
     document.getElementById("LogListTxt").value = logstring + '\n' + innerLog;
-  } else {
+  } else { // we append at the end
     logstring = '\n' + logstring;
     document.getElementById("LogListTxt").value += logstring;
     document.getElementById("LogListTxt").scrollTop = document.getElementById("LogListTxt").scrollHeight;
@@ -1030,6 +1062,7 @@ function switchengine(){
     case "Fate Solo": switchenginefs(); break;
     case "Freeform Universal": switchenginefu(); break;
     case "randm questions": switchenginers(); break;
+	case "randm 2d6": switchenginerandm2d6(); break;
     default: switchenginecrgekai(); break;
   }
 }
@@ -1043,6 +1076,7 @@ function switchenginers(){
   document.getElementById("randmquestiondiv").style.display = 'block';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginecrgekai(){
   // show crge phases and chaosfactor
@@ -1054,6 +1088,7 @@ function switchenginecrgekai(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginecrge(){
   // show crge phases
@@ -1065,6 +1100,7 @@ function switchenginecrge(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginemythic(){
   // show mythic likelinessdiv and chaosfactor
@@ -1076,6 +1112,7 @@ function switchenginemythic(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginesh(){
   // show likelinessdiv for scarlet heroes
@@ -1087,6 +1124,7 @@ function switchenginesh(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginetu(){
   // show advantagediv
@@ -1098,6 +1136,7 @@ function switchenginetu(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchengines1m(){
   // show advantagediv
@@ -1109,6 +1148,7 @@ function switchengines1m(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginefs(){
   // show fatesolodiv
@@ -1120,6 +1160,7 @@ function switchenginefs(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'block';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginefu(){
   // show fudiv
@@ -1131,6 +1172,7 @@ function switchenginefu(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'block';
+  document.getElementById("df2d6div").style.display = 'none';
 }
 function switchenginetss(){
   // show advantagediv
@@ -1142,7 +1184,21 @@ function switchenginetss(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
+function switchenginerandm2d6(){
+  // show df2d6div
+  document.getElementById("likelinessdivsh").style.display = 'none';
+  document.getElementById("likelinessdiv").style.display = 'none';
+  document.getElementById("chaosfactordiv").style.display = 'none';
+  document.getElementById("crgephasediv").style.display = 'none';
+  document.getElementById("advantagediv").style.display = 'none';
+  document.getElementById("randmquestiondiv").style.display = 'none';
+  document.getElementById("fatesolodiv").style.display = 'none';
+  document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'block';
+}
+
 function switchenginenada(){
   // show nothing
   document.getElementById("likelinessdivsh").style.display = 'none';
@@ -1153,13 +1209,24 @@ function switchenginenada(){
   document.getElementById("randmquestiondiv").style.display = 'none';
   document.getElementById("fatesolodiv").style.display = 'none';
   document.getElementById("fudiv").style.display = 'none';
+  document.getElementById("df2d6div").style.display = 'none';
 }
-function togglehelp(){
-  var state = document.getElementById("help").style.display
+function toggleflex(thisdiv){
+  var thiselement = document.getElementById(thisdiv);
+  var state = thiselement.style.display;
   if (state == "none"){
-    document.getElementById("help").style.display = 'block';
+    thiselement.style.display = 'flex';
   } else {
-    document.getElementById("help").style.display = 'none';
+    thiselement.style.display = 'none';
+  }
+}
+function togglediv(thisdiv){
+  var thiselement = document.getElementById(thisdiv);
+  var state = thiselement.style.display;
+  if (state == "none"){
+    thiselement.style.display = 'block';
+  } else {
+    thiselement.style.display = 'none';
   }
 }
 function shuffle(arr) {
@@ -1296,6 +1363,7 @@ function loadrandm(){
     document.getElementById("PCListTxt").value = hasharr['pc'].join("\n");
     document.getElementById("NPCListTxt").value = hasharr['npc'].join("\n")
     document.getElementById("ThreadListTxt").value = hasharr['thread'].join("\n")
+	// FIXME: this is probably where a person should test for nulls / undefineds
     document.getElementById("resultarea").innerHTML = results['results'];
     document.getElementById("LogListTxt").value = results['loglist'];
     document.getElementById("OraclePastebin").value = results['pastebin'];
@@ -1429,18 +1497,18 @@ window.onclose = function(){
 </head>
 <body>
 <form name='formMain'>
-<div class="hicontainer">
+<div class="hicontainer" id="topbar">
   <div class="col1">
     <h3>PCs</h3>
-    <textarea class="pntta" id='PCListTxt' rows='15' cols='*' name='PCListTxt' onkeypress="updatetextareas(event)"></textarea>
+    <textarea class="pntta" id='PCListTxt' rows='6' cols='*' name='PCListTxt' onkeypress="updatetextareas(event)"></textarea>
   </div>
   <div class="col2">
     <h3>NPCs</h3>
-    <textarea class="pntta" id='NPCListTxt' rows='15' cols='*' name='NPCListTxt' onkeypress="updatetextareas(event)"></textarea>
+    <textarea class="pntta" id='NPCListTxt' rows='6' cols='*' name='NPCListTxt' onkeypress="updatetextareas(event)"></textarea>
   </div>
   <div class="col3">
     <h3>Threads</h3>
-    <textarea class="pntta" id='ThreadListTxt' rows='15' cols='*' name='ThreadListTxt' onkeypress="updatetextareas(event)"></textarea>
+    <textarea class="pntta" id='ThreadListTxt' rows='6' cols='*' name='ThreadListTxt' onkeypress="updatetextareas(event)"></textarea>
   </div>
 </div>
 <div class="locontainer">
@@ -1448,7 +1516,7 @@ window.onclose = function(){
     <h3>Answer</h3>
     <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
     <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
-    <div id="blogcopytextdiv" style="display:block;">
+    <div id="blogcopytextdiv" style="display:none;"> <!-- don't display by default -->
       <h3>blog copy</h3>
       <textarea id='blogcopytextarea' rows='3' cols='30' name='blogcopytextarea'></textarea>
     </div>
@@ -1547,6 +1615,24 @@ window.onclose = function(){
         <input style="display:flex;justify-content:center !important;" type='button' id='fubutton' value='Spend FU' onclick='fuspendfu()'>
         <input type='checkbox' id='FUDoubleCheck' unchecked>FU Doubles Option<br>
       </div>
+	  <div id="df2d6div" style="display:none">Odds are
+        <select id="df2d6sel">
+          <option value="Very Unlikely">Very Unlikely</option>
+          <option value="Unlikely">Unlikely</option>
+          <option value="Even" selected>Even</option>
+          <option value="Likely">Likely</option>
+		  <option value="Very Likely">Very Likely</option>
+        </select><br>
+      </div>
+    </div>
+    <div class="col5col2">
+      <input type='button' id='scenebutton' value='New Scene' onclick='newscene()'>
+      <input type='button' value='Event Focus' onclick='askmythic("focus")'>
+      <input type='button' value='Event Meaning' onclick='askmythic("meaning")'>
+      <input type='button' value='Help' onclick='togglediv("help")'>
+	  <input type='button' value='Settings' onclick='togglediv("settings")'>
+    </div></div>
+  <div id="settings" style="display:none;">
 Engine: <select id="enginesel" onchange="switchengine()">
         <option value="CRGE-Kai" selected>CRGE-Kai</option>
         <option value="Mythic">Mythic</option>
@@ -1558,25 +1644,25 @@ Engine: <select id="enginesel" onchange="switchengine()">
         <option value="Fate Solo">Fate Solo</option>
         <option value="Freeform Universal">Freeform Universal</option>
         <option value="randm questions">randm questions</option>
-      </select>
-      <div class="SettingsDiv"><br>
-        <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
-        <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
-        <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
-      </div>
-    </div>
-    <div class="col5col2">
-      <input type='button' id='scenebutton' value='New Scene' onclick='newscene()'>
-      <input type='button' value='Event Focus' onclick='askmythic("focus")'>
-      <input type='button' value='Event Meaning' onclick='askmythic("meaning")'>
-      <input type='button' value='Help' onclick='togglehelp()'>
-      <input type='button' value='Update Oracles' onclick='parsepastebin()'>
-      <input type='button' value='Save' onclick='saverandm()'>
-      <input type='button' value='Load' onclick='loadrandm()'>
-      <input type='button' value='Prep Blog Post' onclick='bloghtml()'>
-    </div></div>
-    <h5>Oracle Pastebin</h5>
-    <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
+		<option value="randm 2d6">randm 2d6</option>
+  </select>
+  <div class="SettingsDiv"><br>
+    <input type='checkbox' id='ShowDiceCheckbox' onclick='toggledicework()' checked>Show Dice Rolls?<br>
+    <input type='checkbox' id='NightMode' onclick='togglenightmode()'>Night Mode?<br>
+    <input type='checkbox' id='ReverseLog' onclick='togglereverselog()' checked>Reverse Log?
+  </div>
+  <input type='button' value='Toggle Top Bar' onclick='toggleflex("topbar")'>
+  <input type='button' value='Toggle Blog Copy' onclick='togglediv("blogcopytextdiv")'>
+  <input type='button' value='Toggle Pastebin' onclick='togglediv("opb")'>
+  <input type='button' value='Update Oracles' onclick='parsepastebin()'>
+  <input type='button' value='Save' onclick='saverandm()'>
+  <input type='button' value='Load' onclick='loadrandm()'>
+  <input type='button' value='Prep Blog Post' onclick='bloghtml()'>
+</div>
+	<div id="opb">
+      <h5>Oracle Pastebin</h5>
+      <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
+	</div>
   </div>
 </div>
 <div id="help" style="display:none;">
@@ -1666,7 +1752,7 @@ Engine: <select id="enginesel" onchange="switchengine()">
       are the same thing, the only difference is that the Oracle menu will show you a more readable name instead of a table name, if you put a caret '^' in front of an item in the menu table, it will show you the readable name instead of the actual table name.</li>
     <li>you can temporarily erase things from an oracle once they show up as a result.  If you want to do that, call the table with curly brackets instead of square brackets.  Replacing [class] with {class} would ensure that if you rolled multiple characters, each one would be unique, until you ran out of options.  At that point, the table will refresh itself automatically.</li>
   </ul>
-  <p>it might help to look at a nested table to get started on table creation.  There is one at my dropbox <a href="https://dl.dropboxusercontent.com/u/891512/randm/randm-solo.defaultlist.txt">here</a>.  It includes the lists that I use for testing.</p>
+  <p>it might help to look at a nested table to get started on table creation.  There is one at my dropbox <a href="./randm-solo.defaultlist.txt">here</a>.  It includes the lists that I use for testing.</p>
   <h3>What is Mythic / CRGE / CRGE-Kai / Scarlet Heroes / so1um / Tiny Universal / TSS Solo / randm questions</h3>
   <p>An explanation of CRGE, CRGE-Kai, Mythic, or Scarlet Heroes as GM emulators is beyond the scope of this help. Entire books have been written on the subject! I suggest buying them. For CRGE-kai, it's a mishmash of Mythic and CRGE, a clever ploy designed to get you to buy both books as well as read a good blog.</p>
   <ul>
@@ -1731,8 +1817,33 @@ Engine: <select id="enginesel" onchange="switchengine()">
 
   </ul>
   <h3>copyright</h3>
-  <p>ranDM Solo is published by me, <a href="https://www.google.com/+MikeOverbo">Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
+  <p>ranDM Solo is published by me, Mike Overbo</a>, under a Creative commons Attribution-NonCommercial-ShareAlike 4.0 International license. Any portion of this program pertaining to any specific engine are assumed to be under the copyright of its creator or publisher.</p>
 </div>
 </form>
+<script language='JavaScript'>
+window.addEventListener('load', function () {
+  //alert("page fully loaded")
+  // note that this is a wildly dirty hack.  
+  toggledicework();
+  toggledicework();
+  togglenightmode();
+  togglenightmode();
+  togglereverselog();
+  togglereverselog();
+  // this would be a great spot to check for any "undefined"
+  // but this doesn't seem to work.
+  /*
+  <textarea id='OraclePastebin' rows='3' cols='30' name='OraclePastebin'></textarea>
+  <textarea id='LogListTxt' rows='20' cols='*' name='LogListTxt'>The answers to all of your questions...</textarea>
+  <div id='resultarea' style='padding: 0.75em; width:"97%";'>Oracle Menu Results...</div>
+  */
+  var t1=document.getElementById("OraclePastebin");
+  var t2=document.getElementById("LogListTxt");
+  var t3=document.getElementById("resultarea"); // works
+  if (t1.value=="undefined"){t1.value="";}
+  if (t2.value=="undefined"){t2.value="";}
+  if (t3.innerHTML == "undefined"){t3.innerHTML="";}
+})
+</script>
 </body>
 </html>
