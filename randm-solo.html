@@ -105,6 +105,10 @@ var qtyparmatch = /(^[0-9]+\))/; // beginning of line, numbers, rtparen
 var qtycolmatch = /(^[0-9]+:)/; // beginning of line, numbers, colon
 var qtydotmatch = /(^[0-9]+\.)/; // beginning of line, numbers, dot / period
 
+// our regex parser string with capture groups
+//var regexploder = /\d+[dD]\d+\!+\d*/;
+var regexploder = /(\d+)[dD](\d+)(\!+)(\d*)/; // the same as above but with capture groups for splits.
+	
 var regexeval=/^\{eval\s(\{.*\})\}$/ ; // match {eval {blah}}
 var reginit = /^(init|set|variable)\s+/;
 var regunset= /^(deinit|unset|delete)\s+/;
@@ -135,7 +139,7 @@ var lastquery="";
 var parsedebug = false;
 
 // dice parser
-  function diceparser(dicestring,showwork){
+function diceparser(dicestring,showwork){
   dicestring = dicestring.toLowerCase();
   var nhdicestring = dicestring.replace(/#/g,"");
   var testsplit = nhdicestring.split(/(\+|\-|\/|\*)/g);
@@ -1268,9 +1272,10 @@ function askparse(ask){
   var dest="";
   var output="";
   if (ask.match(/^#(.*)#/)){ dest = "roll"; }
-  else if (ask.match(/(^oracle)|(^table)|(^ora)|(^list)/)){ dest = "drop-table"; }
+  else if (ask.match(/(^oracle)|(^table)|(^ora)|(^list)|(^-o)/)){ dest = "drop-table"; }
   else if (ask.match(/^(\|(.*)|\](.*)|\^(.*)|\[(.*))/)){ dest = "drop-table"; }
-  else if (ask.match(/(^die)|(^dice)|(^roll)|(^fudge)|(^d\ )|(^r\ )/)){ dest="drop-roll";}
+  else if (ask.match(/(^die)|(^dice)|(^roll)|(^fudge)|(^d\ )|(^r\ )/)){ dest="drop-roll"; }
+  else if (ask.match(/(-e)/)){ dest = "roll-explode"; }
   else if (ask.match(/^#/) && !ask.match(/#$/)){ dest="drop-roll";}
   else if (ask.match(/(^#[0-9]+f#)/)) { dest = "roll"; }
   else if (ask.match(/^#\wf$/)) { dest = "drop-roll"; }
@@ -1286,6 +1291,7 @@ function askparse(ask){
     if (ask.match(/^table\ /)) { ask = ask.replace(/^table\ /,"");}
     if (ask.match(/^list\ /)) { ask = ask.replace(/^list\ /,"");}
     if (ask.match(/^ora\ /)) { ask = ask.replace(/^ora\ /,"");}
+	if (ask.match(/^-o\ /)) { ask = ask.replace(/^-o\ /,"");}
     if (ask.match(/^\|/)) { ask = ask.replace(/^\|/,"");}
     if (ask.match(/^\^/)) { ask = ask.replace(/^\^/,"");}
     if (ask.match(/^\]/)) { ask = ask.replace(/^\]/,"");}
@@ -1307,6 +1313,10 @@ function askparse(ask){
     if (!ask.match(/^#(.*)#/)){ ask = "#"+ask+"#"; }
     dest = "roll";
   }
+  if (dest == "roll-explode"){
+    if (ask.match(/-e\ /)){ ask = ask.replace(/-e\ /,"");}
+    dest="explode";
+  }
   var preservequery = false;
   switch(dest){
     case "query": output = askengine(ask); break;
@@ -1317,6 +1327,7 @@ function askparse(ask){
     case "reask": var askresult = parseresult(lastquery); output = askresult; break;
     case "mythicfocus": output = "Mythic Event Focus: " + getmythiceventfocus(); break;
     case "mythicmeaning": output = "Mythic Event Meaning: " + getmythiceventmeaning(""); break;
+    case "explode": output = "roll " + ask + ": " + explodingparser(ask,showdice); break;
     default: output = "Error parsing" + ask; preservequery = true; break;
   }
   if (preservequery == false){
@@ -1409,19 +1420,19 @@ function loadrandmdb(){
     document.getElementById("LogListTxt").value = results['loglist'];
     document.getElementById("OraclePastebin").value = results['pastebin'];
     document.getElementById("enginesel").selectedIndex = results['enginesl']
-    if (results['showdice'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
-    if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}    //localStorage.clear();
-    if (results['reverselog'] == false){ document.getElementById("ReverseLog").checked = false; } else { document.getElementById("ReverseLog").checked = true;}
-    console.log('log and settings load complete');
+    //if (results['showdice'] == false){ document.getElementById("ShowDiceCheckbox").checked = false; } else { document.getElementById("ShowDiceCheckbox").checked = true;}
+    //if (results['darkmode'] == false){ document.getElementById("NightMode").checked = false; } else { document.getElementById("NightMode").checked = true;}    //localStorage.clear();
+    //if (results['reverselog'] == false){ document.getElementById("ReverseLog").checked = false; } else { document.getElementById("ReverseLog").checked = true;}
+    console.log('log load complete');
   }).catch(function(err) {
     console.log(err);
   });
-  togglenightmode();
-  toggledicework();
-  togglereverselog();
-  switchengine();
-  parsepastebin();
-  localStorage.clear();
+  //togglenightmode();
+  //toggledicework();
+  //togglereverselog();
+  //switchengine();
+  //parsepastebin();
+  //localStorage.clear();
 }
 function togglereverselog(){
   reverselog = document.getElementById("ReverseLog").checked;
@@ -1482,12 +1493,72 @@ function bloghtml(){
   // move text to blogcopytextarea as if by magic
   document.getElementById("blogcopytextarea").value = resulttext;
 }
-
-
+// dice exploding function.
+function exploder(numdice, dietype, exploders=1, explodenum=dietype){
+  numdice=Math.abs(numdice); dietype=Math.abs(dietype); exploders=Math.abs(exploders); explodenum=Math.abs(explodenum); // i think we have numbers, if not ints now.  t-n-t, we're dynamite
+  let rollarr=[]; // this will be an array of arrays, not just an array.  our return value; the power lode
+  if (exploders > numdice){ exploders = numdice; }; // we won't explode more times than there are dice.  angus and malcolm oy chants intensify
+  if (explodenum > dietype){ explodenum = dietype; }; // we are here to explode dice rolls and chew bubblegum
+  if (explodenum =< 0){ explodenum = dietype; }; // and we are out of bubblegum.  it's who we are now.
+  if (dietype == 1) || (explodenum == 1){ // since exploding is who we are, rolls of xD1!x and xDx!1 are logically unsafe as they return infinity.  but like chang, i'll allow it
+    return "infinite explosion"; // watch me exploooooooode.  
+  }
+  if (explodenum == 1){ return "infinite explosion"; }; // since exploding is who we are, rolls of xDx!1 are logically unsafe as they return infinity.
+  for (let j=0;j<numdice;j++){
+    let roll = Math.floor(Math.random()*dietype)+1;
+    if (j < (numdice - exploders)){  // ordinary rolls, booooooooo
+      //if (parsedebug){console.log(`rolled ${roll} at ${j}`);};
+      rollarr[j]=roll;
+    } else {
+      rollarr[j]=[roll];
+      let acc=0; // array accumulator
+      while (roll >= explodenum){ // exploding rolls, yaaaay
+        // bon scott voice intensifies, watch me explooooooooooooode
+        acc++;
+        roll = Math.floor(Math.random()*dietype)+1;
+        rollarr[j][acc]=roll;
+      }
+    } 
+  }
+  if (parsedebug){
+    const sum = rollarr.flat().reduce((acc, curr) => acc + curr, 0);
+    console.log(`sum: ${sum}`);
+    console.log(rollarr.toString(););
+  }
+  return rollarr;
+}
+function explodingparser(dicestring,showwork){
+  // dicestring is a string, showwork is a boolean
+  dicestring = dicestring.toLowerCase();
+  let myarr = dicestring.split(regexploder);
+  let numdie = parseInt(myarr[0]);
+  let dietype = parseInt(myarr[1]);
+  let bangs = myarr[2].match(/\!/g) || []).length;
+  let myresult = [];
+  if (myarr.length == 3){ 
+    myresult = exploder(numdie, dietype, bangs);
+  } else {
+    myresult = exploder(numdie, dietype, bangs, parseInt(myArr[3]);
+  }
+  //if (parsedebug){
+  //  console.log(`sum: ${sum}`);
+  //  console.log(rollarr.toString(););
+  //}
+  // decent chance that this works.  TODO: finish thsi function.  where i'm closing things down today.
+  // rollstr = rollarr.join("+"); // i'm guessing this is part of the iterative process for the dice parser.
+  let output = rollarr.toString();;
+  const sum = rollarr.flat().reduce((acc, curr) => acc + curr, 0);
+  if (showwork){ output = "" + output + " = " + sum; }
+  else { output = sum; }
+  return output;
+}
+/*
+  // this function causes our undefined areas.
 window.onload = function(){
   loadrandmdb();
   parsepastebin();
 }
+*/
 window.onclose = function(){
   saverandmdb();
 }
