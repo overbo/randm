@@ -1275,7 +1275,7 @@ function askparse(ask){
   else if (ask.match(/(^oracle)|(^table)|(^ora)|(^list)|(^-o)/)){ dest = "drop-table"; }
   else if (ask.match(/^(\|(.*)|\](.*)|\^(.*)|\[(.*))/)){ dest = "drop-table"; }
   else if (ask.match(/(^die)|(^dice)|(^roll)|(^fudge)|(^d\ )|(^r\ )/)){ dest="drop-roll"; }
-  else if (ask.match(/(-e)/)){ dest = "roll-explode"; }
+  else if (ask.match(/(^-e)/)){ dest = "roll-explode"; }
   else if (ask.match(/^#/) && !ask.match(/#$/)){ dest="drop-roll";}
   else if (ask.match(/(^#[0-9]+f#)/)) { dest = "roll"; }
   else if (ask.match(/^#\wf$/)) { dest = "drop-roll"; }
@@ -1314,7 +1314,7 @@ function askparse(ask){
     dest = "roll";
   }
   if (dest == "roll-explode"){
-    if (ask.match(/-e\ /)){ ask = ask.replace(/-e\ /,"");}
+    if (ask.match(/^-e\ /)){ ask = ask.replace(/-e\ /,"");}
     dest="explode";
   }
   var preservequery = false;
