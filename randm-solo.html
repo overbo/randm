@@ -1245,21 +1245,22 @@ function shuffle(arr) {
   return arr;
 }
 function newdeck(){
-	for (var i=0;i<cardsuits.length;i++){
-		var mysuit = cardsuits[i];
-		for(var c=2;c<=10;c++){
-			var thiscard="the " + c + " of " + mysuit;
-			deckofcards.push(thiscard);
+  deckofcards=[]; // merge from bmsurber fork
+  for (var i=0;i<cardsuits.length;i++){
+    var mysuit = cardsuits[i];
+    for(var c=2;c<=10;c++){
+      var thiscard="the " + c + " of " + mysuit;
+      deckofcards.push(thiscard);
     }
     for (var f=0; f<cardfaces.length;f++){
-			var thiscard="the " + cardfaces[f] + " of " + mysuit;
+      var thiscard="the " + cardfaces[f] + " of " + mysuit;
       deckofcards.push(thiscard);
-		}
-	}
-	if (deckjokers == true){
-		deckofcards.push("the Black Joker");
+    }
+  }
+  if (deckjokers == true){
+    deckofcards.push("the Black Joker");
     deckofcards.push("the Red Joker");
-	}
+  }
   deckofcards = shuffle(deckofcards);
 }
 function drawcard(){
