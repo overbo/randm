@@ -12,6 +12,28 @@ possibly: fix dark mode / reverse log / show dice toggles properly on load.
 probably: clarify that this is mythic v1
 probably: set mythic v1 as the default
 
+more notes to self for v096 release
+- line 138 fix diceparser indent: done
+- around line 1271: change regexes from /blah/ to /blah/i to handle autocorrect inputs on apple devices?
+  -- instead, added -o and -r commands
+  -- need -explode and -e
+- add show oracle command to pull named oracle from either pastebin or json?
+- no more autosave / autoload, at least until we can solve the undefined error (probably related to loading dom/ui prior to localforage)
+  - could be this tho: https://stackoverflow.com/questions/59096050/localforage-async-await-getitem-wait-for-2-variables-and-then-finish-loading
+- function that clears menu from console and empties localforage
+- ui tweaks: set default behaviors to be what i want, assume unchecked
+  - default behaviors when options unchecked:
+    - append to result area ( versus prepend).
+    - dark mode
+    - do not show dice results
+  - pastebin is hidden by default
+- new setting button: invert results.
+- exploding dice
+- show oracle command
+
+should this stuff be in scope?
+export to json?
+load from json?
 
 ## this code works
 
@@ -47,3 +69,4 @@ elemBC.style.display="none";
 const elemsettings = document.getElementById("settings");
 const elemsettingsstyle = elemsettings.style;
 elemsettings.style.display="block"; 
+
